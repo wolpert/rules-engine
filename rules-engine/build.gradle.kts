@@ -20,12 +20,6 @@ dependencies {
     implementation(libs.bundles.drools)
     implementation(libs.aws.sdk.ddb)
 
-    // Database
-    implementation(libs.liquibase.core)
-    implementation(libs.bundles.jdbi)
-    testImplementation(libs.bundles.jdbi.testing)
-    testImplementation(libs.hsqldb)
-
     // PreCompile
     implementation(libs.javax.inject)
     implementation(libs.dagger)
@@ -43,8 +37,12 @@ dependencies {
     aspect(libs.codehead.metrics.declarative)
     testImplementation(libs.codehead.metrics.test)
 
+    testImplementation(libs.bundles.logback)
     testImplementation(libs.bundles.testing)
     testImplementation(libs.codehead.test)
+    testImplementation(libs.database.test)
+    testImplementation(libs.aws.dynamodblocal)
+    testImplementation(libs.bundles.log4j)
 }
 
 application {

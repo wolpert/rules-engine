@@ -3,7 +3,7 @@ package com.codeheadsystems.rules.model;
 import org.immutables.value.Value;
 
 @Value.Immutable
-public interface TableDetails {
+public interface TableConfiguration {
 
   @Value.Default
   default String tableName() {
@@ -18,6 +18,16 @@ public interface TableDetails {
   @Value.Default
   default String sortKeyName() {
     return "sort_key";
+  }
+
+  @Value.Default
+  default String typeColName() {
+    return "type";
+  }
+
+  @Value.Default
+  default String ttlColName() {
+    return "ttl";
   }
 
 }

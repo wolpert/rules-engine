@@ -1,8 +1,8 @@
 package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
-import com.codeheadsystems.rules.model.ImmutableTableDetails;
-import com.codeheadsystems.rules.model.TableDetails;
+import com.codeheadsystems.rules.model.ImmutableTableConfiguration;
+import com.codeheadsystems.rules.model.TableConfiguration;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -24,8 +24,8 @@ public class AwsModule {
 
   @Provides
   @Singleton
-  public TableDetails tableDetails() {
-    return ImmutableTableDetails.builder().build();
+  public TableConfiguration tableDetails() {
+    return ImmutableTableConfiguration.builder().build();
   }
 
   @Provides
