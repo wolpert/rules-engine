@@ -3,8 +3,8 @@ package com.codeheadsystems.rules.integ;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.codeheadsystems.api.rules.engine.v1.Key;
-import com.codeheadsystems.rules.BasicServer;
-import com.codeheadsystems.rules.BasicServerConfiguration;
+import com.codeheadsystems.rules.RulesEngineServer;
+import com.codeheadsystems.rules.RulesEngineConfiguration;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
@@ -16,8 +16,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class KeyCreationTest {
 
-  private static final DropwizardAppExtension<BasicServerConfiguration> EXT = new DropwizardAppExtension<>(
-      BasicServer.class,
+  private static final DropwizardAppExtension<RulesEngineConfiguration> EXT = new DropwizardAppExtension<>(
+      RulesEngineServer.class,
       ResourceHelpers.resourceFilePath("server-test.yml")
   );
 

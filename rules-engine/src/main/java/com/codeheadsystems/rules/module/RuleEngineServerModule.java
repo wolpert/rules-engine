@@ -1,8 +1,10 @@
 package com.codeheadsystems.rules.module;
 
+import com.codeheadsystems.rules.RulesEngineConfiguration;
 import com.codeheadsystems.rules.resource.InvalidKeyExceptionMapper;
 import com.codeheadsystems.rules.resource.KeysResource;
 import com.codeheadsystems.rules.resource.TenantResource;
+import com.codeheadsystems.server.ServerConfiguration;
 import com.codeheadsystems.server.resource.JerseyResource;
 import dagger.Binds;
 import dagger.Module;
@@ -38,6 +40,12 @@ public class RuleEngineServerModule {
   @Singleton
   SecureRandom secureRandom() {
     return new SecureRandom();
+  }
+
+  @Provides
+  @Singleton
+  RulesEngineConfiguration basicServerConfiguration(ServerConfiguration configuration) {
+    return (RulesEngineConfiguration) configuration;
   }
 
   /**

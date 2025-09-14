@@ -1,8 +1,8 @@
 package com.codeheadsystems.rules.manager;
 
+import com.codeheadsystems.metrics.declarative.Metrics;
 import com.codeheadsystems.rules.model.ImmutableRawKey;
 import com.codeheadsystems.rules.model.RawKey;
-import com.codeheadsystems.metrics.declarative.Metrics;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.slf4j.Logger;

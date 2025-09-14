@@ -1,5 +1,7 @@
 stage: test
 
+region: us-east-1
+
 logging:
   level: INFO
   loggers:

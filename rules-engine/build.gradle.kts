@@ -48,5 +48,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.codeheadsystems.rules.BasicServer")
+    mainClass.set("com.codeheadsystems.rules.RulesEngineServer")
 }
