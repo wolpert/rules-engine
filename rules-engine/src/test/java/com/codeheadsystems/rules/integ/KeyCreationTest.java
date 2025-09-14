@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
-@Tag("integration")
 public class KeyCreationTest {
 
   private static final DropwizardAppExtension<RulesEngineConfiguration> EXT = new DropwizardAppExtension<>(

@@ -18,9 +18,8 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.DeleteTableRequest;
 
 @Testcontainers
-@Tag("integration")
+@Tag("localstack")
 class AwsManagerTest {
-
 
   @Container
   private static final LocalStackContainer localstack = new LocalStackContainer(TestHelper.localstackImage)

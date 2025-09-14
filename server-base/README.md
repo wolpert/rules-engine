@@ -25,3 +25,13 @@ tags:
 
 The server code and use declarative style or explicit metrics style. Both
 are supported. Default tags shared in both styles too.
+
+# Notes
+
+## Tests
+
+I added the 'fast' keyword to skip the localstack tests. Use it like this:
+
+```bash
+gradle test -Pfast
+```

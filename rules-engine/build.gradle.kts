@@ -46,3 +46,13 @@ dependencies {
 application {
     mainClass.set("com.codeheadsystems.rules.RulesEngineServer")
 }
+
+tasks.named<Test>("test") {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform({
+      if(project.hasProperty("fast")) {
+          excludeTags("localstack")
+      }
+    })
+}
+
