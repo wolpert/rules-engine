@@ -4,10 +4,12 @@
 [versions]
 assertj = "3.27.4"
 awsSDK = "2.33.9"
+caffine = "3.2.2"
 codehead-test = "3.0.5"
 codehead-metrics = "3.0.5"
 commons-codec = "1.19.0"
 dagger = "2.57.1"
+drools = "10.1.0"
 dropwizard = "4.0.16"
 guava = "33.4.8-jre"
 hsqldb = '2.7.4'
@@ -25,6 +27,8 @@ rs-api = "4.0.0"
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 aws-sdk-ddb = { module = "software.amazon.awssdk:dynamodb", version.ref = "awsSDK" }
+caffine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffine" }
+caffine-jcache = { module = "com.github.ben-manes.caffeine:jcache", version.ref = "caffine" }
 codehead-test = { module = "com.codeheadsystems:codehead-test", version.ref = "codehead-test" }
 codehead-metrics = { module = "com.codeheadsystems:metrics", version.ref = "codehead-metrics" }
 codehead-metrics-declarative = { module = "com.codeheadsystems:metrics-declarative", version.ref = "codehead-metrics" }
@@ -33,6 +37,10 @@ codehead-metrics-test = { module = "com.codeheadsystems:metrics-test", version.r
 commons-codec = { module = "commons-codec:commons-codec", version.ref = "commons-codec" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+drools-core = { module = "org.drools:drools-core", version.ref = "drools" }
+drools-compiler = { module = "org.drools:drools-compiler", version.ref = "drools" }
+drools-decisiontables = { module = "org.drools:drools-decisiontables", version.ref = "drools" }
+drools-templates = { module = "org.drools:drools-templates", version.ref = "drools" }
 dropwizard-core = { module = "io.dropwizard:dropwizard-core", version.ref = "dropwizard" }
 dropwizard-testing = { module = "io.dropwizard:dropwizard-testing", version.ref = "dropwizard" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
@@ -67,6 +75,13 @@ pgjdbc = { module = "org.postgresql:postgresql", version.ref = "pgjdbc" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 
 [bundles]
+caffine = ["caffine", "caffine-jcache"]
+drools = [
+    "drools-core",
+    "drools-compiler",
+    "drools-decisiontables",
+    "drools-templates",
+]
 jdbi = ["jdbi-core", "jdbi-caffeine", "jdbi-noopcache", "jdbi-jackson2", "jdbi-postgres", "jdbi-sqlobject", "pgjdbc"]
 jdbi-testing = ["jdbi-testing"]
 testing = ["mockito-core", "mockito-junit-jupiter", "assertj", "junit-jupiter", "junit-jupiter-api", "junit-jupiter-engine", "junit-jupiter-params", "codehead-test"]

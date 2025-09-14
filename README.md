@@ -14,3 +14,7 @@ in S3.
 The project uses localstack for testing, with services running in ECS or
 lambda. The control plan is and data plan are separate ECS services.
 A front-end for management is lower-priority. (Because I hate doing UIs.)
+
+# License
+
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.

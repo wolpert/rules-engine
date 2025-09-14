@@ -1,11 +1,14 @@
 package com.codeheadsystems.rules;
 
-import com.codeheadsystems.rules.component.DaggerKeysServerComponent;
+import com.codeheadsystems.rules.component.DaggerRuleEngineComponent;
+import com.codeheadsystems.rules.module.AwsModule;
 import com.codeheadsystems.server.Server;
 import com.codeheadsystems.server.component.DropWizardComponent;
 import com.codeheadsystems.server.module.DropWizardModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 public class BasicServer extends Server<BasicServerConfiguration> {
 
@@ -25,7 +28,8 @@ public class BasicServer extends Server<BasicServerConfiguration> {
 
   @Override
   protected DropWizardComponent dropWizardComponent(final DropWizardModule module) {
-    return DaggerKeysServerComponent.builder()
+    return DaggerRuleEngineComponent.builder()
+        .awsModule(new AwsModule(DynamoDbClient.builder().region(Region.US_EAST_1).build()))
         .dropWizardModule(module)
         .build();
   }

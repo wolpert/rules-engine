@@ -16,6 +16,9 @@ dependencies {
     testImplementation(libs.dropwizard.testing)
 
     implementation(libs.bundles.logging)
+    implementation(libs.bundles.caffine)
+    implementation(libs.bundles.drools)
+    implementation(libs.aws.sdk.ddb)
 
     // Database
     implementation(libs.liquibase.core)

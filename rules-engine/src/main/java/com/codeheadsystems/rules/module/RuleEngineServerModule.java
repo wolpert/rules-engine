@@ -2,6 +2,7 @@ package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.resource.InvalidKeyExceptionMapper;
 import com.codeheadsystems.rules.resource.KeysResource;
+import com.codeheadsystems.rules.resource.TenantResource;
 import com.codeheadsystems.server.resource.JerseyResource;
 import dagger.Binds;
 import dagger.Module;
@@ -14,13 +15,8 @@ import javax.inject.Singleton;
 /**
  * The type Keys server module.
  */
-@Module(includes = KeysServerModule.Binder.class)
-public class KeysServerModule {
-
-  /**
-   * The constant LIQUIBASE_SETUP_XML.
-   */
-  public static final String LIQUIBASE_SETUP_XML = "liquibase/liquibase-setup.xml";
+@Module(includes = RuleEngineServerModule.Binder.class)
+public class RuleEngineServerModule {
 
   /**
    * Clock clock.
@@ -59,6 +55,10 @@ public class KeysServerModule {
     @Binds
     @IntoSet
     JerseyResource keysResource(KeysResource resource);
+
+    @Binds
+    @IntoSet
+    JerseyResource tenantResource(TenantResource resource);
 
     /**
      * invalid key mapper.
