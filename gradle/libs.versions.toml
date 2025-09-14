@@ -4,30 +4,26 @@
 [versions]
 assertj = "3.27.4"
 awsSDK = "2.33.9"
-aws-dynamodblocal = "2.6.1"
 caffine = "3.2.2"
 codehead-test = "3.0.5"
 codehead-metrics = "3.0.5"
 commons-codec = "1.19.0"
 dagger = "2.57.1"
-database-test = "3.0.5"
 drools = "10.1.0"
 dropwizard = "4.0.16"
-guava = "33.4.8-jre"
 immutables = '2.11.3'
 jackson = '2.20.0'
 junit-jupiter = "5.13.4"
-log4j = "2.25.1"
 logback = "1.5.18"
 micrometer = '1.15.4'
 mokito = '5.19.0'
 slf4j = '2.0.17'
 rs-api = "4.0.0"
+testcontainers = '1.21.3'
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 aws-sdk-ddb = { module = "software.amazon.awssdk:dynamodb", version.ref = "awsSDK" }
-aws-dynamodblocal = { module = "com.amazonaws:DynamoDBLocal", version.ref = "aws-dynamodblocal" }
 caffine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffine" }
 caffine-jcache = { module = "com.github.ben-manes.caffeine:jcache", version.ref = "caffine" }
 codehead-test = { module = "com.codeheadsystems:codehead-test", version.ref = "codehead-test" }
@@ -38,14 +34,12 @@ codehead-metrics-test = { module = "com.codeheadsystems:metrics-test", version.r
 commons-codec = { module = "commons-codec:commons-codec", version.ref = "commons-codec" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
-database-test = { module = "com.codeheadsystems:database-test", version.ref = "database-test" }
 drools-core = { module = "org.drools:drools-core", version.ref = "drools" }
 drools-compiler = { module = "org.drools:drools-compiler", version.ref = "drools" }
 drools-decisiontables = { module = "org.drools:drools-decisiontables", version.ref = "drools" }
 drools-templates = { module = "org.drools:drools-templates", version.ref = "drools" }
 dropwizard-core = { module = "io.dropwizard:dropwizard-core", version.ref = "dropwizard" }
 dropwizard-testing = { module = "io.dropwizard:dropwizard-testing", version.ref = "dropwizard" }
-guava = { module = "com.google.guava:guava", version.ref = "guava" }
 immutables-value = { module = "org.immutables:value", version.ref = "immutables" }
 immutables-annotations = { module = "org.immutables:value-annotations", version.ref = "immutables" }
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
@@ -59,14 +53,15 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jun
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-jupiter" }
-log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
-log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 logback-core = { module = "ch.qos.logback:logback-core", version.ref = "logback" }
 micrometer-core = { module = "io.micrometer:micrometer-core", version.ref = "micrometer" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mokito" }
 mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mokito" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers-localstack = { module = "org.testcontainers:localstack", version.ref = "testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
 
 [bundles]
 caffine = ["caffine", "caffine-jcache"]
@@ -83,7 +78,8 @@ logback = [
     "logback-classic",
     "logback-core",
 ]
-log4j = [
-    "log4j-api",
-    "log4j-core",
+testcontainers = [
+    "testcontainers",
+    "testcontainers-localstack",
+    "testcontainers-junit-jupiter",
 ]

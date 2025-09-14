@@ -10,10 +10,12 @@ import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import jakarta.ws.rs.core.Response;
 import java.util.UUID;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-//@ExtendWith(DropwizardExtensionsSupport.class)
+@ExtendWith(DropwizardExtensionsSupport.class)
+@Tag("integration")
 public class KeyCreationTest {
 
   private static final DropwizardAppExtension<RulesEngineConfiguration> EXT = new DropwizardAppExtension<>(
@@ -22,12 +24,6 @@ public class KeyCreationTest {
   );
 
   @Test
-  void disabled() {
-    // This is here to keep the test framework happy.
-    assertThat(true).isTrue();
-  }
-
-//  @Test
   void get() {
     final UUID uuid = UUID.randomUUID();
     final Response response = EXT.client().target("http://localhost:" + EXT.getLocalPort() + "/v1/rules/" + uuid)
@@ -41,7 +37,7 @@ public class KeyCreationTest {
         .hasFieldOrProperty("uuid");
   }
 
-  //@Test
+  @Test
   void badRequest() {
     final Response response = EXT.client().target("http://localhost:" + EXT.getLocalPort() + "/v1/bad")
         .request()

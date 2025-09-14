@@ -40,9 +40,7 @@ dependencies {
     testImplementation(libs.bundles.logback)
     testImplementation(libs.bundles.testing)
     testImplementation(libs.codehead.test)
-    testImplementation(libs.database.test)
-    testImplementation(libs.aws.dynamodblocal)
-    testImplementation(libs.bundles.log4j)
+    testImplementation(libs.bundles.testcontainers)
 }
 
 application {
