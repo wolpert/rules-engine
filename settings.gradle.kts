@@ -10,5 +10,5 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-rootProject.name = "basic-server"
-include("api", "server-base", "server")
+rootProject.name = "rules-server"
+include("rules-engine-api", "server-base", "rules-engine")
