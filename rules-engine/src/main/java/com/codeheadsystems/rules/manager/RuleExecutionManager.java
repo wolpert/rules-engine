@@ -50,7 +50,7 @@ public class RuleExecutionManager {
     KieServices kieServices = KieServices.Factory.get();
     List cmds = List.of(
         kieServices.getCommands().newSetGlobal("rer", new RuleExecutionResult(), true),
-        kieServices.getCommands().newInsert(ImmutableTenant.builder().name("first").build()),
+        kieServices.getCommands().newInsert(tenant),
         kieServices.getCommands().newFireAllRules()
     );
     StatelessKieSession session = kieContainer.newStatelessKieSession();
