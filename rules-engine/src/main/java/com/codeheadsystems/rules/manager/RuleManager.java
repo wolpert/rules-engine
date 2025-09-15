@@ -21,8 +21,8 @@ public class RuleManager {
     return List.of("drl/tenant/" + tenant.name().toLowerCase() + ".drl");
   }
 
-  public List<String> rulesFor(EventType eventType) {
-    return List.of("drl/tenant/" + eventType.tenant().name() + "/" + eventType.name().toLowerCase() + ".drl");
+  public List<String> rulesFor(Tenant tenant, EventType eventType) {
+    return List.of("drl/tenant/" + tenant.name() + "/" + eventType.name().toLowerCase() + ".drl");
   }
 
 }
