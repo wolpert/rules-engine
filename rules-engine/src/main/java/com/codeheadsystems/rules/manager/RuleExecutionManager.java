@@ -42,13 +42,18 @@ public class RuleExecutionManager {
       throw new IllegalStateException("### errors ###");
     }
     ReleaseId releaseId = kieBuilder.getKieModule().getReleaseId();
+    LOGGER.info("Container created for {}: {}",drlFile, releaseId);
+
     KieContainer kieContainer = kieServices.newKieContainer(releaseId);
+    kieContainer.getKieBase().getKiePackages().forEach(p ->
+        p.getRules().forEach(k -> LOGGER.info("\tPackage {} Rule: {}", p.getName(), k.getName()))
+    );
     return kieContainer;
   }
 
   public void executeRules(KieContainer kieContainer, Tenant tenant) {
     KieServices kieServices = KieServices.Factory.get();
-    List cmds = List.of(
+    List<Command<?>> cmds = List.of(
         kieServices.getCommands().newSetGlobal("rer", new RuleExecutionResult(), true),
         kieServices.getCommands().newInsert(tenant),
         kieServices.getCommands().newFireAllRules()
@@ -69,12 +74,18 @@ public class RuleExecutionManager {
     Tenant firstTenant = ImmutableTenant.builder().name("first").build();
     Tenant secondTenant = ImmutableTenant.builder().name("second").build();
 
-    LOGGER.info("First Tenant / First Container");
+    LOGGER.info("First Container / First Tenant");
     executeRules(firstContainer, firstTenant);
-    LOGGER.info("Second Tenant / Second Container");
+    LOGGER.info("Second Container / Second Tenant");
     executeRules(secondContainer, secondTenant);
-    LOGGER.info("First Tenant / Second Container");
+    LOGGER.info("First Container / Second Tenant");
     executeRules(firstContainer, secondTenant);
+    LOGGER.info("Second Container / First Tenant");
+    executeRules(secondContainer, firstTenant);
+    LOGGER.info("Second Container / Second Tenant");
+    executeRules(secondContainer, secondTenant);
+    LOGGER.info("First Container / First Tenant");
+    executeRules(firstContainer, firstTenant);
 
   }
 

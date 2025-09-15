@@ -6,7 +6,7 @@ global com.codeheadsystems.rules.model.RuleExecutionResult rer;
 
 dialect  "mvel"
 
-rule "Suggest Manager Role"
+rule "First Rule"
     when
         Tenant(name == "first")
     then
