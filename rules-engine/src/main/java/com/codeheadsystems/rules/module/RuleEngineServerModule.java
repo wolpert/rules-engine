@@ -21,6 +21,11 @@ import javax.inject.Singleton;
  */
 @Module(includes = RuleEngineServerModule.Binder.class)
 public class RuleEngineServerModule {
+  /**
+   * Instantiates a new Rule engine server module.
+   */
+  public RuleEngineServerModule() {
+  }
 
   /**
    * Clock clock.
@@ -33,6 +38,12 @@ public class RuleEngineServerModule {
     return Clock.systemUTC();
   }
 
+  /**
+   * Object mapper object mapper.
+   *
+   * @param objectMapperFactory the object mapper factory
+   * @return the object mapper
+   */
   @Provides
   @Singleton
   ObjectMapper objectMapper(final ObjectMapperFactory objectMapperFactory) {
@@ -50,6 +61,12 @@ public class RuleEngineServerModule {
     return new SecureRandom();
   }
 
+  /**
+   * Basic server configuration rules engine configuration.
+   *
+   * @param configuration the configuration
+   * @return the rules engine configuration
+   */
   @Provides
   @Singleton
   RulesEngineConfiguration basicServerConfiguration(ServerConfiguration configuration) {
@@ -72,6 +89,12 @@ public class RuleEngineServerModule {
     @IntoSet
     JerseyResource keysResource(KeysResource resource);
 
+    /**
+     * Tenant resource jersey resource.
+     *
+     * @param resource the resource
+     * @return the jersey resource
+     */
     @Binds
     @IntoSet
     JerseyResource tenantResource(TenantResource resource);

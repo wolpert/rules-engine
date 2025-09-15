@@ -7,9 +7,18 @@ import com.codeheadsystems.server.module.DropWizardModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The type Rules engine server.
+ */
 public class RulesEngineServer extends Server<RulesEngineConfiguration> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RulesEngineServer.class);
+
+  /**
+   * Instantiates a new Rules engine server.
+   */
+  public RulesEngineServer() {
+  }
 
   /**
    * Run the world.

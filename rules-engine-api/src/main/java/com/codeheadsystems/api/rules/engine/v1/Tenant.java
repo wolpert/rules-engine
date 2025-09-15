@@ -13,6 +13,12 @@ import jakarta.ws.rs.core.Response;
 @Path("/v1/tenant")
 public interface Tenant {
 
+  /**
+   * Read response.
+   *
+   * @param tenant the tenant
+   * @return the response
+   */
   @GET
   @Path("/{tenant}")
   @Produces(MediaType.APPLICATION_JSON)

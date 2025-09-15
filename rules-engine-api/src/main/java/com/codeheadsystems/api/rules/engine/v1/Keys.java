@@ -12,6 +12,12 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/v1/rules")
 public interface Keys {
 
+  /**
+   * Read key.
+   *
+   * @param uuid the uuid
+   * @return the key
+   */
   @GET
   @Path("/{uuid}")
   @Produces(MediaType.APPLICATION_JSON)

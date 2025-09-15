@@ -16,11 +16,20 @@ public class KeyManager {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(KeyManager.class);
 
+  /**
+   * Instantiates a new Key manager.
+   */
   @Inject
   public KeyManager() {
     LOGGER.info("KeyManager()");
   }
 
+  /**
+   * Gets raw key.
+   *
+   * @param uuid the uuid
+   * @return the raw key
+   */
   @Metrics
   public RawKey getRawKey(final String uuid) {
     LOGGER.trace("getRawKey({})", uuid);

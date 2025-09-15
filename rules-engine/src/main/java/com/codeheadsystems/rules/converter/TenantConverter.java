@@ -16,25 +16,54 @@ import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.ReturnConsumedCapacity;
 
+/**
+ * The type Tenant converter.
+ */
 @Singleton
 public class TenantConverter {
 
+  /**
+   * The constant ROW_IDENTIFIER.
+   */
   public static final String ROW_IDENTIFIER = "TENANT#";
+  /**
+   * The constant TYPE.
+   */
   public static final String TYPE = Tenant.class.getSimpleName();
+  /**
+   * The constant COL_NAME.
+   */
   public static final String COL_NAME = "tenant_name";
 
   private final TableConfiguration tableConfiguration;
 
+  /**
+   * Instantiates a new Tenant converter.
+   *
+   * @param tableConfiguration the table configuration
+   */
   @Inject
   TenantConverter(final TableConfiguration tableConfiguration) {
     this.tableConfiguration = tableConfiguration;
   }
 
+  /**
+   * To hash key string.
+   *
+   * @param tenantName the tenant name
+   * @return the string
+   */
   public String toHashKey(final String tenantName) {
     return ROW_IDENTIFIER + tenantName;
   }
 
 
+  /**
+   * To put request put item request.
+   *
+   * @param tenantName the tenant name
+   * @return the put item request
+   */
   public PutItemRequest toPutRequest(final String tenantName) {
     final ImmutableMap.Builder<String, AttributeValue> builder = ImmutableMap.builder();
     builder.put(tableConfiguration.hashKeyName(), fromS(toHashKey(tenantName)));
@@ -48,6 +77,12 @@ public class TenantConverter {
         .build();
   }
 
+  /**
+   * To get request get item request.
+   *
+   * @param tenantName the tenant name
+   * @return the get item request
+   */
   public GetItemRequest toGetRequest(final String tenantName) {
     final ImmutableMap.Builder<String, AttributeValue> builder = ImmutableMap.builder();
     builder.put(tableConfiguration.hashKeyName(), fromS(tenantName));
@@ -58,6 +93,12 @@ public class TenantConverter {
         .build();
   }
 
+  /**
+   * To tenant optional.
+   *
+   * @param attributes the attributes
+   * @return the optional
+   */
   public Optional<Tenant> toTenant(final Map<String, AttributeValue> attributes) {
     if (!attributes.isEmpty()) {
       return Optional.of(ImmutableTenant.builder()
@@ -67,6 +108,12 @@ public class TenantConverter {
     return Optional.empty();
   }
 
+  /**
+   * To delete request delete item request.
+   *
+   * @param tenantName the tenant name
+   * @return the delete item request
+   */
   public DeleteItemRequest toDeleteRequest(final String tenantName) {
     final ImmutableMap.Builder<String, AttributeValue> builder = ImmutableMap.builder();
     builder.put(tableConfiguration.hashKeyName(), fromS(tenantName));

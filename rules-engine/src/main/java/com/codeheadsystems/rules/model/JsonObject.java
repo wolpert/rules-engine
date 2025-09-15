@@ -4,14 +4,28 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * The type Json object.
+ */
 public class JsonObject {
 
   private final JsonNode root;
 
+  /**
+   * Instantiates a new Json object.
+   *
+   * @param root the root
+   */
   public JsonObject(JsonNode root) {
     this.root = root;
   }
 
+  /**
+   * As string string.
+   *
+   * @param path the path
+   * @return the string
+   */
   public String asString(String path) {
     final JsonNode node = root.at(path);
     if (node.isMissingNode() || !node.isTextual()) {
@@ -20,6 +34,12 @@ public class JsonObject {
     return node.asText();
   }
 
+  /**
+   * As integer integer.
+   *
+   * @param path the path
+   * @return the integer
+   */
   public Integer asInteger(String path) {
     final JsonNode node = root.at(path);
     if (node.isMissingNode() || !node.isInt()) {
@@ -28,6 +48,12 @@ public class JsonObject {
     return node.asInt();
   }
 
+  /**
+   * As array json object [ ].
+   *
+   * @param path the path
+   * @return the json object [ ]
+   */
   public JsonObject[] asArray(String path) {
     final JsonNode node = root.at(path);
     if (node.isMissingNode() || !node.isArray()) {
@@ -40,6 +66,12 @@ public class JsonObject {
     return objects;
   }
 
+  /**
+   * As double double.
+   *
+   * @param path the path
+   * @return the double
+   */
   public Double asDouble(String path) {
     final JsonNode node = root.at(path);
     if (node.isMissingNode() || !node.isDouble()) {
@@ -48,6 +80,12 @@ public class JsonObject {
     return node.doubleValue();
   }
 
+  /**
+   * As big decimal big decimal.
+   *
+   * @param path the path
+   * @return the big decimal
+   */
   public BigDecimal asBigDecimal(String path) {
     final JsonNode node = root.at(path);
     if (node.isMissingNode() || !node.isNumber()) {
@@ -56,6 +94,12 @@ public class JsonObject {
     return node.decimalValue();
   }
 
+  /**
+   * As big integer big integer.
+   *
+   * @param path the path
+   * @return the big integer
+   */
   public BigInteger asBigInteger(String path) {
     final JsonNode node = root.at(path);
     if (node.isMissingNode() || !node.isNumber()) {
@@ -64,6 +108,12 @@ public class JsonObject {
     return node.bigIntegerValue();
   }
 
+  /**
+   * As boolean boolean.
+   *
+   * @param path the path
+   * @return the boolean
+   */
   public Boolean asBoolean(String path) {
     final JsonNode node = root.at(path);
     if (node.isMissingNode() || !node.isBoolean()) {

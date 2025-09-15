@@ -14,18 +14,33 @@ import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemResponse;
 
+/**
+ * The type Tenant dao.
+ */
 @Singleton
 public class TenantDao {
 
   private final TenantConverter tenantConverter;
   private final DynamoDbClient dynamoDbClient;
 
+  /**
+   * Instantiates a new Tenant dao.
+   *
+   * @param tenantConverter the tenant converter
+   * @param dynamoDbClient  the dynamo db client
+   */
   @Inject
   public TenantDao(final TenantConverter tenantConverter, final DynamoDbClient dynamoDbClient) {
     this.tenantConverter = tenantConverter;
     this.dynamoDbClient = dynamoDbClient;
   }
 
+  /**
+   * Gets tenant.
+   *
+   * @param tenantName the tenant name
+   * @return the tenant
+   */
   @Metrics
   public Optional<Tenant> getTenant(String tenantName) {
     final GetItemRequest getItemRequest = tenantConverter.toGetRequest(tenantName);
@@ -37,6 +52,12 @@ public class TenantDao {
     }
   }
 
+  /**
+   * Create tenant.
+   *
+   * @param tenantName the tenant name
+   * @return the tenant
+   */
   @Metrics
   public Tenant create(String tenantName) {
     final PutItemRequest putItemRequest = tenantConverter.toPutRequest(tenantName);
@@ -47,6 +68,12 @@ public class TenantDao {
     throw new IllegalArgumentException("Unable to create tenant: " + tenantName);
   }
 
+  /**
+   * Delete boolean.
+   *
+   * @param tenant the tenant
+   * @return the boolean
+   */
   @Metrics
   public boolean delete(Tenant tenant) {
     final DeleteItemRequest deleteItemRequest = tenantConverter.toDeleteRequest(tenant.name());

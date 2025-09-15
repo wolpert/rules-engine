@@ -21,6 +21,9 @@ import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The type Tenant container manager.
+ */
 @Singleton
 public class TenantContainerManager {
 
@@ -29,6 +32,11 @@ public class TenantContainerManager {
   private final RuleManager ruleManager;
   private final LoadingCache<Tenant, TenantContainer> cache;
 
+  /**
+   * Instantiates a new Tenant container manager.
+   *
+   * @param ruleManager the rule manager
+   */
   @Inject
   public TenantContainerManager(final RuleManager ruleManager) {
     this.ruleManager = ruleManager;
@@ -41,6 +49,13 @@ public class TenantContainerManager {
     LOGGER.info("TenantContainerManager()");
   }
 
+  /**
+   * Removal listener.
+   *
+   * @param tenant          the tenant
+   * @param tenantContainer the tenant container
+   * @param removalCause    the removal cause
+   */
   public void removalListener(final Tenant tenant,
                               final TenantContainer tenantContainer,
                               final RemovalCause removalCause) {
@@ -51,6 +66,12 @@ public class TenantContainerManager {
     }
   }
 
+  /**
+   * Tenant container tenant container.
+   *
+   * @param tenant the tenant
+   * @return the tenant container
+   */
   public TenantContainer tenantContainer(Tenant tenant) {
     return cache.get(tenant);
   }
@@ -80,6 +101,13 @@ public class TenantContainerManager {
         .build();
   }
 
+  /**
+   * Tenant rule session tenant rule session.
+   *
+   * @param tenant the tenant
+   * @param facts  the facts
+   * @return the tenant rule session
+   */
   public TenantRuleSession tenantRuleSession(final Tenant tenant,
                                              final Facts facts) {
     final TenantContainer tenantContainer = internalTenantContainer(tenant);

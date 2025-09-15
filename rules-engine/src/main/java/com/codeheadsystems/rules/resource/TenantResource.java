@@ -7,11 +7,19 @@ import jakarta.ws.rs.core.Response;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+/**
+ * The type Tenant resource.
+ */
 @Singleton
 public class TenantResource implements Tenant, JerseyResource {
 
   private final TenantManager tenantManager;
 
+  /**
+   * Instantiates a new Tenant resource.
+   *
+   * @param tenantManager the tenant manager
+   */
   @Inject
   public TenantResource(final TenantManager tenantManager) {
     this.tenantManager = tenantManager;

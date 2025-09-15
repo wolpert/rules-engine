@@ -18,11 +18,17 @@ import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The type Rule execution manager.
+ */
 @Singleton
 public class RuleExecutionManager {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RuleExecutionManager.class);
 
+  /**
+   * Instantiates a new Rule execution manager.
+   */
   @Inject
   public RuleExecutionManager() {
     LOGGER.info("RuleExecutionManager()");
@@ -42,7 +48,7 @@ public class RuleExecutionManager {
       throw new IllegalStateException("### errors ###");
     }
     ReleaseId releaseId = kieBuilder.getKieModule().getReleaseId();
-    LOGGER.info("Container created for {}: {}",drlFile, releaseId);
+    LOGGER.info("Container created for {}: {}", drlFile, releaseId);
 
     KieContainer kieContainer = kieServices.newKieContainer(releaseId);
     kieContainer.getKieBase().getKiePackages().forEach(p ->
@@ -51,6 +57,12 @@ public class RuleExecutionManager {
     return kieContainer;
   }
 
+  /**
+   * Execute rules.
+   *
+   * @param kieContainer the kie container
+   * @param tenant       the tenant
+   */
   public void executeRules(KieContainer kieContainer, Tenant tenant) {
     KieServices kieServices = KieServices.Factory.get();
     List<Command<?>> cmds = List.of(
@@ -67,7 +79,10 @@ public class RuleExecutionManager {
     }
   }
 
-  // This method is just a minor buildout of drools integration to set the rest up. It's temporary.
+  /**
+   * Sample run.
+   */
+// This method is just a minor buildout of drools integration to set the rest up. It's temporary.
   public void sampleRun() {
     KieContainer firstContainer = getKieContainer("drl/sample1.drl");
     KieContainer secondContainer = getKieContainer("drl/sample2.drl");
