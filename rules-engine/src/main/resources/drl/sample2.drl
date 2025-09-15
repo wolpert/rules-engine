@@ -1,0 +1,14 @@
+package drl;
+
+import com.codeheadsystems.rules.model.Tenant;
+
+global com.codeheadsystems.rules.model.RuleExecutionResult rer;
+
+dialect  "mvel"
+
+rule "Suggest Manager Role"
+    when
+        Tenant(name == "second")
+    then
+        rer.put("tenant", "second");
+end

@@ -37,6 +37,8 @@ dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = 
 drools-core = { module = "org.drools:drools-core", version.ref = "drools" }
 drools-compiler = { module = "org.drools:drools-compiler", version.ref = "drools" }
 drools-decisiontables = { module = "org.drools:drools-decisiontables", version.ref = "drools" }
+drools-engine = { module = "org.drools:drools-engine", version.ref = "drools" }
+drools-mvel = { module = "org.drools:drools-mvel", version.ref = "drools" }
 drools-templates = { module = "org.drools:drools-templates", version.ref = "drools" }
 dropwizard-core = { module = "io.dropwizard:dropwizard-core", version.ref = "dropwizard" }
 dropwizard-testing = { module = "io.dropwizard:dropwizard-testing", version.ref = "dropwizard" }
@@ -69,6 +71,8 @@ drools = [
     "drools-core",
     "drools-compiler",
     "drools-decisiontables",
+    "drools-engine",
+    "drools-mvel",
     "drools-templates",
 ]
 testing = ["mockito-core", "mockito-junit-jupiter", "assertj", "junit-jupiter", "junit-jupiter-api", "junit-jupiter-engine", "junit-jupiter-params", "codehead-test"]
