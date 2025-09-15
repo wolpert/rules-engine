@@ -41,6 +41,7 @@ dependencies {
     testImplementation(libs.bundles.testing)
     testImplementation(libs.codehead.test)
     testImplementation(libs.bundles.testcontainers)
+    testImplementation(libs.commons.io)
 }
 
 application {

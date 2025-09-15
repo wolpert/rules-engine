@@ -8,6 +8,7 @@ caffine = "3.2.2"
 codehead-test = "3.0.5"
 codehead-metrics = "3.0.5"
 commons-codec = "1.19.0"
+commons-io = "2.20.0"
 dagger = "2.57.1"
 drools = "10.1.0"
 dropwizard = "4.0.16"
@@ -32,6 +33,7 @@ codehead-metrics-declarative = { module = "com.codeheadsystems:metrics-declarati
 codehead-metrics-micrometer = { module = "com.codeheadsystems:metrics-micrometer", version.ref = "codehead-metrics" }
 codehead-metrics-test = { module = "com.codeheadsystems:metrics-test", version.ref = "codehead-metrics" }
 commons-codec = { module = "commons-codec:commons-codec", version.ref = "commons-codec" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 drools-core = { module = "org.drools:drools-core", version.ref = "drools" }

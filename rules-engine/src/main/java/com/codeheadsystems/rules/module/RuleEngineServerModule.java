@@ -1,11 +1,13 @@
 package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
+import com.codeheadsystems.rules.factory.ObjectMapperFactory;
 import com.codeheadsystems.rules.resource.InvalidKeyExceptionMapper;
 import com.codeheadsystems.rules.resource.KeysResource;
 import com.codeheadsystems.rules.resource.TenantResource;
 import com.codeheadsystems.server.ServerConfiguration;
 import com.codeheadsystems.server.resource.JerseyResource;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
@@ -29,6 +31,12 @@ public class RuleEngineServerModule {
   @Singleton
   Clock clock() {
     return Clock.systemUTC();
+  }
+
+  @Provides
+  @Singleton
+  ObjectMapper objectMapper(final ObjectMapperFactory objectMapperFactory) {
+    return objectMapperFactory.oObjectMapper();
   }
 
   /**

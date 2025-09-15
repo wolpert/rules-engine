@@ -1,7 +1,9 @@
 package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.dao.TenantDao;
+import com.codeheadsystems.rules.model.EventType;
 import com.codeheadsystems.rules.model.Tenant;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
@@ -27,5 +29,9 @@ public class TenantManager {
 
   public boolean exists(String tenantName) {
     return tenantDao.getTenant(tenantName).isPresent();
+  }
+
+  public List<EventType> eventType(Tenant tenant) {
+    return List.of();
   }
 }

@@ -1,0 +1,25 @@
+{
+  "table": "stakes",
+  "level1": {
+    "something": "else",
+    "first": 1,
+    "second": 2.5,
+    "bigInt": 1234567890123456789123,
+    "bigDec": 123456784390.12346,
+    "booleanTrue": true,
+    "booleanFalse": false,
+    "level2": {
+      "level3": {
+        "key": "value"
+      }
+    },
+    "array": [
+      {
+        "itemKey": "itemValue1"
+      },
+      {
+        "itemKey": "itemValue2"
+      }
+    ]
+  }
+}
