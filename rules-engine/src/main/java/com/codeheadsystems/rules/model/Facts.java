@@ -9,6 +9,8 @@ import org.immutables.value.Value;
 @Value.Immutable
 public interface Facts {
 
+  String eventId();
+
   /**
    * Json objects set.
    *

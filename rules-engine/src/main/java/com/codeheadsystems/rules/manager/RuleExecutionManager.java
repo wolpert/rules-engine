@@ -1,20 +1,17 @@
 package com.codeheadsystems.rules.manager;
 
-import com.codeheadsystems.rules.model.ImmutableTenant;
+import com.codeheadsystems.rules.model.Facts;
 import com.codeheadsystems.rules.model.RuleExecutionResult;
 import com.codeheadsystems.rules.model.Tenant;
+import com.codeheadsystems.rules.model.TenantContainer;
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.kie.api.KieServices;
-import org.kie.api.builder.KieBuilder;
-import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.ReleaseId;
 import org.kie.api.command.Command;
 import org.kie.api.runtime.ExecutionResults;
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.StatelessKieSession;
-import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,82 +23,40 @@ public class RuleExecutionManager {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RuleExecutionManager.class);
 
-  /**
-   * Instantiates a new Rule execution manager.
-   */
+  private final TenantContainerManager tenantContainerManager;
+  private final SessionManager sessionManager;
+  private final KieServices kieServices = KieServices.Factory.get();
+
   @Inject
-  public RuleExecutionManager() {
-    LOGGER.info("RuleExecutionManager()");
+  public RuleExecutionManager(TenantContainerManager tenantContainerManager, final SessionManager sessionManager) {
+    this.tenantContainerManager = tenantContainerManager;
+    this.sessionManager = sessionManager;
+    LOGGER.info("RuleExecutionManager(TenantContainerManager)");
   }
 
-  private KieContainer getKieContainer(String drlFile) {
-    KieServices kieServices = KieServices.Factory.get();
-    KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-    List<String> rules = List.of(drlFile);
-    for (String rule : rules) {
-      kieFileSystem.write(ResourceFactory.newClassPathResource(rule));
-    }
-    KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
-    kieBuilder.buildAll();
-    if (kieBuilder.getResults().hasMessages(org.kie.api.builder.Message.Level.ERROR)) {
-      LOGGER.error("Errors: {}", kieBuilder.getResults().toString());
-      throw new IllegalStateException("### errors ###");
-    }
-    ReleaseId releaseId = kieBuilder.getKieModule().getReleaseId();
-    LOGGER.info("Container created for {}: {}", drlFile, releaseId);
+  public RuleExecutionResult executeRules(final Tenant tenant, final Facts facts) {
+    TenantContainer tenantContainer = tenantContainerManager.tenantContainer(tenant);
+    StatelessKieSession session = sessionManager.getKieSession(tenant, tenantContainer.kieContainer());
+    final List<Command<?>> commands = getCommands(tenant, facts);
+    ExecutionResults results = session.execute(kieServices.getCommands().newBatchExecution(commands));
 
-    KieContainer kieContainer = kieServices.newKieContainer(releaseId);
-    kieContainer.getKieBase().getKiePackages().forEach(p ->
-        p.getRules().forEach(k -> LOGGER.info("\tPackage {} Rule: {}", p.getName(), k.getName()))
-    );
-    return kieContainer;
-  }
-
-  /**
-   * Execute rules.
-   *
-   * @param kieContainer the kie container
-   * @param tenant       the tenant
-   */
-  public void executeRules(KieContainer kieContainer, Tenant tenant) {
-    KieServices kieServices = KieServices.Factory.get();
-    List<Command<?>> cmds = List.of(
-        kieServices.getCommands().newSetGlobal("rer", new RuleExecutionResult(), true),
-        kieServices.getCommands().newInsert(tenant),
-        kieServices.getCommands().newFireAllRules()
-    );
-    StatelessKieSession session = kieContainer.newStatelessKieSession();
-    ExecutionResults results = session.execute(kieServices.getCommands().newBatchExecution(cmds));
     if (results.getValue("rer") instanceof RuleExecutionResult rer) {
       LOGGER.info("Results: {}", rer);
+      return rer;
     } else {
       LOGGER.warn("No results found.");
+      throw new IllegalStateException("No results found.");
     }
   }
 
-  /**
-   * Sample run.
-   */
-// This method is just a minor buildout of drools integration to set the rest up. It's temporary.
-  public void sampleRun() {
-    KieContainer firstContainer = getKieContainer("drl/sample1.drl");
-    KieContainer secondContainer = getKieContainer("drl/sample2.drl");
-    Tenant firstTenant = ImmutableTenant.builder().name("first").build();
-    Tenant secondTenant = ImmutableTenant.builder().name("second").build();
-
-    LOGGER.info("First Container / First Tenant");
-    executeRules(firstContainer, firstTenant);
-    LOGGER.info("Second Container / Second Tenant");
-    executeRules(secondContainer, secondTenant);
-    LOGGER.info("First Container / Second Tenant");
-    executeRules(firstContainer, secondTenant);
-    LOGGER.info("Second Container / First Tenant");
-    executeRules(secondContainer, firstTenant);
-    LOGGER.info("Second Container / Second Tenant");
-    executeRules(secondContainer, secondTenant);
-    LOGGER.info("First Container / First Tenant");
-    executeRules(firstContainer, firstTenant);
-
+  private List<Command<?>> getCommands(final Tenant tenant, final Facts facts) {
+    ImmutableList.Builder<Command<?>> builder = ImmutableList.builder();
+    builder.add(kieServices.getCommands().newSetGlobal("rer", new RuleExecutionResult(), true));
+    builder.add(kieServices.getCommands().newInsert(tenant));
+    builder.add(kieServices.getCommands().newInsert(facts.jsonObjects()));
+    builder.add(kieServices.getCommands().newSetGlobal("eventId", facts.eventId(), true));
+    builder.add(kieServices.getCommands().newFireAllRules());
+    return builder.build();
   }
 
 }

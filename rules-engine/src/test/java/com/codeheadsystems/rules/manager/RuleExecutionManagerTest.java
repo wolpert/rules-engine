@@ -8,8 +8,6 @@ class RuleExecutionManagerTest {
 
   @Test
   void testRuleExecutionManager() {
-    RuleExecutionManager ruleExecutionManager = new RuleExecutionManager();
-    ruleExecutionManager.sampleRun();
   }
 
 }

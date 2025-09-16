@@ -4,6 +4,7 @@ import com.codeheadsystems.rules.dao.TenantDao;
 import com.codeheadsystems.rules.model.EventType;
 import com.codeheadsystems.rules.model.Tenant;
 import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
@@ -36,9 +37,19 @@ public class TenantManager {
    * @param name the name
    * @return the tenant
    */
-  public Tenant getTenant(String name) {
+  public Tenant getOrCreateTenant(String name) {
     return tenantDao.getTenant(name)
         .orElseGet(() -> tenantDao.create(name));
+  }
+
+  /**
+   * Gets tenant.
+   *
+   * @param name the name
+   * @return the tenant
+   */
+  public Optional<Tenant> getTenant(String name) {
+    return tenantDao.getTenant(name);
   }
 
   /**

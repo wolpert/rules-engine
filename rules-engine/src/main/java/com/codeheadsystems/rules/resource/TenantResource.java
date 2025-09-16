@@ -28,7 +28,7 @@ public class TenantResource implements Tenant, JerseyResource {
   @Override
   public Response read(final String tenant) {
     return tenantManager.exists(tenant)
-        ? Response.ok(tenantManager.getTenant(tenant)).build()
+        ? Response.ok(tenantManager.getOrCreateTenant(tenant)).build()
         : Response.status(Response.Status.NOT_FOUND).build();
   }
 }
