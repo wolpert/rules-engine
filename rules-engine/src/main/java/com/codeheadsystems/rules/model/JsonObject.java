@@ -3,11 +3,15 @@ package com.codeheadsystems.rules.model;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The type Json object.
  */
 public class JsonObject {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(JsonObject.class);
 
   private final JsonNode root;
 
@@ -28,6 +32,7 @@ public class JsonObject {
    */
   public String asString(String path) {
     final JsonNode node = root.at(path);
+    LOGGER.debug("asString({}) {}", path, node);
     if (node.isMissingNode() || !node.isTextual()) {
       return null;
     }

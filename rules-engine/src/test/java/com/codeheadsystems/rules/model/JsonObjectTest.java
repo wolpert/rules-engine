@@ -18,7 +18,7 @@ class JsonObjectTest {
   @BeforeEach
   void setUp() throws IOException {
     final String json = IOUtils.toString(ClassLoader.getSystemResourceAsStream("fixture/jsonobject.json"), StandardCharsets.UTF_8);
-    final ObjectMapper mapper = new ObjectMapperFactory().oObjectMapper();
+    final ObjectMapper mapper = new ObjectMapperFactory().objectMapper();
     jsonObject = new JsonObjectFactory(mapper).jsonObject(json);
   }
 

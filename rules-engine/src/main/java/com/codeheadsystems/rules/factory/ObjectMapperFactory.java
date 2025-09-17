@@ -24,7 +24,7 @@ public class ObjectMapperFactory {
    *
    * @return the object mapper
    */
-  public ObjectMapper oObjectMapper() {
+  public ObjectMapper objectMapper() {
     return new ObjectMapper()
         .registerModule(new Jdk8Module());
   }

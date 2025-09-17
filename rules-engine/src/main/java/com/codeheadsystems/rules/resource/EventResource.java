@@ -13,6 +13,9 @@ import com.codeheadsystems.server.resource.JerseyResource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+/**
+ * The type Event resource.
+ */
 @Singleton
 public class EventResource implements Event, JerseyResource {
 
@@ -21,6 +24,14 @@ public class EventResource implements Event, JerseyResource {
   private final FactsConverter factsConverter;
   private final ExecutionResultConverter executionResultConverter;
 
+  /**
+   * Instantiates a new Event resource.
+   *
+   * @param ruleExecutionManager     the rule execution manager
+   * @param tenantManager            the tenant manager
+   * @param factsConverter           the facts converter
+   * @param executionResultConverter the execution result converter
+   */
   @Inject
   public EventResource(final RuleExecutionManager ruleExecutionManager, final TenantManager tenantManager, final FactsConverter factsConverter, final ExecutionResultConverter executionResultConverter) {
     this.ruleExecutionManager = ruleExecutionManager;

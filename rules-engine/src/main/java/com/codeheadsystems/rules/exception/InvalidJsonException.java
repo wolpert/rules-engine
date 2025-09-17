@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * The type Invalid json exception.
- *
+ * <p>
  * TODO: Create an exception mapper for this 4xx level exception.
  */
 public class InvalidJsonException extends RuntimeException {

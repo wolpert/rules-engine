@@ -6,12 +6,16 @@ import com.codeheadsystems.rules.model.ImmutableFacts;
 import com.codeheadsystems.rules.model.JsonObject;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The type Facts converter.
  */
 @Singleton
 public class FactsConverter {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(FactsConverter.class);
 
   private final JsonObjectFactory jsonObjectFactory;
 
@@ -23,6 +27,7 @@ public class FactsConverter {
   @Inject
   public FactsConverter(final JsonObjectFactory jsonObjectFactory) {
     this.jsonObjectFactory = jsonObjectFactory;
+    LOGGER.info("FactsConverter()");
   }
 
   /**

@@ -9,6 +9,11 @@ import org.immutables.value.Value;
 @Value.Immutable
 public interface Facts {
 
+  /**
+   * Event id string.
+   *
+   * @return the string
+   */
   String eventId();
 
   /**

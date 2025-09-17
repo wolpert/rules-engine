@@ -34,7 +34,7 @@ public class RuleEngineServerModule {
    */
   @Provides
   @Singleton
-  Clock clock() {
+  public Clock clock() {
     return Clock.systemUTC();
   }
 
@@ -46,8 +46,8 @@ public class RuleEngineServerModule {
    */
   @Provides
   @Singleton
-  ObjectMapper objectMapper(final ObjectMapperFactory objectMapperFactory) {
-    return objectMapperFactory.oObjectMapper();
+  public ObjectMapper objectMapper(final ObjectMapperFactory objectMapperFactory) {
+    return objectMapperFactory.objectMapper();
   }
 
   /**
@@ -57,7 +57,7 @@ public class RuleEngineServerModule {
    */
   @Provides
   @Singleton
-  SecureRandom secureRandom() {
+  public SecureRandom secureRandom() {
     return new SecureRandom();
   }
 
@@ -69,7 +69,7 @@ public class RuleEngineServerModule {
    */
   @Provides
   @Singleton
-  RulesEngineConfiguration basicServerConfiguration(ServerConfiguration configuration) {
+  public RulesEngineConfiguration basicServerConfiguration(ServerConfiguration configuration) {
     return (RulesEngineConfiguration) configuration;
   }
 

@@ -1,0 +1,15 @@
+package drl.tenant;
+
+import com.codeheadsystems.rules.model.JsonObject;
+
+global com.codeheadsystems.rules.model.RuleExecutionResult executionResult;
+global java.lang.String eventId;
+
+dialect  "mvel"
+
+rule "There is a color"
+    when
+        JsonObject(asString("/color") != null, $a : asString("/color"))
+    then
+        executionResult.put("we found", $a);
+end
