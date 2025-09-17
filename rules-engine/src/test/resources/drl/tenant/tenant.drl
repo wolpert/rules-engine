@@ -9,7 +9,9 @@ dialect  "mvel"
 
 rule "There is a color"
     when
-        JsonObject(asString("/color") != null, $a : asString("/color"))
+        // The following will call 'asString("/color")' twice due to the != null check
+        JsonObject($a : asString("/color") != null)
     then
+        System.out.println("Color found: ");
         executionResult.put("we found", $a);
 end

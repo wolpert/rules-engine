@@ -1,6 +1,8 @@
 package com.codeheadsystems.rules.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import org.slf4j.Logger;
@@ -8,12 +10,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The type Json object.
+ *
+ * TODO: cache json pointers at the event or tenant level. This will compile the json path each time.
  */
 public class JsonObject {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonObject.class);
 
-  private final JsonNode root;
+  private final LoadingCache<String, JsonNode> cache;
 
   /**
    * Instantiates a new Json object.
@@ -21,7 +25,7 @@ public class JsonObject {
    * @param root the root
    */
   public JsonObject(JsonNode root) {
-    this.root = root;
+    this.cache = Caffeine.newBuilder().build(root::at);
   }
 
   /**
@@ -31,8 +35,7 @@ public class JsonObject {
    * @return the string
    */
   public String asString(String path) {
-    final JsonNode node = root.at(path);
-    LOGGER.debug("asString({}) {}", path, node);
+    final JsonNode node = cache.get(path);
     if (node.isMissingNode() || !node.isTextual()) {
       return null;
     }
@@ -46,7 +49,7 @@ public class JsonObject {
    * @return the integer
    */
   public Integer asInteger(String path) {
-    final JsonNode node = root.at(path);
+    final JsonNode node = cache.get(path);
     if (node.isMissingNode() || !node.isInt()) {
       return null;
     }
@@ -60,7 +63,7 @@ public class JsonObject {
    * @return the json object [ ]
    */
   public JsonObject[] asArray(String path) {
-    final JsonNode node = root.at(path);
+    final JsonNode node = cache.get(path);
     if (node.isMissingNode() || !node.isArray()) {
       return null;
     }
@@ -78,7 +81,7 @@ public class JsonObject {
    * @return the double
    */
   public Double asDouble(String path) {
-    final JsonNode node = root.at(path);
+    final JsonNode node = cache.get(path);
     if (node.isMissingNode() || !node.isDouble()) {
       return null;
     }
@@ -92,7 +95,7 @@ public class JsonObject {
    * @return the big decimal
    */
   public BigDecimal asBigDecimal(String path) {
-    final JsonNode node = root.at(path);
+    final JsonNode node = cache.get(path);
     if (node.isMissingNode() || !node.isNumber()) {
       return null;
     }
@@ -106,7 +109,7 @@ public class JsonObject {
    * @return the big integer
    */
   public BigInteger asBigInteger(String path) {
-    final JsonNode node = root.at(path);
+    final JsonNode node = cache.get(path);
     if (node.isMissingNode() || !node.isNumber()) {
       return null;
     }
@@ -120,7 +123,7 @@ public class JsonObject {
    * @return the boolean
    */
   public Boolean asBoolean(String path) {
-    final JsonNode node = root.at(path);
+    final JsonNode node = cache.get(path);
     if (node.isMissingNode() || !node.isBoolean()) {
       return null;
     }
