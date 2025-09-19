@@ -20,7 +20,7 @@ import static com.codahale.metrics.MetricRegistry.name;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
-import com.codeheadsystems.rules.exception.InvalidKeyException;
+import com.codeheadsystems.rules.exception.InvalidJsonException;
 import com.codeheadsystems.server.resource.JerseyResource;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -31,7 +31,7 @@ import javax.inject.Singleton;
  * Mapper for NotFoundExceptions.
  */
 @Singleton
-public class InvalidKeyExceptionMapper implements JerseyResource, ExceptionMapper<InvalidKeyException> {
+public class InvalidJsonExceptionMapper implements JerseyResource, ExceptionMapper<InvalidJsonException> {
 
   private final Meter exceptions;
 
@@ -41,7 +41,7 @@ public class InvalidKeyExceptionMapper implements JerseyResource, ExceptionMappe
    * @param registry doing this the dropwizard way.
    */
   @Inject
-  public InvalidKeyExceptionMapper(final MetricRegistry registry) {
+  public InvalidJsonExceptionMapper(final MetricRegistry registry) {
     exceptions = registry.meter(name(getClass(), "exceptions-InvalidKeyException"));
   }
 
@@ -52,7 +52,7 @@ public class InvalidKeyExceptionMapper implements JerseyResource, ExceptionMappe
    * @return the 404 response.
    */
   @Override
-  public Response toResponse(final InvalidKeyException exception) {
+  public Response toResponse(final InvalidJsonException exception) {
     exceptions.mark();
     return Response.status(Response.Status.BAD_REQUEST).build();
   }

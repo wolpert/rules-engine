@@ -33,7 +33,10 @@ public class EventResource implements Event, JerseyResource {
    * @param executionResultConverter the execution result converter
    */
   @Inject
-  public EventResource(final RuleExecutionManager ruleExecutionManager, final TenantManager tenantManager, final FactsConverter factsConverter, final ExecutionResultConverter executionResultConverter) {
+  public EventResource(final RuleExecutionManager ruleExecutionManager,
+                       final TenantManager tenantManager,
+                       final FactsConverter factsConverter,
+                       final ExecutionResultConverter executionResultConverter) {
     this.ruleExecutionManager = ruleExecutionManager;
     this.tenantManager = tenantManager;
     this.factsConverter = factsConverter;

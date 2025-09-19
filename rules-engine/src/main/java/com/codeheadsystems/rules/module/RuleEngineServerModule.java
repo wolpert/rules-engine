@@ -2,8 +2,7 @@ package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
 import com.codeheadsystems.rules.factory.ObjectMapperFactory;
-import com.codeheadsystems.rules.resource.InvalidKeyExceptionMapper;
-import com.codeheadsystems.rules.resource.KeysResource;
+import com.codeheadsystems.rules.resource.InvalidJsonExceptionMapper;
 import com.codeheadsystems.rules.resource.TenantResource;
 import com.codeheadsystems.server.ServerConfiguration;
 import com.codeheadsystems.server.resource.JerseyResource;
@@ -80,16 +79,6 @@ public class RuleEngineServerModule {
   interface Binder {
 
     /**
-     * Keys resource jersey resource.
-     *
-     * @param resource the resource
-     * @return the jersey resource
-     */
-    @Binds
-    @IntoSet
-    JerseyResource keysResource(KeysResource resource);
-
-    /**
      * Tenant resource jersey resource.
      *
      * @param resource the resource
@@ -107,7 +96,7 @@ public class RuleEngineServerModule {
      */
     @Binds
     @IntoSet
-    JerseyResource invalidKeyExceptionMapper(InvalidKeyExceptionMapper resource);
+    JerseyResource invalidKeyExceptionMapper(InvalidJsonExceptionMapper resource);
 
   }
 
