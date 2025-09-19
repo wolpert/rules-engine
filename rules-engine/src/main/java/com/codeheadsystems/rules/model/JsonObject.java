@@ -1,6 +1,8 @@
 package com.codeheadsystems.rules.model;
 
+import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import java.math.BigDecimal;
@@ -9,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The type Json object.
- *
+ * The type Json object. Treat this as immutable.
+ * <p>
  * TODO: cache json pointers at the event or tenant level. This will compile the json path each time.
  */
 public class JsonObject {
@@ -18,14 +20,24 @@ public class JsonObject {
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonObject.class);
 
   private final LoadingCache<String, JsonNode> cache;
+  private final LoadingCache<String, JsonPointer> pointerCache;
 
   /**
    * Instantiates a new Json object.
    *
-   * @param root the root
+   * @param jsonPointerCache that is shared.
+   * @param root             the root
    */
-  public JsonObject(JsonNode root) {
-    this.cache = Caffeine.newBuilder().build(root::at);
+  public JsonObject(final LoadingCache<String, JsonPointer> jsonPointerCache, JsonNode root) {
+    this.pointerCache = jsonPointerCache;
+    this.cache = Caffeine.newBuilder().build(jsonPtrExpr -> {
+      JsonPointer jsonPointer = jsonPointerCache.get(jsonPtrExpr);
+      if (jsonPointer == null) {
+        LOGGER.warn("Unable to compile json pointer: {}", jsonPtrExpr);
+        return MissingNode.getInstance();
+      }
+      return root.at(jsonPointer);
+    });
   }
 
   /**
@@ -69,7 +81,7 @@ public class JsonObject {
     }
     JsonObject[] objects = new JsonObject[node.size()];
     for (int i = 0; i < node.size(); i++) {
-      objects[i] = new JsonObject(node.get(i));
+      objects[i] = new JsonObject(pointerCache, node.get(i));
     }
     return objects;
   }
