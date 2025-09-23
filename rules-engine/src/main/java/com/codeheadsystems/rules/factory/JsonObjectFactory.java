@@ -21,6 +21,7 @@ public class JsonObjectFactory {
   private final ObjectMapper objectMapper;
 
   private final LoadingCache<String, JsonPointer> cache;
+
   /**
    * Instantiates a new Json object factory.
    *

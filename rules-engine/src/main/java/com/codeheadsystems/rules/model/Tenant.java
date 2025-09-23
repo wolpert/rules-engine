@@ -8,6 +8,12 @@ import org.immutables.value.Value;
 @Value.Immutable
 public interface Tenant {
 
+  /**
+   * Of tenant.
+   *
+   * @param name the name
+   * @return the tenant
+   */
   static Tenant of(final String name) {
     return ImmutableTenant.builder().name(name).build();
   }
