@@ -15,7 +15,7 @@ public interface TableConfiguration {
    */
   @Value.Default
   default String tableName() {
-    return "rules_table";
+    return "rules_data_store";
   }
 
   /**
