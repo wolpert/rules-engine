@@ -15,6 +15,30 @@ The project uses localstack for testing, with services running in ECS or
 lambda. The control plan is and data plan are separate ECS services.
 A front-end for management is lower-priority. (Because I hate doing UIs.)
 
+# Testing
+
+Running tests normally will only execute the unit tests.
+
+If you want to run the integration tests, you need docker installed, and cdk/cdk-local 
+both installed. As in
+
+```bash
+npm install -g aws-cdk
+npm install -g aws-cdk-local
+````
+
+To finish the local installation, in the cdk directory, run
+
+```bash
+npm install
+````
+
+Then, to run the integration tests, run in the top-level directory:
+
+```bash
+gradle test -Pinteg
+```
+
 # License
 
 This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.

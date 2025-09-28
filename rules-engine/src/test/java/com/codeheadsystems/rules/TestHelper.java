@@ -1,16 +1,22 @@
 package com.codeheadsystems.rules;
 
-import com.codeheadsystems.rules.model.TableConfiguration;
-import java.util.UUID;
-import org.testcontainers.utility.DockerImageName;
+import java.net.URI;
+import java.net.URISyntaxException;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.awscore.client.builder.AwsClientBuilder;
+import software.amazon.awssdk.regions.Region;
 
 public class TestHelper {
 
-  public static TableConfiguration uniqueTableName() {
-    return com.codeheadsystems.rules.model.ImmutableTableConfiguration.builder()
-        .tableName("rules_table_" + UUID.randomUUID())
-        .build();
+  public static <B extends AwsClientBuilder<B, C>, C> B withLocalstack(final B awsClient) throws URISyntaxException {
+    return awsClient.endpointOverride(new URI("http://localhost:4566"))
+        .credentialsProvider(
+            StaticCredentialsProvider.create(
+                AwsBasicCredentials.create("ACCESS_KEY", "SECRET_KEY")
+            )
+        )
+        .region(Region.of("us-east-1"));
   }
 
-  public static final DockerImageName localstackImage = DockerImageName.parse("localstack/localstack:4.8.0");
 }

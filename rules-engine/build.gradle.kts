@@ -51,8 +51,11 @@ application {
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform({
-      if(project.hasProperty("fast")) {
-          excludeTags("localstack")
+      if(project.hasProperty("integ")) {
+          dependsOn(":cdk:up")
+          finalizedBy(":cdk:down")
+      } else { // Unit tests only.
+          excludeTags("integ")
       }
     })
 }

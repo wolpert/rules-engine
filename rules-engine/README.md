@@ -1,11 +1,13 @@
-# Keys server
+# Rules Engine
 
-A simple server to get/set identified keys for a given consumer. Will include
-oauth2 support to identify the consumer, and allows the consumer to generate
-large numbers of named/versioned keys.
+## Integ tests
+
+```bash
+gradle test -Pinteg
+```
 
 ## Test local execution
 
 ```bash
-gradle :rules-server:run --args="server config.yml"
+gradle :rules-engine:run --args="server config.yml"
 ```
