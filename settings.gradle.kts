@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = "rules-server"
-include("rules-engine-api", "server-base", "rules-engine")
+include("rules-engine-api", "server-base", "rules-engine", "cdk")
