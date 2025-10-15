@@ -9,6 +9,8 @@ import software.amazon.awssdk.regions.Region;
 
 public class TestHelper {
 
+  public static final String INTEG = "integ";
+
   public static <B extends AwsClientBuilder<B, C>, C> B withLocalstack(final B awsClient) throws URISyntaxException {
     return awsClient.endpointOverride(new URI("http://localhost:4566"))
         .credentialsProvider(

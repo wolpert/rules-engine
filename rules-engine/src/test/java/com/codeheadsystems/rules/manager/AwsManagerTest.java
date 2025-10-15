@@ -1,5 +1,6 @@
 package com.codeheadsystems.rules.manager;
 
+import static com.codeheadsystems.rules.TestHelper.INTEG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.codeheadsystems.rules.TestHelper;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
-@Tag("integ")
+@Tag(INTEG)
 class AwsManagerTest {
 
   private DynamoDbClient client;
