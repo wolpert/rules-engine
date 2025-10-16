@@ -18,7 +18,10 @@ dependencies {
     implementation(libs.bundles.logging)
     implementation(libs.bundles.caffine)
     implementation(libs.bundles.drools)
-    implementation(libs.aws.sdk.ddb)
+
+    // AWS
+    implementation(platform(libs.aws.sdk.bom))
+    implementation("software.amazon.awssdk:dynamodb")
 
     // PreCompile
     implementation(libs.javax.inject)

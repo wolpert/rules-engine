@@ -24,7 +24,7 @@ testcontainers = '1.21.3'
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
-aws-sdk-ddb = { module = "software.amazon.awssdk:dynamodb", version.ref = "awsSDK" }
+aws-sdk-bom = { module = "software.amazon.awssdk:bom", version.ref = "awsSDK" }
 caffine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffine" }
 caffine-jcache = { module = "com.github.ben-manes.caffeine:jcache", version.ref = "caffine" }
 codehead-test = { module = "com.codeheadsystems:codehead-test", version.ref = "codehead-test" }

@@ -15,23 +15,12 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 @Module
 public class AwsModule {
 
-  private final DynamoDbClient dynamoDbClient;
-
   /**
    * Instantiates a new Aws module.
    */
   public AwsModule() {
-    this(null);
   }
 
-  /**
-   * Instantiates a new Aws module.
-   *
-   * @param dynamoDbClient the dynamo db client
-   */
-  public AwsModule(final DynamoDbClient dynamoDbClient) {
-    this.dynamoDbClient = dynamoDbClient;
-  }
 
   /**
    * Table details table configuration.
@@ -53,10 +42,7 @@ public class AwsModule {
   @Provides
   @Singleton
   public DynamoDbClient dynamoDbClient(RulesEngineConfiguration rulesEngineConfiguration) {
-    if (dynamoDbClient == null) {
-      return DynamoDbClient.builder().region(Region.of(rulesEngineConfiguration.getRegion())).build();
-    }
-    return dynamoDbClient;
+    return DynamoDbClient.builder().region(Region.of(rulesEngineConfiguration.getRegion())).build();
   }
 
 }
