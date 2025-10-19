@@ -1,6 +1,6 @@
 stage: test
-
-region: us-east-1
+awsConfiguration:
+  region: us-east-1
 
 logging:
   level: INFO

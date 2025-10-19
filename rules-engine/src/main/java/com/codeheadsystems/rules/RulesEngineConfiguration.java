@@ -1,12 +1,13 @@
 package com.codeheadsystems.rules;
 
+import com.codeheadsystems.rules.model.AwsConfiguration;
 import com.codeheadsystems.server.ServerConfiguration;
 
 /**
  * The type Keys server configuration.
  */
 public class RulesEngineConfiguration extends ServerConfiguration {
-  private String region;
+  private AwsConfiguration awsConfiguration;
 
   /**
    * Instantiates a new Rules engine configuration.
@@ -14,22 +15,14 @@ public class RulesEngineConfiguration extends ServerConfiguration {
   public RulesEngineConfiguration() {
   }
 
-  /**
-   * Gets region.
-   *
-   * @return the region
-   */
-  public String getRegion() {
-    return region;
+  public AwsConfiguration getAwsConfiguration() {
+    if (awsConfiguration == null) {
+      awsConfiguration = AwsConfiguration.defaultConfiguration();
+    }
+    return awsConfiguration;
   }
 
-  /**
-   * Sets region.
-   *
-   * @param region the region
-   */
-  public void setRegion(final String region) {
-    this.region = region;
+  public void setAwsConfiguration(final AwsConfiguration awsConfiguration) {
+    this.awsConfiguration = awsConfiguration;
   }
-
 }

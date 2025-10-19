@@ -1,6 +1,7 @@
 package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
+import com.codeheadsystems.rules.model.AwsConfiguration;
 import com.codeheadsystems.rules.model.ImmutableTableConfiguration;
 import com.codeheadsystems.rules.model.TableConfiguration;
 import dagger.Module;
@@ -8,6 +9,7 @@ import dagger.Provides;
 import javax.inject.Singleton;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.s3.S3Client;
 
 /**
  * The type Aws module.
@@ -33,16 +35,28 @@ public class AwsModule {
     return ImmutableTableConfiguration.builder().build();
   }
 
+  @Provides
+  @Singleton
+  public AwsConfiguration awsConfiguration(RulesEngineConfiguration configuration) {
+    return configuration.getAwsConfiguration();
+  }
+
   /**
    * Dynamo db client dynamo db client.
    *
-   * @param rulesEngineConfiguration the rules engine configuration
+   * @param configuration the rules engine configuration
    * @return the dynamo db client
    */
   @Provides
   @Singleton
-  public DynamoDbClient dynamoDbClient(RulesEngineConfiguration rulesEngineConfiguration) {
-    return DynamoDbClient.builder().region(Region.of(rulesEngineConfiguration.getRegion())).build();
+  public DynamoDbClient dynamoDbClient(AwsConfiguration configuration) {
+    return DynamoDbClient.builder().region(Region.of(configuration.region())).build();
+  }
+
+  @Provides
+  @Singleton
+  public S3Client s3Client(AwsConfiguration configuration) {
+    return S3Client.builder().region(Region.of(configuration.region())).build();
   }
 
 }

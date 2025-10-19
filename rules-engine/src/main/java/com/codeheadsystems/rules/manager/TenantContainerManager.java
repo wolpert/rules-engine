@@ -29,17 +29,17 @@ public class TenantContainerManager {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TenantContainerManager.class);
 
-  private final RuleManager ruleManager;
+  private final FileRuleManager fileRuleManager;
   private final LoadingCache<Tenant, TenantContainer> cache;
 
   /**
    * Instantiates a new Tenant container manager.
    *
-   * @param ruleManager the rule manager
+   * @param fileRuleManager the rule manager
    */
   @Inject
-  public TenantContainerManager(final RuleManager ruleManager) {
-    this.ruleManager = ruleManager;
+  public TenantContainerManager(final FileRuleManager fileRuleManager) {
+    this.fileRuleManager = fileRuleManager;
     var builder = Caffeine.newBuilder()
         .maximumSize(100)
         .refreshAfterWrite(Duration.ofSeconds(300)) // refresh from source every 60seconds
@@ -81,7 +81,7 @@ public class TenantContainerManager {
     LOGGER.info("Creating KieContainer for tenant: {}", tenant);
     final KieServices kieServices = KieServices.Factory.get();
     final KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-    ruleManager.rulesFor(tenant).forEach(rule ->
+    fileRuleManager.rulesFor(tenant).forEach(rule ->
         kieFileSystem.write(ResourceFactory.newClassPathResource(rule)));
     final KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
     kieBuilder.buildAll();
