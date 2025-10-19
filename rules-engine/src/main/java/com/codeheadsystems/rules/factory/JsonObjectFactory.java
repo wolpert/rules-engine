@@ -1,6 +1,6 @@
 package com.codeheadsystems.rules.factory;
 
-import static com.github.benmanes.caffeine.cache.Caffeine.*;
+import static com.github.benmanes.caffeine.cache.Caffeine.newBuilder;
 
 import com.codeheadsystems.rules.exception.InvalidJsonException;
 import com.codeheadsystems.rules.model.JsonObject;

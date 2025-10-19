@@ -54,7 +54,7 @@ public class RuleExecutionManager {
     TenantContainer tenantContainer = tenantContainerManager.tenantContainer(tenant);
     StatelessKieSession session = sessionManager.getKieSession(tenant, tenantContainer.kieContainer());
     final List<Command<?>> commands = getCommands(tenant, facts);
-    commands.forEach(c-> LOGGER.debug("Command: {}", c));
+    commands.forEach(c -> LOGGER.debug("Command: {}", c));
     ExecutionResults results = session.execute(kieServices.getCommands().newBatchExecution(commands));
 
     if (results.getValue(RESULT) instanceof RuleExecutionResult rer) {

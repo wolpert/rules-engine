@@ -1,9 +1,11 @@
 package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
+import com.codeheadsystems.rules.accessor.FileAccessor;
+import com.codeheadsystems.rules.accessor.impl.S3FileAccessor;
 import com.codeheadsystems.rules.model.AwsConfiguration;
-import com.codeheadsystems.rules.model.ImmutableTableConfiguration;
 import com.codeheadsystems.rules.model.TableConfiguration;
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -14,7 +16,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 /**
  * The type Aws module.
  */
-@Module
+@Module(includes = AwsModule.Binders.class)
 public class AwsModule {
 
   /**
@@ -27,14 +29,21 @@ public class AwsModule {
   /**
    * Table details table configuration.
    *
+   * @param configuration the configuration
    * @return the table configuration
    */
   @Provides
   @Singleton
-  public TableConfiguration tableDetails() {
-    return ImmutableTableConfiguration.builder().build();
+  public TableConfiguration tableConfiguration(RulesEngineConfiguration configuration) {
+    return configuration.getTableConfiguration();
   }
 
+  /**
+   * Aws configuration aws configuration.
+   *
+   * @param configuration the configuration
+   * @return the aws configuration
+   */
   @Provides
   @Singleton
   public AwsConfiguration awsConfiguration(RulesEngineConfiguration configuration) {
@@ -53,10 +62,33 @@ public class AwsModule {
     return DynamoDbClient.builder().region(Region.of(configuration.region())).build();
   }
 
+  /**
+   * S 3 client s 3 client.
+   *
+   * @param configuration the configuration
+   * @return the s 3 client
+   */
   @Provides
   @Singleton
   public S3Client s3Client(AwsConfiguration configuration) {
     return S3Client.builder().region(Region.of(configuration.region())).build();
+  }
+
+  /**
+   * The interface Binders.
+   */
+  @Module
+  interface Binders {
+
+    /**
+     * File accessor file accessor.
+     *
+     * @param fileAccessor the file accessor
+     * @return the file accessor
+     */
+    @Binds
+    FileAccessor fileAccessor(S3FileAccessor fileAccessor);
+
   }
 
 }

@@ -26,6 +26,7 @@ class S3ManagerTest {
   @Mock private ResponseInputStream<GetObjectRequest.Builder> responseInputStream;
   @Mock private S3Exception s3Exception;
 
+  @SuppressWarnings("unchecked")
   @Test
   void getInputStream_success() {
     S3Manager s3Manager = new S3Manager(s3Client);
@@ -37,6 +38,7 @@ class S3ManagerTest {
     assertThat(result).isNotNull().isSameAs(responseInputStream);
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   void getInputStream_failure() {
     S3Manager s3Manager = new S3Manager(s3Client);
