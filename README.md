@@ -42,3 +42,20 @@ gradle test -Pinteg
 # License
 
 This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+
+# Code Rules
+
+* Use Junit5 for testing
+* Use AssertJ for assertions
+* Mock external dependencies with Mockito
+* Structure tests with Given-When-Then format
+
+## Unit tests
+
+* Use Mockito Extensions for cleaner mock initialization, such as @ExtendWith(MockitoExtension.class), @Mock and @Captor, @BeforeEach, @BeforeAll, etc
+* Name test methods with descriptive names using underscores to separate words
+
+## Integration tests
+
+* Upload data into the s3 bucket before running tests. Can be done as a @BeforeAll as needed.
+* 
