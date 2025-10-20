@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.codeheadsystems.rules.model.ImmutableTableConfiguration;
 import com.codeheadsystems.rules.model.TableConfiguration;
 import com.codeheadsystems.rules.test.AWSLocalStackExtension;
-import com.codeheadsystems.rules.test.AWSObject;
+import com.codeheadsystems.rules.test.TestObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 @ExtendWith(AWSLocalStackExtension.class)
 class AwsManagerTest {
 
-  @AWSObject private DynamoDbClient client;
+  @TestObject private DynamoDbClient client;
   private TableConfiguration tableConfiguration;
 
   @BeforeEach
