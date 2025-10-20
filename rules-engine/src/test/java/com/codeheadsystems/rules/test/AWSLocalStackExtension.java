@@ -47,7 +47,7 @@ public class AWSLocalStackExtension implements BeforeAllCallback, AfterAllCallba
 
   @Override
   public void beforeAll(final ExtensionContext context) throws Exception {
-    LOGGER.info("Setting in memory DynamoDB local instance");
+    LOGGER.info("Setting in memory aws localstack instance");
     final ClassInstanceManager classInstanceManager = classInstanceManager(context);
     classInstanceManager.put(DynamoDbClient.class, TestHelper.dynamoDbClient());
     classInstanceManager.put(S3Client.class, TestHelper.s3Client());
@@ -55,15 +55,13 @@ public class AWSLocalStackExtension implements BeforeAllCallback, AfterAllCallba
 
   @Override
   public void afterAll(final ExtensionContext context) {
-    LOGGER.info("Tearing down in memory DynamoDB local instance");
+    LOGGER.info("Tearing down in memory aws localstack instance");
     final ClassInstanceManager classInstanceManager = context.getStore(namespace).remove(ClassInstanceManager.class, ClassInstanceManager.class);
     if (classInstanceManager == null) {
       LOGGER.error("No class instance manager found");
       return;
     }
-    classInstanceManager.remove(S3Client.class).ifPresent(S3Client::close);
-    classInstanceManager.remove(DynamoDbClient.class).ifPresent(DynamoDbClient::close);
-    classInstanceManager.clear();
+    classInstanceManager.clearAndClose();
   }
 
   @Override
@@ -101,7 +99,7 @@ public class AWSLocalStackExtension implements BeforeAllCallback, AfterAllCallba
                                 final Object o,
                                 final Field field) {
     final Object value = classInstanceManager.get(field.getType())
-        .orElseThrow(() -> new IllegalArgumentException("Unable to find DynamoDB extension value of type " + field.getType())); // Check the store to see we have this type.
+        .orElseThrow(() -> new IllegalArgumentException("Unable to find aws localstack extension value of type " + field.getType())); // Check the store to see we have this type.
     LOGGER.info("Setting field {}:{}", field.getName(), field.getType().getSimpleName());
     enableSettingTheField(field);
     try {

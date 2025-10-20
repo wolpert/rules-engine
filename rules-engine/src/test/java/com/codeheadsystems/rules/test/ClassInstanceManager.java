@@ -15,6 +15,18 @@ public class ClassInstanceManager {
     return optionalIfSet(clazz, instances.remove(clazz));
   }
 
+  public <T> void removeAndClose(final Class<T> clazz) {
+    remove(clazz).ifPresent(instance -> {
+      if (instance instanceof AutoCloseable closeable) {
+        try {
+          closeable.close();
+        } catch (final Throwable e) {
+          // ignore
+        }
+      }
+    });
+  }
+
   private <T> Optional<T> optionalIfSet(final Class<T> clazz, final Object instance) {
     if (instance == null) {
       return Optional.empty();
@@ -32,6 +44,19 @@ public class ClassInstanceManager {
   }
 
   public void clear() {
+    instances.clear();
+  }
+
+  public void clearAndClose() {
+    instances.values().forEach(instance -> {
+      if (instance instanceof AutoCloseable closeable) {
+        try {
+          closeable.close();
+        } catch (final Throwable e) {
+          // ignore
+        }
+      }
+    });
     instances.clear();
   }
 

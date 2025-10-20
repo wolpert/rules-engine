@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.codeheadsystems.rules.test.AWSLocalStackExtension;
 import com.codeheadsystems.rules.test.AWSObject;
-import com.codeheadsystems.rules.test.TestHelper;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
