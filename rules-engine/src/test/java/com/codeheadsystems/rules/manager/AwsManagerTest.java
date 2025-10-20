@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.codeheadsystems.rules.TestHelper;
 import com.codeheadsystems.rules.model.ImmutableTableConfiguration;
 import com.codeheadsystems.rules.model.TableConfiguration;
-import java.net.URISyntaxException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -19,9 +18,9 @@ class AwsManagerTest {
   private TableConfiguration tableConfiguration;
 
   @BeforeEach
-  public void setup() throws URISyntaxException {
+  public void setup() {
     tableConfiguration = ImmutableTableConfiguration.builder().build();
-    client = TestHelper.withLocalstack(DynamoDbClient.builder()).build();
+    client = TestHelper.dynamoDbClient();
   }
 
   @Test

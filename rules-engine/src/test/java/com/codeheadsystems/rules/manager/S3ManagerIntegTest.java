@@ -26,9 +26,10 @@ class S3ManagerIntegTest {
   private static final String KEY = "dir/file.txt";
   private static final String CONTENT = "hello world";
 
+  // Force Path Style from here for localstack: https://github.com/localstack/localstack/issues/8341
   @BeforeEach
-  void setup() throws URISyntaxException {
-    s3Client = TestHelper.withLocalstack(S3Client.builder().forcePathStyle(true)).build();
+  void setup() {
+    s3Client = TestHelper.s3Client();
     s3Manager = new S3Manager(s3Client);
 
     s3Client.createBucket(CreateBucketRequest.builder().bucket(BUCKET).build());

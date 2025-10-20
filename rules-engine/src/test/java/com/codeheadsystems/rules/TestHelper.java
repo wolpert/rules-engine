@@ -6,6 +6,8 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.awscore.client.builder.AwsClientBuilder;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.s3.S3Client;
 
 public class TestHelper {
 
@@ -19,6 +21,22 @@ public class TestHelper {
             )
         )
         .region(Region.of("us-east-1"));
+  }
+
+  public static S3Client s3Client() {
+    try {
+      return withLocalstack(S3Client.builder().forcePathStyle(true)).build();
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static DynamoDbClient dynamoDbClient() {
+    try {
+      return withLocalstack(DynamoDbClient.builder()).build();
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }
