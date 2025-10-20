@@ -1,4 +1,4 @@
-package com.codeheadsystems.rules;
+package com.codeheadsystems.rules.test;
 
 import java.net.URI;
 import java.net.URISyntaxException;

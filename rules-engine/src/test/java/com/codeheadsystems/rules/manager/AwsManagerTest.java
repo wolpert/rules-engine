@@ -1,26 +1,28 @@
 package com.codeheadsystems.rules.manager;
 
-import static com.codeheadsystems.rules.TestHelper.INTEG;
+import static com.codeheadsystems.rules.test.TestHelper.INTEG;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.codeheadsystems.rules.TestHelper;
 import com.codeheadsystems.rules.model.ImmutableTableConfiguration;
 import com.codeheadsystems.rules.model.TableConfiguration;
+import com.codeheadsystems.rules.test.AWSLocalStackExtension;
+import com.codeheadsystems.rules.test.AWSObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 @Tag(INTEG)
+@ExtendWith(AWSLocalStackExtension.class)
 class AwsManagerTest {
 
-  private DynamoDbClient client;
+  @AWSObject private DynamoDbClient client;
   private TableConfiguration tableConfiguration;
 
   @BeforeEach
   public void setup() {
     tableConfiguration = ImmutableTableConfiguration.builder().build();
-    client = TestHelper.dynamoDbClient();
   }
 
   @Test

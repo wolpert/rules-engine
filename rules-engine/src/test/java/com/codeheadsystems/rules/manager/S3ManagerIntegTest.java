@@ -1,25 +1,28 @@
 package com.codeheadsystems.rules.manager;
 
-import static com.codeheadsystems.rules.TestHelper.INTEG;
+import static com.codeheadsystems.rules.test.TestHelper.INTEG;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.codeheadsystems.rules.TestHelper;
+import com.codeheadsystems.rules.test.AWSLocalStackExtension;
+import com.codeheadsystems.rules.test.AWSObject;
+import com.codeheadsystems.rules.test.TestHelper;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Tag(INTEG)
+@ExtendWith(AWSLocalStackExtension.class)
 class S3ManagerIntegTest {
 
-  private S3Client s3Client;
+  @AWSObject private S3Client s3Client;
   private S3Manager s3Manager;
 
   private static final String BUCKET = "test-bucket";
@@ -29,7 +32,6 @@ class S3ManagerIntegTest {
   // Force Path Style from here for localstack: https://github.com/localstack/localstack/issues/8341
   @BeforeEach
   void setup() {
-    s3Client = TestHelper.s3Client();
     s3Manager = new S3Manager(s3Client);
 
     s3Client.createBucket(CreateBucketRequest.builder().bucket(BUCKET).build());
