@@ -15,23 +15,30 @@ import org.slf4j.LoggerFactory;
 public abstract class TestObjectSetterExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, ParameterResolver {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TestObjectSetterExtension.class);
-  private static final ExtensionContext.Namespace namespace = ExtensionContext.Namespace.create(TestObjectSetterExtension.class);
+  private final ExtensionContext.Namespace namespace;
+
+  protected TestObjectSetterExtension() {
+
+    final ExtensionContext.Namespace namespaceCheck = namespace();
+    this.namespace = namespaceCheck != null ? namespaceCheck : ExtensionContext.Namespace.create(getClass());
+
+  }
 
   protected ExtensionContext.Namespace namespace() {
-    return namespace;
+    return null;
   }
 
   protected abstract void installInstances(ClassInstanceManager instanceManager);
 
   private ClassInstanceManager classInstanceManager(final ExtensionContext context) {
-    return context.getStore(namespace())
+    return context.getStore(namespace)
         .getOrComputeIfAbsent(ClassInstanceManager.class,
             k -> new ClassInstanceManager(),
             ClassInstanceManager.class);
   }
 
   @Override
-  public void beforeAll(final ExtensionContext context) throws Exception {
+  public void beforeAll(final ExtensionContext context) {
     LOGGER.info("Setting in memory testobject setter instance");
     final ClassInstanceManager classInstanceManager = classInstanceManager(context);
     installInstances(classInstanceManager);
@@ -40,7 +47,7 @@ public abstract class TestObjectSetterExtension implements BeforeAllCallback, Af
   @Override
   public void afterAll(final ExtensionContext context) {
     LOGGER.info("Tearing down in memory testobject setter instance");
-    final ClassInstanceManager classInstanceManager = context.getStore(namespace()).remove(ClassInstanceManager.class, ClassInstanceManager.class);
+    final ClassInstanceManager classInstanceManager = context.getStore(namespace).remove(ClassInstanceManager.class, ClassInstanceManager.class);
     if (classInstanceManager == null) {
       LOGGER.error("No class instance manager found");
       return;

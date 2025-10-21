@@ -16,7 +16,6 @@
 
 package com.codeheadsystems.rules.test;
 
-import org.junit.jupiter.api.extension.ExtensionContext;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.s3.S3Client;
 
@@ -24,13 +23,6 @@ import software.amazon.awssdk.services.s3.S3Client;
  * Setups the ddb instance.
  */
 public class AWSLocalStackExtension extends TestObjectSetterExtension {
-
-  private static final ExtensionContext.Namespace namespace = ExtensionContext.Namespace.create(AWSLocalStackExtension.class);
-
-  @Override
-  protected ExtensionContext.Namespace namespace() {
-    return namespace;
-  }
 
   @Override
   protected void installInstances(final ClassInstanceManager instanceManager) {
