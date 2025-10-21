@@ -4,7 +4,7 @@ import static com.codeheadsystems.rules.test.TestHelper.INTEG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.codeheadsystems.rules.test.AWSLocalStackExtension;
-import com.codeheadsystems.rules.test.TestObject;
+import com.codeheadsystems.rules.test.TestInjected;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -21,7 +21,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 @ExtendWith(AWSLocalStackExtension.class)
 class S3ManagerIntegTest {
 
-  @TestObject private S3Client s3Client;
+  @TestInjected private S3Client s3Client;
   private S3Manager s3Manager;
 
   private static final String BUCKET = "test-bucket";

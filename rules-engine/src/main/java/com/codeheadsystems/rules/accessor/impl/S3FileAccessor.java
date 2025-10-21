@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 
 /**
@@ -15,6 +17,8 @@ import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
  */
 @Singleton
 public class S3FileAccessor implements FileAccessor {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(S3FileAccessor.class);
 
   private final S3Manager s3Manager;
   private final String prefix;
@@ -32,6 +36,7 @@ public class S3FileAccessor implements FileAccessor {
     this.s3Manager = s3Manager;
     this.prefix = configuration.getS3RulePrefix();
     this.bucket = configuration.getAwsConfiguration().rulesS3Bucket();
+    LOGGER.info("S3FileAccessor({}, {}, {})", s3Manager, bucket, prefix);
   }
 
   @Override
@@ -42,8 +47,11 @@ public class S3FileAccessor implements FileAccessor {
   @Override
   public Optional<InputStream> getFile(final String path) {
     try {
-      return Optional.ofNullable(s3Manager.getInputStream(bucket, normalize(path)));
+      final Optional<InputStream> inputStream = Optional.ofNullable(s3Manager.getInputStream(bucket, normalize(path)));
+      LOGGER.info("getFile({}) - found", path);
+      return inputStream;
     } catch (final NoSuchKeyException e) {
+      LOGGER.warn("getFile({}) - no such key.", path);
       return Optional.empty();
     }
   }

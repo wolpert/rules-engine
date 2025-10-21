@@ -22,7 +22,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 /**
  * Setups the ddb instance.
  */
-public class AWSLocalStackExtension extends TestObjectSetterExtension {
+public class AWSLocalStackExtension extends TestInjectedSetterExtension {
 
   @Override
   protected void installInstances(final ClassInstanceManager instanceManager) {

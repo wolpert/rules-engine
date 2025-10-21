@@ -12,12 +12,12 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class TestObjectSetterExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, ParameterResolver {
+public abstract class TestInjectedSetterExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, ParameterResolver {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TestObjectSetterExtension.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(TestInjectedSetterExtension.class);
   private final ExtensionContext.Namespace namespace;
 
-  protected TestObjectSetterExtension() {
+  protected TestInjectedSetterExtension() {
 
     final ExtensionContext.Namespace namespaceCheck = namespace();
     this.namespace = namespaceCheck != null ? namespaceCheck : ExtensionContext.Namespace.create(getClass());
@@ -60,7 +60,7 @@ public abstract class TestObjectSetterExtension implements BeforeAllCallback, Af
     final ClassInstanceManager classInstanceManager = classInstanceManager(context);
     context.getRequiredTestInstances().getAllInstances().forEach(instance -> {
       Arrays.stream(instance.getClass().getDeclaredFields())
-          .filter(f -> f.isAnnotationPresent(TestObject.class))
+          .filter(f -> f.isAnnotationPresent(TestInjected.class))
           .forEach(field -> {
             setValueForField(classInstanceManager, instance, field);
           });
@@ -72,7 +72,7 @@ public abstract class TestObjectSetterExtension implements BeforeAllCallback, Af
                                    final ExtensionContext extensionContext) throws ParameterResolutionException {
     final Class<?> type = parameterContext.getParameter().getType();
     final ClassInstanceManager classInstanceManager = classInstanceManager(extensionContext);
-    return parameterContext.isAnnotated(TestObject.class) && classInstanceManager.hasInstance(type);
+    return parameterContext.isAnnotated(TestInjected.class) && classInstanceManager.hasInstance(type);
   }
 
   @Override
