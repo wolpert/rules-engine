@@ -1,6 +1,8 @@
 stage: test
 awsConfiguration:
   region: us-east-1
+executionEnvironment:
+  value: test
 
 logging:
   level: INFO

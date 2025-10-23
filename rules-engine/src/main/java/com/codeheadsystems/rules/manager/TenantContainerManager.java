@@ -90,11 +90,7 @@ public class TenantContainerManager {
       throw new IllegalStateException("### errors ###");
     }
     final ReleaseId releaseId = kieBuilder.getKieModule().getReleaseId();
-    LOGGER.info("Container created for {}: {}", tenant, releaseId);
-    final KieContainer kieContainer = kieServices.newKieContainer(releaseId);
-    kieContainer.getKieBase().getKiePackages().forEach(p ->
-        p.getRules().forEach(k -> LOGGER.info("\tPackage {} Rule: {}", p.getName(), k.getName()))
-    );
+    final KieContainer kieContainer = containerize(kieServices, releaseId);
     return ImmutableTenantContainer.builder()
         .tenant(tenant)
         .kieContainer(kieContainer)
@@ -116,6 +112,16 @@ public class TenantContainerManager {
         .container(tenantContainer)
         .facts(facts)
         .build();
+  }
+
+  public KieContainer containerize(final KieServices kieServices,
+                                   final ReleaseId releaseId) {
+    LOGGER.info("Container created for: {}", releaseId);
+    final KieContainer kieContainer = kieServices.newKieContainer(releaseId);
+    kieContainer.getKieBase().getKiePackages().forEach(p ->
+        p.getRules().forEach(k -> LOGGER.info("\tPackage {} Rule: {}", p.getName(), k.getName()))
+    );
+    return kieContainer;
   }
 
 }

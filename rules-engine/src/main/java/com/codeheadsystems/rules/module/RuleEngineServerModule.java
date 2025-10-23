@@ -2,6 +2,8 @@ package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
 import com.codeheadsystems.rules.factory.ObjectMapperFactory;
+import com.codeheadsystems.rules.model.ExecutionEnvironment;
+import com.codeheadsystems.rules.model.ImmutableExecutionEnvironment;
 import com.codeheadsystems.rules.resource.InvalidJsonExceptionMapper;
 import com.codeheadsystems.rules.resource.TenantResource;
 import com.codeheadsystems.server.ServerConfiguration;
@@ -70,6 +72,12 @@ public class RuleEngineServerModule {
   @Singleton
   public RulesEngineConfiguration basicServerConfiguration(ServerConfiguration configuration) {
     return (RulesEngineConfiguration) configuration;
+  }
+
+  @Provides
+  @Singleton
+  public ExecutionEnvironment executionEnvironment(RulesEngineConfiguration configuration) {
+    return ImmutableExecutionEnvironment.builder().value(configuration.getStage()).build();
   }
 
   /**
