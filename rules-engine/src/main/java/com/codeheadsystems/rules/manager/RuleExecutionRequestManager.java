@@ -13,19 +13,19 @@ import javax.inject.Singleton;
 @Singleton
 public class RuleExecutionRequestManager {
 
-  private final RulesVersionManager rulesVersionManager;
+  private final RuleVersionManager ruleVersionManager;
   private final ExecutionEnvironment executionEnvironment;
 
   /**
    * Instantiates a new Rule execution request manager.
    *
-   * @param rulesVersionManager  the rules version manager
+   * @param ruleVersionManager   the rules version manager
    * @param executionEnvironment the execution environment
    */
   @Inject
-  public RuleExecutionRequestManager(final RulesVersionManager rulesVersionManager,
+  public RuleExecutionRequestManager(final RuleVersionManager ruleVersionManager,
                                      final ExecutionEnvironment executionEnvironment) {
-    this.rulesVersionManager = rulesVersionManager;
+    this.ruleVersionManager = ruleVersionManager;
     this.executionEnvironment = executionEnvironment;
   }
 
@@ -39,8 +39,8 @@ public class RuleExecutionRequestManager {
     return ImmutableRuleExecutionRequest.builder()
         .executionEnvironment(executionEnvironment)
         .tenant(tenant)
-        .tenantRuleVersion(rulesVersionManager.getActiveTenantVersion(tenant)) // Stubbed for now.
-        .globalRuleVersion(rulesVersionManager.getActiveGlobalVersion())
+        .tenantRuleVersion(ruleVersionManager.getActiveTenantVersion(tenant)) // Stubbed for now.
+        .globalRuleVersion(ruleVersionManager.getActiveGlobalVersion())
         .build();
   }
 

@@ -36,6 +36,11 @@ public class RuleEngineServerModule {
     this(null);
   }
 
+  /**
+   * Instantiates a new Rule engine server module.
+   *
+   * @param fileAccessor the file accessor
+   */
   public RuleEngineServerModule(FileAccessor fileAccessor) {
     this.fileAccessor = Optional.ofNullable(fileAccessor);
   }
@@ -98,6 +103,12 @@ public class RuleEngineServerModule {
     return ImmutableExecutionEnvironment.builder().value(configuration.getStage()).build();
   }
 
+  /**
+   * File accessor file accessor.
+   *
+   * @param s3FileAccessor the s 3 file accessor
+   * @return the file accessor
+   */
   @Provides
   @Singleton
   public FileAccessor fileAccessor(S3FileAccessor s3FileAccessor) {

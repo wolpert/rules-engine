@@ -10,13 +10,13 @@ import org.kie.api.runtime.StatelessKieSession;
  * The type Session manager.
  */
 @Singleton
-public class SessionManager {
+public class StatelessKieSessionManager {
 
   /**
    * Instantiates a new Session manager.
    */
   @Inject
-  public SessionManager() {
+  public StatelessKieSessionManager() {
   }
 
   /**

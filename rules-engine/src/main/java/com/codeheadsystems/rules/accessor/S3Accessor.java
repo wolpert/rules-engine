@@ -1,4 +1,4 @@
-package com.codeheadsystems.rules.manager;
+package com.codeheadsystems.rules.accessor;
 
 import java.io.InputStream;
 import java.util.List;
@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.s3.model.S3Object;
  * The type S 3 manager.
  */
 @Singleton
-public class S3Manager {
+public class S3Accessor {
 
   private final S3Client s3Client;
 
@@ -22,7 +22,7 @@ public class S3Manager {
    * @param s3Client the s 3 client
    */
   @Inject
-  public S3Manager(final S3Client s3Client) {
+  public S3Accessor(final S3Client s3Client) {
     this.s3Client = s3Client;
   }
 

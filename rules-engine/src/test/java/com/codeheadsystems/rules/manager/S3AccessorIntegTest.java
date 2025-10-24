@@ -3,6 +3,7 @@ package com.codeheadsystems.rules.manager;
 import static com.codeheadsystems.rules.test.TestHelper.INTEG;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.codeheadsystems.rules.accessor.S3Accessor;
 import com.codeheadsystems.rules.test.AWSLocalStackExtension;
 import com.codeheadsystems.rules.test.TestInjected;
 import java.io.InputStream;
@@ -19,10 +20,10 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Tag(INTEG)
 @ExtendWith(AWSLocalStackExtension.class)
-class S3ManagerIntegTest {
+class S3AccessorIntegTest {
 
   @TestInjected private S3Client s3Client;
-  private S3Manager s3Manager;
+  private S3Accessor s3Accessor;
 
   private static final String BUCKET = "test-bucket";
   private static final String KEY = "dir/file.txt";
@@ -31,7 +32,7 @@ class S3ManagerIntegTest {
   // Force Path Style from here for localstack: https://github.com/localstack/localstack/issues/8341
   @BeforeEach
   void setup() {
-    s3Manager = new S3Manager(s3Client);
+    s3Accessor = new S3Accessor(s3Client);
 
     s3Client.createBucket(CreateBucketRequest.builder().bucket(BUCKET).build());
     s3Client.putObject(
@@ -41,13 +42,13 @@ class S3ManagerIntegTest {
 
   @Test
   void listFiles_returnsKeys() {
-    List<String> files = s3Manager.getFiles(BUCKET, "dir/");
+    List<String> files = s3Accessor.getFiles(BUCKET, "dir/");
     assertThat(files).contains(KEY);
   }
 
   @Test
   void getInputStream_readsContent() throws Exception {
-    try (InputStream is = s3Manager.getInputStream(BUCKET, KEY)) {
+    try (InputStream is = s3Accessor.getInputStream(BUCKET, KEY)) {
       byte[] bytes = is.readAllBytes();
       assertThat(new String(bytes, StandardCharsets.UTF_8)).isEqualTo(CONTENT);
     }

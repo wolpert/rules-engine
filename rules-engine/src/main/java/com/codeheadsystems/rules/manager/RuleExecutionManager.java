@@ -26,24 +26,25 @@ public class RuleExecutionManager {
   private static final String RESULT = "executionResult";
   private static final String EVENT_ID = "eventId";
 
-  private final RuleContainerManager ruleContainerManager;
+  private final RuleExecutionContainerManager ruleExecutionContainerManager;
   private final RuleExecutionRequestManager ruleExecutionRequestManager;
-  private final SessionManager sessionManager;
+  private final StatelessKieSessionManager statelessKieSessionManager;
   private final KieServices kieServices = KieServices.Factory.get();
 
   /**
    * Instantiates a new Rule execution manager.
    *
-   * @param ruleContainerManager the tenant container manager
-   * @param sessionManager       the session manager
+   * @param ruleExecutionContainerManager the tenant container manager
+   * @param ruleExecutionRequestManager   the rule execution request manager
+   * @param statelessKieSessionManager    the session manager
    */
   @Inject
-  public RuleExecutionManager(final RuleContainerManager ruleContainerManager,
+  public RuleExecutionManager(final RuleExecutionContainerManager ruleExecutionContainerManager,
                               final RuleExecutionRequestManager ruleExecutionRequestManager,
-                              final SessionManager sessionManager) {
-    this.ruleContainerManager = ruleContainerManager;
+                              final StatelessKieSessionManager statelessKieSessionManager) {
+    this.ruleExecutionContainerManager = ruleExecutionContainerManager;
     this.ruleExecutionRequestManager = ruleExecutionRequestManager;
-    this.sessionManager = sessionManager;
+    this.statelessKieSessionManager = statelessKieSessionManager;
     LOGGER.info("RuleExecutionManager(TenantContainerManager)");
   }
 
@@ -56,8 +57,8 @@ public class RuleExecutionManager {
    */
   public RuleExecutionResult executeRules(final Tenant tenant, final Facts facts) {
     final RuleExecutionRequest request = ruleExecutionRequestManager.forTenant(tenant);
-    final RuleExecutionContainer ruleExecutionContainer = ruleContainerManager.ruleContainer(request);
-    final StatelessKieSession session = sessionManager.getKieSession(tenant, ruleExecutionContainer.kieContainer());
+    final RuleExecutionContainer ruleExecutionContainer = ruleExecutionContainerManager.ruleExecutionContainer(request);
+    final StatelessKieSession session = statelessKieSessionManager.getKieSession(tenant, ruleExecutionContainer.kieContainer());
     final List<Command<?>> commands = getCommands(tenant, facts);
     commands.forEach(c -> LOGGER.debug("Command: {}", c));
     ExecutionResults results = session.execute(kieServices.getCommands().newBatchExecution(commands));

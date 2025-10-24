@@ -9,7 +9,7 @@ import javax.inject.Singleton;
  * The type Global rules version manager. Stubbed out for now.
  */
 @Singleton
-public class RulesVersionManager {
+public class RuleVersionManager {
 
   private static final Version ACTIVE_VERSION = Version.of("1.0");
 
@@ -17,7 +17,7 @@ public class RulesVersionManager {
    * Instantiates a new Rules version manager.
    */
   @Inject
-  public RulesVersionManager() {
+  public RuleVersionManager() {
   }
 
   /**

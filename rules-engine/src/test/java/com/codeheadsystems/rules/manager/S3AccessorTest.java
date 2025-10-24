@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
+import com.codeheadsystems.rules.accessor.S3Accessor;
 import java.io.InputStream;
 import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @ExtendWith(MockitoExtension.class)
-class S3ManagerTest {
+class S3AccessorTest {
 
   private static final String BUCKET = "bucket";
   private static final String KEY = "key";
@@ -29,11 +30,11 @@ class S3ManagerTest {
   @SuppressWarnings("unchecked")
   @Test
   void getInputStream_success() {
-    S3Manager s3Manager = new S3Manager(s3Client);
+    S3Accessor s3Accessor = new S3Accessor(s3Client);
 
     when(s3Client.getObject(any(Consumer.class))).thenReturn(responseInputStream);
 
-    InputStream result = s3Manager.getInputStream(BUCKET, KEY);
+    InputStream result = s3Accessor.getInputStream(BUCKET, KEY);
 
     assertThat(result).isNotNull().isSameAs(responseInputStream);
   }
@@ -41,11 +42,11 @@ class S3ManagerTest {
   @SuppressWarnings("unchecked")
   @Test
   void getInputStream_failure() {
-    S3Manager s3Manager = new S3Manager(s3Client);
+    S3Accessor s3Accessor = new S3Accessor(s3Client);
 
     when(s3Client.getObject(any(Consumer.class))).thenThrow(s3Exception);
 
-    assertThatThrownBy(() -> s3Manager.getInputStream(BUCKET, KEY))
+    assertThatThrownBy(() -> s3Accessor.getInputStream(BUCKET, KEY))
         .isInstanceOf(S3Exception.class);
   }
 }
