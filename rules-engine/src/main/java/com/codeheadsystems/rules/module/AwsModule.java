@@ -80,15 +80,6 @@ public class AwsModule {
   @Module
   interface Binders {
 
-    /**
-     * File accessor file accessor.
-     *
-     * @param fileAccessor the file accessor
-     * @return the file accessor
-     */
-    @Binds
-    FileAccessor fileAccessor(S3FileAccessor fileAccessor);
-
   }
 
 }

@@ -17,6 +17,11 @@ import org.immutables.value.Value;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public interface ExecutionEnvironment {
 
+  /**
+   * Value string.
+   *
+   * @return the string
+   */
   @JsonProperty("value")
   String value();
 

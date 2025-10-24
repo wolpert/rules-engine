@@ -27,6 +27,11 @@ public class RuleManager {
 
   private final FileAccessor fileAccessor;
 
+  /**
+   * Instantiates a new Rule manager.
+   *
+   * @param fileAccessor the file accessor
+   */
   @Inject
   public RuleManager(final FileAccessor fileAccessor) {
     this.fileAccessor = fileAccessor;
@@ -50,7 +55,8 @@ public class RuleManager {
   /**
    * Rules for kie file system.
    *
-   * @param request the tenantn rules request
+   * @param kieServices the kie services
+   * @param request     the tenantn rules request
    * @return the kie file system
    */
   public ReleaseId rulesFor(final KieServices kieServices, final RuleExecutionRequest request) {
@@ -72,6 +78,13 @@ public class RuleManager {
     return releaseId;
   }
 
+  /**
+   * Compile release id.
+   *
+   * @param kieServices   the kie services
+   * @param kieFileSystem the kie file system
+   * @return the release id
+   */
   public ReleaseId compile(final KieServices kieServices,
                            final KieFileSystem kieFileSystem) {
     LOGGER.info("compile()");

@@ -6,20 +6,22 @@ import org.immutables.value.Value;
  * The interface Tenant rule session.
  */
 @Value.Immutable
-public interface TenantRuleSession {
+public interface RuleSession {
+
+
   /**
-   * Tenant tenant.
+   * Request rule execution request.
    *
-   * @return the tenant
+   * @return the rule execution request
    */
-  Tenant tenant();
+  RuleExecutionRequest request();
 
   /**
    * Container tenant container.
    *
    * @return the tenant container
    */
-  TenantContainer container();
+  RuleExecutionContainer container();
 
   /**
    * Facts facts.
