@@ -6,7 +6,7 @@ import org.immutables.value.Value;
  * The interface Rule execution request.
  */
 @Value.Immutable
-public interface RuleExecutionRequest {
+public interface RuleSetIdentifier {
 
   /**
    * Execution environment execution environment.

@@ -1,8 +1,8 @@
 package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.model.Facts;
-import com.codeheadsystems.rules.model.RuleExecutionContainer;
-import com.codeheadsystems.rules.model.RuleExecutionRequest;
+import com.codeheadsystems.rules.model.RuleSet;
+import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import com.codeheadsystems.rules.model.RuleExecutionResult;
 import com.codeheadsystems.rules.model.Tenant;
 import com.google.common.collect.ImmutableList;
@@ -26,24 +26,24 @@ public class RuleExecutionManager {
   private static final String RESULT = "executionResult";
   private static final String EVENT_ID = "eventId";
 
-  private final RuleExecutionContainerManager ruleExecutionContainerManager;
-  private final RuleExecutionRequestManager ruleExecutionRequestManager;
+  private final RuleSetManager ruleSetManager;
+  private final RuleSetIdentifierManager ruleSetIdentifierManager;
   private final StatelessKieSessionManager statelessKieSessionManager;
   private final KieServices kieServices = KieServices.Factory.get();
 
   /**
    * Instantiates a new Rule execution manager.
    *
-   * @param ruleExecutionContainerManager the tenant container manager
-   * @param ruleExecutionRequestManager   the rule execution request manager
+   * @param ruleSetManager the tenant container manager
+   * @param ruleSetIdentifierManager   the rule execution request manager
    * @param statelessKieSessionManager    the session manager
    */
   @Inject
-  public RuleExecutionManager(final RuleExecutionContainerManager ruleExecutionContainerManager,
-                              final RuleExecutionRequestManager ruleExecutionRequestManager,
+  public RuleExecutionManager(final RuleSetManager ruleSetManager,
+                              final RuleSetIdentifierManager ruleSetIdentifierManager,
                               final StatelessKieSessionManager statelessKieSessionManager) {
-    this.ruleExecutionContainerManager = ruleExecutionContainerManager;
-    this.ruleExecutionRequestManager = ruleExecutionRequestManager;
+    this.ruleSetManager = ruleSetManager;
+    this.ruleSetIdentifierManager = ruleSetIdentifierManager;
     this.statelessKieSessionManager = statelessKieSessionManager;
     LOGGER.info("RuleExecutionManager(TenantContainerManager)");
   }
@@ -56,9 +56,9 @@ public class RuleExecutionManager {
    * @return the rule execution result
    */
   public RuleExecutionResult executeRules(final Tenant tenant, final Facts facts) {
-    final RuleExecutionRequest request = ruleExecutionRequestManager.forTenant(tenant);
-    final RuleExecutionContainer ruleExecutionContainer = ruleExecutionContainerManager.ruleExecutionContainer(request);
-    final StatelessKieSession session = statelessKieSessionManager.getKieSession(tenant, ruleExecutionContainer.kieContainer());
+    final RuleSetIdentifier request = ruleSetIdentifierManager.forTenant(tenant);
+    final RuleSet ruleSet = ruleSetManager.ruleExecutionContainer(request);
+    final StatelessKieSession session = statelessKieSessionManager.getKieSession(tenant, ruleSet.kieContainer());
     final List<Command<?>> commands = getCommands(tenant, facts);
     commands.forEach(c -> LOGGER.debug("Command: {}", c));
     ExecutionResults results = session.execute(kieServices.getCommands().newBatchExecution(commands));

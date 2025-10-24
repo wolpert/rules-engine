@@ -2,10 +2,10 @@ package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.accessor.FileAccessor;
 import com.codeheadsystems.rules.model.Facts;
-import com.codeheadsystems.rules.model.ImmutableRuleExecutionContainer;
+import com.codeheadsystems.rules.model.ImmutableRuleSet;
 import com.codeheadsystems.rules.model.ImmutableRuleSession;
-import com.codeheadsystems.rules.model.RuleExecutionContainer;
-import com.codeheadsystems.rules.model.RuleExecutionRequest;
+import com.codeheadsystems.rules.model.RuleSet;
+import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import com.codeheadsystems.rules.model.RuleSession;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
@@ -30,13 +30,13 @@ import org.slf4j.LoggerFactory;
  * The type Tenant container manager.
  */
 @Singleton
-public class RuleExecutionContainerManager {
+public class RuleSetManager {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(RuleExecutionContainerManager.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(RuleSetManager.class);
 
   private final RuleManager ruleManager;
   private final FileAccessor fileAccessor;
-  private final LoadingCache<RuleExecutionRequest, RuleExecutionContainer> cache;
+  private final LoadingCache<RuleSetIdentifier, RuleSet> cache;
 
   /**
    * Instantiates a new Tenant container manager.
@@ -45,7 +45,7 @@ public class RuleExecutionContainerManager {
    * @param fileAccessor the file accessor
    */
   @Inject
-  public RuleExecutionContainerManager(final RuleManager ruleManager, final FileAccessor fileAccessor) {
+  public RuleSetManager(final RuleManager ruleManager, final FileAccessor fileAccessor) {
     this.ruleManager = ruleManager;
     this.fileAccessor = fileAccessor;
     var builder = Caffeine.newBuilder()
@@ -74,17 +74,17 @@ public class RuleExecutionContainerManager {
   /**
    * Removal listener.
    *
-   * @param ruleExecutionRequest   the rule execution request
-   * @param ruleExecutionContainer the tenant container
+   * @param ruleSetIdentifier   the rule execution request
+   * @param ruleSet the tenant container
    * @param removalCause           the removal cause
    */
-  public void removalListener(final RuleExecutionRequest ruleExecutionRequest,
-                              final RuleExecutionContainer ruleExecutionContainer,
+  public void removalListener(final RuleSetIdentifier ruleSetIdentifier,
+                              final RuleSet ruleSet,
                               final RemovalCause removalCause) {
-    LOGGER.info("Removing KieContainer for tenant:{} reason:{}", ruleExecutionRequest, removalCause);
-    if (ruleExecutionContainer != null && ruleExecutionContainer.kieContainer() != null) {
-      LOGGER.info("Disposing of KieContainer for tenant: {}", ruleExecutionContainer.ruleExecutionRequest());
-      ruleExecutionContainer.kieContainer().dispose();
+    LOGGER.info("Removing KieContainer for tenant:{} reason:{}", ruleSetIdentifier, removalCause);
+    if (ruleSet != null && ruleSet.kieContainer() != null) {
+      LOGGER.info("Disposing of KieContainer for tenant: {}", ruleSet.ruleExecutionRequest());
+      ruleSet.kieContainer().dispose();
     }
   }
 
@@ -94,18 +94,18 @@ public class RuleExecutionContainerManager {
    * @param request the tenant
    * @return the tenant container
    */
-  public RuleExecutionContainer ruleExecutionContainer(RuleExecutionRequest request) {
+  public RuleSet ruleExecutionContainer(RuleSetIdentifier request) {
     return cache.get(request);
   }
 
   // TODO: This isn't actually correct, though it will be unique per tenant. Needs validation.
-  private RuleExecutionContainer internalRuleExecutionContainer(final RuleExecutionRequest request) {
+  private RuleSet internalRuleExecutionContainer(final RuleSetIdentifier request) {
     LOGGER.info("Creating KieContainer for tenant: {}", request);
     final Map<String, List<String>> ruleSet = ruleManager.rulesFor(request);
     final KieServices kieServices = KieServices.Factory.get();
     final ReleaseId releaseId = rulesFor(kieServices, request, ruleSet);
     final KieContainer kieContainer = containerize(kieServices, releaseId);
-    return ImmutableRuleExecutionContainer.builder()
+    return ImmutableRuleSet.builder()
         .ruleExecutionRequest(request)
         .kieContainer(kieContainer)
         .build();
@@ -119,7 +119,7 @@ public class RuleExecutionContainerManager {
    * @param ruleSet     the rule set
    * @return the kie file system
    */
-  public ReleaseId rulesFor(final KieServices kieServices, final RuleExecutionRequest request, final Map<String, List<String>> ruleSet) {
+  public ReleaseId rulesFor(final KieServices kieServices, final RuleSetIdentifier request, final Map<String, List<String>> ruleSet) {
     final KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
     final ArrayList<InputStream> inputStreams = new ArrayList<>();
 
@@ -129,7 +129,7 @@ public class RuleExecutionContainerManager {
         }
     );
     final ReleaseId releaseId = compile(kieServices, kieFileSystem);
-    inputStreams.forEach(RuleExecutionContainerManager::close);
+    inputStreams.forEach(RuleSetManager::close);
     return releaseId;
   }
 
@@ -161,12 +161,12 @@ public class RuleExecutionContainerManager {
    * @param facts   the facts
    * @return the tenant rule session
    */
-  public RuleSession ruleSession(final RuleExecutionRequest request,
+  public RuleSession ruleSession(final RuleSetIdentifier request,
                                  final Facts facts) {
-    final RuleExecutionContainer ruleExecutionContainer = ruleExecutionContainer(request);
+    final RuleSet ruleSet = ruleExecutionContainer(request);
     return ImmutableRuleSession.builder()
         .request(request)
-        .container(ruleExecutionContainer)
+        .container(ruleSet)
         .facts(facts)
         .build();
   }

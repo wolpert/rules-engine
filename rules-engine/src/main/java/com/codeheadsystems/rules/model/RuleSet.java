@@ -7,14 +7,14 @@ import org.kie.api.runtime.KieContainer;
  * The interface Tenant container.
  */
 @Value.Immutable
-public interface RuleExecutionContainer {
+public interface RuleSet {
 
   /**
    * Rule execution request rule execution request.
    *
    * @return the rule execution request
    */
-  RuleExecutionRequest ruleExecutionRequest();
+  RuleSetIdentifier ruleExecutionRequest();
 
   /**
    * Kie container kie container.

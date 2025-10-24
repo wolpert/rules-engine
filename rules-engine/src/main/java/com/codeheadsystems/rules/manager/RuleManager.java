@@ -1,7 +1,7 @@
 package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.accessor.FileAccessor;
-import com.codeheadsystems.rules.model.RuleExecutionRequest;
+import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
@@ -40,7 +40,7 @@ public class RuleManager {
    * @param request the request
    * @return the map
    */
-  public Map<String, List<String>> rulesFor(final RuleExecutionRequest request) {
+  public Map<String, List<String>> rulesFor(final RuleSetIdentifier request) {
     return Map.of(
         GLOBAL, fileAccessor.listFiles(String.format(GLOBAL_RULES_PATH, request.globalRuleVersion().value())),
         TENANT, fileAccessor.listFiles(String.format(TENANT_RULES_PATH_FORMAT, request.tenant().name().toLowerCase(), request.tenantRuleVersion().value()))

@@ -1,8 +1,8 @@
 package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.model.ExecutionEnvironment;
-import com.codeheadsystems.rules.model.ImmutableRuleExecutionRequest;
-import com.codeheadsystems.rules.model.RuleExecutionRequest;
+import com.codeheadsystems.rules.model.ImmutableRuleSetIdentifier;
+import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import com.codeheadsystems.rules.model.Tenant;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -11,7 +11,7 @@ import javax.inject.Singleton;
  * The type Rule execution request manager.
  */
 @Singleton
-public class RuleExecutionRequestManager {
+public class RuleSetIdentifierManager {
 
   private final RuleVersionManager ruleVersionManager;
   private final ExecutionEnvironment executionEnvironment;
@@ -23,8 +23,8 @@ public class RuleExecutionRequestManager {
    * @param executionEnvironment the execution environment
    */
   @Inject
-  public RuleExecutionRequestManager(final RuleVersionManager ruleVersionManager,
-                                     final ExecutionEnvironment executionEnvironment) {
+  public RuleSetIdentifierManager(final RuleVersionManager ruleVersionManager,
+                                  final ExecutionEnvironment executionEnvironment) {
     this.ruleVersionManager = ruleVersionManager;
     this.executionEnvironment = executionEnvironment;
   }
@@ -35,8 +35,8 @@ public class RuleExecutionRequestManager {
    * @param tenant the tenant
    * @return the rule execution request
    */
-  public RuleExecutionRequest forTenant(Tenant tenant) {
-    return ImmutableRuleExecutionRequest.builder()
+  public RuleSetIdentifier forTenant(Tenant tenant) {
+    return ImmutableRuleSetIdentifier.builder()
         .executionEnvironment(executionEnvironment)
         .tenant(tenant)
         .tenantRuleVersion(ruleVersionManager.getActiveTenantVersion(tenant)) // Stubbed for now.

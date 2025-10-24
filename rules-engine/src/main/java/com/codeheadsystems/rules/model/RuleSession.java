@@ -14,14 +14,14 @@ public interface RuleSession {
    *
    * @return the rule execution request
    */
-  RuleExecutionRequest request();
+  RuleSetIdentifier request();
 
   /**
    * Container tenant container.
    *
    * @return the tenant container
    */
-  RuleExecutionContainer container();
+  RuleSet container();
 
   /**
    * Facts facts.
