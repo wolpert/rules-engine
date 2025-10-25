@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.util.Optional;
 import org.immutables.value.Value;
 
 /**
@@ -38,23 +37,7 @@ public interface RuleSetIdentifier {
    * @return the optional
    */
   @JsonProperty("eventType")
-  Optional<EventType> eventType();
-
-  /**
-   * Global rule version version.
-   *
-   * @return the version
-   */
-  @JsonProperty("globalRuleVersion")
-  Version globalRuleVersion();
-
-  /**
-   * Tenant rule version version.
-   *
-   * @return the version
-   */
-  @JsonProperty("tenantRuleVersion")
-  Version tenantRuleVersion();
+  EventType eventType();
 
   /**
    * Event version optional.
@@ -62,6 +45,6 @@ public interface RuleSetIdentifier {
    * @return the optional
    */
   @JsonProperty("eventVersion")
-  Optional<Version> eventVersion();
+  Version eventVersion();
 
 }

@@ -1,8 +1,6 @@
 package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
-import com.codeheadsystems.rules.accessor.FileAccessor;
-import com.codeheadsystems.rules.accessor.impl.S3FileAccessor;
 import com.codeheadsystems.rules.factory.ObjectMapperFactory;
 import com.codeheadsystems.rules.model.ExecutionEnvironment;
 import com.codeheadsystems.rules.model.ImmutableExecutionEnvironment;
@@ -12,13 +10,11 @@ import com.codeheadsystems.server.ServerConfiguration;
 import com.codeheadsystems.server.resource.JerseyResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dagger.Binds;
-import dagger.BindsOptionalOf;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
 import java.security.SecureRandom;
 import java.time.Clock;
-import java.util.Optional;
 import javax.inject.Singleton;
 
 /**
@@ -26,24 +22,6 @@ import javax.inject.Singleton;
  */
 @Module(includes = RuleEngineServerModule.Binder.class)
 public class RuleEngineServerModule {
-
-  private final Optional<FileAccessor> fileAccessor;
-
-  /**
-   * Instantiates a new Rule engine server module.
-   */
-  public RuleEngineServerModule() {
-    this(null);
-  }
-
-  /**
-   * Instantiates a new Rule engine server module.
-   *
-   * @param fileAccessor the file accessor
-   */
-  public RuleEngineServerModule(FileAccessor fileAccessor) {
-    this.fileAccessor = Optional.ofNullable(fileAccessor);
-  }
 
   /**
    * Clock clock.
@@ -102,19 +80,6 @@ public class RuleEngineServerModule {
   public ExecutionEnvironment executionEnvironment(RulesEngineConfiguration configuration) {
     return ImmutableExecutionEnvironment.builder().value(configuration.getStage()).build();
   }
-
-  /**
-   * File accessor file accessor.
-   *
-   * @param s3FileAccessor the s 3 file accessor
-   * @return the file accessor
-   */
-  @Provides
-  @Singleton
-  public FileAccessor fileAccessor(S3FileAccessor s3FileAccessor) {
-    return fileAccessor.orElse(s3FileAccessor);
-  }
-
 
   /**
    * The interface Binder.

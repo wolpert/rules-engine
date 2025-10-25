@@ -1,6 +1,7 @@
 package com.codeheadsystems.rules.component;
 
 import com.codeheadsystems.rules.module.AwsModule;
+import com.codeheadsystems.rules.module.AwsServiceRuleBinder;
 import com.codeheadsystems.rules.module.RuleEngineServerModule;
 import com.codeheadsystems.server.component.DropWizardComponent;
 import com.codeheadsystems.server.module.DropWizardModule;
@@ -14,6 +15,7 @@ import javax.inject.Singleton;
     AwsModule.class,
     DropWizardModule.class,
     RuleEngineServerModule.class,
+    AwsServiceRuleBinder.class,
 })
 @Singleton
 public interface RuleEngineComponent extends DropWizardComponent {

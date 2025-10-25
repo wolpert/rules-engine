@@ -34,7 +34,7 @@ public class S3FileAccessor implements FileAccessor {
   public S3FileAccessor(final S3Accessor s3Accessor,
                         final RulesEngineConfiguration configuration) {
     this.s3Accessor = s3Accessor;
-    this.prefix = configuration.getS3RulePrefix();
+    this.prefix = configuration.getS3RulePrefix().endsWith("/") ? configuration.getS3RulePrefix() : configuration.getS3RulePrefix() + "/";
     this.bucket = configuration.getAwsConfiguration().rulesS3Bucket();
     LOGGER.info("S3FileAccessor({}, {}, {})", s3Accessor, bucket, prefix);
   }

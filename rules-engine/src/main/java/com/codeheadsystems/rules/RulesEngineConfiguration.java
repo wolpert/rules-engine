@@ -10,7 +10,6 @@ import com.codeheadsystems.server.ServerConfiguration;
  */
 public class RulesEngineConfiguration extends ServerConfiguration {
 
-
   private String s3RulePrefix = "/rules/";
   private AwsConfiguration awsConfiguration;
   private TableConfiguration tableConfiguration;

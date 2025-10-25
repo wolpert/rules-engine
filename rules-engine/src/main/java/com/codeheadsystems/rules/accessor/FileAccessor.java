@@ -1,5 +1,6 @@
 package com.codeheadsystems.rules.accessor;
 
+import com.codeheadsystems.rules.model.Rule;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;

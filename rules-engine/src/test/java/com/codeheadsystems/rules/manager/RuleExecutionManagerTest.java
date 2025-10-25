@@ -5,12 +5,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.codeheadsystems.rules.RulesEngineConfiguration;
 import com.codeheadsystems.rules.accessor.FileAccessor;
 import com.codeheadsystems.rules.converter.FactsConverter;
+import com.codeheadsystems.rules.dao.RulesDao;
 import com.codeheadsystems.rules.model.Facts;
-import com.codeheadsystems.rules.model.ImmutableTenant;
+import com.codeheadsystems.rules.model.ImmutableRule;
 import com.codeheadsystems.rules.model.RuleExecutionResult;
 import com.codeheadsystems.rules.model.Tenant;
+import com.codeheadsystems.rules.model.Version;
 import com.codeheadsystems.rules.module.AwsModule;
 import com.codeheadsystems.rules.module.RuleEngineServerModule;
+import com.codeheadsystems.rules.module.TestModule;
 import com.codeheadsystems.server.module.DropWizardModule;
 import dagger.Component;
 import io.dropwizard.core.setup.Environment;
@@ -47,15 +50,23 @@ class RuleExecutionManagerTest {
 
       @Override
       public Optional<InputStream> getFile(final String path) {
-        return Optional.of(getClass().getResourceAsStream(path));
+        System.out.println("Getting file for path: " + path);
+        return Optional.of(getClass().getResourceAsStream("/drl/tenant/tenant.drl"));
+        //return path.equals("tenant/id/1.0.drl") ? Optional.of(getClass().getResourceAsStream("/drl/tenant/tenant.drl")) : Optional.empty();
       }
     };
 
+    RulesDao rulesDao = ruleSetIdentifier -> List.of(ImmutableRule.builder()
+        .tenant(TENANT)
+        .id("id")
+        .version(Version.of("1.0"))
+        .name("name")
+        .build());
 
     configuration = new RulesEngineConfiguration();
     TestComponent component = DaggerRuleExecutionManagerTest_TestComponent.builder()
         .dropWizardModule(new DropWizardModule(environment, configuration))
-        .ruleEngineServerModule(new RuleEngineServerModule(fileAccessor))
+        .testModule(new TestModule(fileAccessor, rulesDao))
         .build();
     ruleExecutionManager = component.ruleExecutionManager();
     factsConverter = component.factsConverter();
@@ -70,7 +81,7 @@ class RuleExecutionManagerTest {
         .hasEntrySatisfying("we found", v -> assertThat(v).isEqualTo("blue"));
   }
 
-  @Component(modules = {AwsModule.class, DropWizardModule.class, RuleEngineServerModule.class,})
+  @Component(modules = {AwsModule.class, DropWizardModule.class, RuleEngineServerModule.class, TestModule.class})
   @Singleton
   interface TestComponent {
 

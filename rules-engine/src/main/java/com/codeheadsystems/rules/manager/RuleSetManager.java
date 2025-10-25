@@ -1,12 +1,12 @@
 package com.codeheadsystems.rules.manager;
 
-import com.codeheadsystems.rules.accessor.FileAccessor;
 import com.codeheadsystems.rules.model.Facts;
-import com.codeheadsystems.rules.model.ImmutableRuleSet;
 import com.codeheadsystems.rules.model.ImmutableRuleSession;
+import com.codeheadsystems.rules.model.ImmutableRuleSet;
+import com.codeheadsystems.rules.model.Rule;
+import com.codeheadsystems.rules.model.RuleSession;
 import com.codeheadsystems.rules.model.RuleSet;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
-import com.codeheadsystems.rules.model.RuleSession;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.github.benmanes.caffeine.cache.RemovalCause;
@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.kie.api.KieServices;
@@ -35,19 +35,16 @@ public class RuleSetManager {
   private static final Logger LOGGER = LoggerFactory.getLogger(RuleSetManager.class);
 
   private final RuleManager ruleManager;
-  private final FileAccessor fileAccessor;
   private final LoadingCache<RuleSetIdentifier, RuleSet> cache;
 
   /**
    * Instantiates a new Tenant container manager.
    *
-   * @param ruleManager  the rule manager
-   * @param fileAccessor the file accessor
+   * @param ruleManager the rule manager
    */
   @Inject
-  public RuleSetManager(final RuleManager ruleManager, final FileAccessor fileAccessor) {
+  public RuleSetManager(final RuleManager ruleManager) {
     this.ruleManager = ruleManager;
-    this.fileAccessor = fileAccessor;
     var builder = Caffeine.newBuilder()
         .maximumSize(100)
         .refreshAfterWrite(Duration.ofSeconds(300)) // refresh from source every 60seconds
@@ -74,9 +71,9 @@ public class RuleSetManager {
   /**
    * Removal listener.
    *
-   * @param ruleSetIdentifier   the rule execution request
-   * @param ruleSet the tenant container
-   * @param removalCause           the removal cause
+   * @param ruleSetIdentifier the rule execution request
+   * @param ruleSet           the tenant container
+   * @param removalCause      the removal cause
    */
   public void removalListener(final RuleSetIdentifier ruleSetIdentifier,
                               final RuleSet ruleSet,
@@ -101,9 +98,9 @@ public class RuleSetManager {
   // TODO: This isn't actually correct, though it will be unique per tenant. Needs validation.
   private RuleSet internalRuleExecutionContainer(final RuleSetIdentifier request) {
     LOGGER.info("Creating KieContainer for tenant: {}", request);
-    final Map<String, List<String>> ruleSet = ruleManager.rulesFor(request);
+    final List<Rule> rules = ruleManager.rulesFor(request);
     final KieServices kieServices = KieServices.Factory.get();
-    final ReleaseId releaseId = rulesFor(kieServices, request, ruleSet);
+    final ReleaseId releaseId = rulesFor(kieServices, request, rules);
     final KieContainer kieContainer = containerize(kieServices, releaseId);
     return ImmutableRuleSet.builder()
         .ruleExecutionRequest(request)
@@ -116,18 +113,25 @@ public class RuleSetManager {
    *
    * @param kieServices the kie services
    * @param request     the tenantn rules request
-   * @param ruleSet     the rule set
+   * @param rules       the rule set
    * @return the kie file system
    */
-  public ReleaseId rulesFor(final KieServices kieServices, final RuleSetIdentifier request, final Map<String, List<String>> ruleSet) {
+  public ReleaseId rulesFor(final KieServices kieServices,
+                            final RuleSetIdentifier request,
+                            final List<Rule> rules) {
+    LOGGER.info("Creating KieContainer for request: {}", request);
     final KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
     final ArrayList<InputStream> inputStreams = new ArrayList<>();
 
-    ruleSet.forEach((type, list) -> {
-          LOGGER.info("Loading rules: {}:{}", request, type);
-          list.forEach(rule -> fileAccessor.getFile(rule).ifPresent(inputStream -> inputStreams.add(writeToFileSystem(rule, inputStream, kieFileSystem))));
-        }
-    );
+    rules.forEach(rule -> {
+      String path = ruleManager.pathFor(rule);
+      Optional<InputStream> optionalInputStream = ruleManager.inputStream(rule);
+      optionalInputStream.ifPresent(inputStream -> {
+        kieFileSystem.write(ResourceFactory.newInputStreamResource(inputStream).setSourcePath(path));
+        LOGGER.info("Added rule to KieFileSystem: rule:{} [{}]", rule.id(), path);
+        inputStreams.add(inputStream);
+      });
+    });
     final ReleaseId releaseId = compile(kieServices, kieFileSystem);
     inputStreams.forEach(RuleSetManager::close);
     return releaseId;

@@ -1,9 +1,11 @@
 package com.codeheadsystems.rules.manager;
 
+import com.codeheadsystems.rules.model.EventType;
 import com.codeheadsystems.rules.model.ExecutionEnvironment;
 import com.codeheadsystems.rules.model.ImmutableRuleSetIdentifier;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import com.codeheadsystems.rules.model.Tenant;
+import com.codeheadsystems.rules.model.Version;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -39,8 +41,8 @@ public class RuleSetIdentifierManager {
     return ImmutableRuleSetIdentifier.builder()
         .executionEnvironment(executionEnvironment)
         .tenant(tenant)
-        .tenantRuleVersion(ruleVersionManager.getActiveTenantVersion(tenant)) // Stubbed for now.
-        .globalRuleVersion(ruleVersionManager.getActiveGlobalVersion())
+        .eventType(EventType.DEFAULT)
+        .eventVersion(Version.of("1.0"))
         .build();
   }
 

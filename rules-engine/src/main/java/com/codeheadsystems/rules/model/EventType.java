@@ -15,6 +15,8 @@ import org.immutables.value.Value;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public interface EventType {
 
+  EventType DEFAULT = EventType.of("DEFAULT");
+
   static EventType of(String eventType) {
     return ImmutableEventType.builder().value(eventType).build();
   }
