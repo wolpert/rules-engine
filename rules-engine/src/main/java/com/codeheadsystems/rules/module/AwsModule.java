@@ -1,11 +1,8 @@
 package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
-import com.codeheadsystems.rules.accessor.FileAccessor;
-import com.codeheadsystems.rules.accessor.impl.S3FileAccessor;
 import com.codeheadsystems.rules.model.AwsConfiguration;
 import com.codeheadsystems.rules.model.TableConfiguration;
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -16,7 +13,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 /**
  * The type Aws module.
  */
-@Module(includes = AwsModule.Binders.class)
+@Module
 public class AwsModule {
 
   /**
@@ -72,14 +69,6 @@ public class AwsModule {
   @Singleton
   public S3Client s3Client(AwsConfiguration configuration) {
     return S3Client.builder().region(Region.of(configuration.region())).build();
-  }
-
-  /**
-   * The interface Binders.
-   */
-  @Module
-  interface Binders {
-
   }
 
 }

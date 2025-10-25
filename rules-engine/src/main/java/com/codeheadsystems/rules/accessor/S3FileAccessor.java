@@ -1,8 +1,6 @@
-package com.codeheadsystems.rules.accessor.impl;
+package com.codeheadsystems.rules.accessor;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
-import com.codeheadsystems.rules.accessor.FileAccessor;
-import com.codeheadsystems.rules.accessor.S3Accessor;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;

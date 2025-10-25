@@ -1,9 +1,9 @@
 package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.model.Facts;
+import com.codeheadsystems.rules.model.RuleExecutionResult;
 import com.codeheadsystems.rules.model.RuleSet;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
-import com.codeheadsystems.rules.model.RuleExecutionResult;
 import com.codeheadsystems.rules.model.Tenant;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
@@ -34,9 +34,9 @@ public class RuleExecutionManager {
   /**
    * Instantiates a new Rule execution manager.
    *
-   * @param ruleSetManager the tenant container manager
+   * @param ruleSetManager             the tenant container manager
    * @param ruleSetIdentifierManager   the rule execution request manager
-   * @param statelessKieSessionManager    the session manager
+   * @param statelessKieSessionManager the session manager
    */
   @Inject
   public RuleExecutionManager(final RuleSetManager ruleSetManager,

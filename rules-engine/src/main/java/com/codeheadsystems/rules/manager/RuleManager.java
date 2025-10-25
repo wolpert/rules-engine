@@ -32,6 +32,7 @@ public class RuleManager {
    * Instantiates a new Rule manager.
    *
    * @param fileAccessor the file accessor
+   * @param rulesDao     the rules dao
    */
   @Inject
   public RuleManager(final FileAccessor fileAccessor,
@@ -41,15 +42,33 @@ public class RuleManager {
     LOGGER.info("RuleManager({})", fileAccessor);
   }
 
+  /**
+   * Input stream optional.
+   *
+   * @param rule the rule
+   * @return the optional
+   */
   public Optional<InputStream> inputStream(final Rule rule) {
     final String path = pathFor(rule);
     return fileAccessor.getFile(path);
   }
 
+  /**
+   * Path for string.
+   *
+   * @param rule the rule
+   * @return the string
+   */
   public String pathFor(final Rule rule) {
     return String.format(RULE_PATH, rule.tenant().value(), rule.id(), rule.version().value());
   }
 
+  /**
+   * Rule path map map.
+   *
+   * @param rules the rules
+   * @return the map
+   */
   public Map<Rule, String> rulePathMap(final List<Rule> rules) {
     return rules.stream().collect(Collectors.toMap(
         Function.identity(),
@@ -57,6 +76,12 @@ public class RuleManager {
         (existing, replacement) -> existing));
   }
 
+  /**
+   * Rules for list.
+   *
+   * @param ruleSetIdentifier the rule set identifier
+   * @return the list
+   */
   public List<Rule> rulesFor(final RuleSetIdentifier ruleSetIdentifier) {
     return rulesDao.rulesFor(ruleSetIdentifier);
   }

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import com.codeheadsystems.rules.RulesEngineConfiguration;
 import com.codeheadsystems.rules.accessor.S3Accessor;
+import com.codeheadsystems.rules.accessor.S3FileAccessor;
 import com.codeheadsystems.rules.model.AwsConfiguration;
 import java.io.InputStream;
 import java.util.Arrays;

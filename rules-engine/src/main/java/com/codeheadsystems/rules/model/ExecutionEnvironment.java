@@ -17,6 +17,12 @@ import org.immutables.value.Value;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public interface ExecutionEnvironment {
 
+  /**
+   * Of execution environment.
+   *
+   * @param executionEnvironment the execution environment
+   * @return the execution environment
+   */
   static ExecutionEnvironment of(String executionEnvironment) {
     return ImmutableExecutionEnvironment.builder().value(executionEnvironment).build();
   }
