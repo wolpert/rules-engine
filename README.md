@@ -15,6 +15,36 @@ The project uses localstack for testing, with services running in ECS or
 lambda. The control plan is and data plan are separate ECS services.
 A front-end for management is lower-priority. (Because I hate doing UIs.)
 
+## Execution path
+
+### Execution Environment
+
+The application runs within a given execution environment. These can be pre-prod,
+like dev or QA; where pre-prod means environments for the development of the rule
+engine. They can be production environments like Sandbox or Product, or even 
+regionalize production. These environments are used by those managing rule executions.
+
+Rules can be migrated between environments.
+
+### Rule Management
+
+Rules are available at the global level, tenant and event. Rules are versioned and only
+one version can be active at a time in a given execution environment.  Rules can be exported
+or imported into environments, and enabled or run in shadow mode. They exist in as versions
+in an environment.
+
+### Rule Engine Execution
+
+A rule set is a given set of rules of the three types; global, tenant and event. The types of
+rules exist within a given version. Requests can be made against a RuleSet with a given set
+of facts. Those requests are executed with creates a result. Executions can be 'live' or 'shadow'. 
+Shadow results do not modify the datastore for the tenant/events, which is the history of events
+and the velocity setup for them.
+
+### Velocity
+
+Rule executions can result in an update to a datastore for the rules themselves. 
+
 # Testing
 
 Running tests normally will only execute the unit tests.

@@ -27,7 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class RuleExecutionManagerTest {
 
-  private static final Tenant TENANT = ImmutableTenant.builder().name("tenant").build();
+  private static final Tenant TENANT = Tenant.of("tenant");
   private static final String EVENT_ID = "11-eventId";
   private static final String PAYLOAD = "{\"color\":\"blue\"}";
 

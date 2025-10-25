@@ -102,7 +102,7 @@ public class TenantConverter {
   public Optional<Tenant> toTenant(final Map<String, AttributeValue> attributes) {
     if (!attributes.isEmpty()) {
       return Optional.of(ImmutableTenant.builder()
-          .name(attributes.get(COL_NAME).s())
+          .value(attributes.get(COL_NAME).s())
           .build());
     }
     return Optional.empty();

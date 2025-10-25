@@ -8,7 +8,7 @@ dialect  "mvel"
 
 rule "First Rule"
     when
-        Tenant(name == "first")
+        Tenant(value == "first")
     then
         rer.put("tenant", "first");
 end

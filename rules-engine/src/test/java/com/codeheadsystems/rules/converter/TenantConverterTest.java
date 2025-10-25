@@ -58,7 +58,7 @@ class TenantConverterTest {
     Map<String, AttributeValue> attrs = Map.of("tenant_name", AttributeValue.fromS("foo"));
     Optional<Tenant> tenant = tenantConverter.toTenant(attrs);
     assertThat(tenant).isPresent();
-    assertThat(tenant.get().name()).isEqualTo("foo");
+    assertThat(tenant.get().value()).isEqualTo("foo");
   }
 
   @Test

@@ -43,7 +43,7 @@ class TenantDaoTest {
     Optional<Tenant> result = tenantDao.getTenant(tenantName);
 
     assertThat(result).isPresent();
-    assertThat(result.get().name()).isEqualTo(tenantName);
+    assertThat(result.get().value()).isEqualTo(tenantName);
   }
 
   @Test
@@ -78,7 +78,7 @@ class TenantDaoTest {
     Tenant result = tenantDao.create(tenantName);
 
     assertThat(result).isNotNull();
-    assertThat(result.name()).isEqualTo(tenantName);
+    assertThat(result.value()).isEqualTo(tenantName);
   }
 
   @Test
@@ -102,7 +102,7 @@ class TenantDaoTest {
     DeleteItemRequest request = mock(DeleteItemRequest.class);
     DeleteItemResponse response = mock(DeleteItemResponse.class);
 
-    when(tenantConverter.toDeleteRequest(tenant.name())).thenReturn(request);
+    when(tenantConverter.toDeleteRequest(tenant.value())).thenReturn(request);
     when(dynamoDbClient.deleteItem(request)).thenReturn(response);
     when(response.hasAttributes()).thenReturn(true);
 
@@ -117,7 +117,7 @@ class TenantDaoTest {
     DeleteItemRequest request = mock(DeleteItemRequest.class);
     DeleteItemResponse response = mock(DeleteItemResponse.class);
 
-    when(tenantConverter.toDeleteRequest(tenant.name())).thenReturn(request);
+    when(tenantConverter.toDeleteRequest(tenant.value())).thenReturn(request);
     when(dynamoDbClient.deleteItem(request)).thenReturn(response);
     when(response.hasAttributes()).thenReturn(false);
 

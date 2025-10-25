@@ -76,7 +76,7 @@ public class TenantDao {
    */
   @Metrics
   public boolean delete(Tenant tenant) {
-    final DeleteItemRequest deleteItemRequest = tenantConverter.toDeleteRequest(tenant.name());
+    final DeleteItemRequest deleteItemRequest = tenantConverter.toDeleteRequest(tenant.value());
     final DeleteItemResponse deleteItemResponse = dynamoDbClient.deleteItem(deleteItemRequest);
     return deleteItemResponse.hasAttributes();
   }

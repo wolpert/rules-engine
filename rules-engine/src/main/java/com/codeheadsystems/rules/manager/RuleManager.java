@@ -43,7 +43,7 @@ public class RuleManager {
   public Map<String, List<String>> rulesFor(final RuleSetIdentifier request) {
     return Map.of(
         GLOBAL, fileAccessor.listFiles(String.format(GLOBAL_RULES_PATH, request.globalRuleVersion().value())),
-        TENANT, fileAccessor.listFiles(String.format(TENANT_RULES_PATH_FORMAT, request.tenant().name().toLowerCase(), request.tenantRuleVersion().value()))
+        TENANT, fileAccessor.listFiles(String.format(TENANT_RULES_PATH_FORMAT, request.tenant().value().toLowerCase(), request.tenantRuleVersion().value()))
     );
   }
 
