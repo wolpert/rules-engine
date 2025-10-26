@@ -1,5 +1,6 @@
 package com.codeheadsystems.rules.converter;
 
+import com.codeheadsystems.rules.dao.ColumnNames;
 import com.codeheadsystems.rules.model.TableConfiguration;
 import com.codeheadsystems.rules.model.Tenant;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +43,7 @@ class TenantConverterTest {
     assertThat(request.item()).containsEntry("hk", AttributeValue.fromS("TENANT#foo"));
     assertThat(request.item()).containsEntry("sk", AttributeValue.fromS("TENANT#"));
     assertThat(request.item()).containsEntry("type", AttributeValue.fromS("Tenant"));
-    assertThat(request.item()).containsEntry("tenant_name", AttributeValue.fromS("foo"));
+    assertThat(request.item()).containsEntry(ColumnNames.TENANT.column(), AttributeValue.fromS("foo"));
   }
 
   @Test
@@ -55,7 +56,7 @@ class TenantConverterTest {
 
   @Test
   void toTenant_returnsTenantWhenAttributesPresent() {
-    Map<String, AttributeValue> attrs = Map.of("tenant_name", AttributeValue.fromS("foo"));
+    Map<String, AttributeValue> attrs = Map.of(ColumnNames.TENANT.column(), AttributeValue.fromS("foo"));
     Optional<Tenant> tenant = tenantConverter.toTenant(attrs);
     assertThat(tenant).isPresent();
     assertThat(tenant.get().value()).isEqualTo("foo");

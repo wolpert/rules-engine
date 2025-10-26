@@ -36,8 +36,8 @@ public interface RuleSetIdentifier {
    *
    * @return the optional
    */
-  @JsonProperty("eventType")
-  EventType eventType();
+  @JsonProperty("event")
+  Event event();
 
   /**
    * Event version optional.

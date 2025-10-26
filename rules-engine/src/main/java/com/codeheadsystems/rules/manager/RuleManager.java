@@ -46,16 +46,6 @@ public class RuleManager {
   /**
    * Input stream optional.
    *
-   * @param rule the rule
-   * @return the optional
-   */
-  public Optional<InputStream> inputStream(final Rule rule) {
-    return inputStream(rule.identifier());
-  }
-
-  /**
-   * Input stream optional.
-   *
    * @param identifier the rule
    * @return the optional
    */

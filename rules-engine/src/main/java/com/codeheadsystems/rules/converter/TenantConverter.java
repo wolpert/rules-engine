@@ -2,6 +2,7 @@ package com.codeheadsystems.rules.converter;
 
 import static software.amazon.awssdk.services.dynamodb.model.AttributeValue.fromS;
 
+import com.codeheadsystems.rules.dao.ColumnNames;
 import com.codeheadsystems.rules.model.ImmutableTenant;
 import com.codeheadsystems.rules.model.TableConfiguration;
 import com.codeheadsystems.rules.model.Tenant;
@@ -30,10 +31,6 @@ public class TenantConverter {
    * The constant TYPE.
    */
   public static final String TYPE = Tenant.class.getSimpleName();
-  /**
-   * The constant COL_NAME.
-   */
-  public static final String COL_NAME = "tenant_name";
 
   private final TableConfiguration tableConfiguration;
 
@@ -69,7 +66,7 @@ public class TenantConverter {
     builder.put(tableConfiguration.hashKeyName(), fromS(toHashKey(tenantName)));
     builder.put(tableConfiguration.sortKeyName(), fromS(ROW_IDENTIFIER));
     builder.put(tableConfiguration.typeColName(), fromS(TYPE));
-    builder.put(COL_NAME, fromS(tenantName));
+    builder.put(ColumnNames.TENANT.column(), fromS(tenantName));
     return PutItemRequest.builder()
         .tableName(tableConfiguration.tableName())
         .returnConsumedCapacity(ReturnConsumedCapacity.TOTAL)
@@ -102,7 +99,7 @@ public class TenantConverter {
   public Optional<Tenant> toTenant(final Map<String, AttributeValue> attributes) {
     if (!attributes.isEmpty()) {
       return Optional.of(ImmutableTenant.builder()
-          .value(attributes.get(COL_NAME).s())
+          .value(attributes.get(ColumnNames.TENANT.column()).s())
           .build());
     }
     return Optional.empty();

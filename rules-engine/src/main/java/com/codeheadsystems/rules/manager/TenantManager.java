@@ -1,7 +1,7 @@
 package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.dao.TenantDao;
-import com.codeheadsystems.rules.model.EventType;
+import com.codeheadsystems.rules.model.Event;
 import com.codeheadsystems.rules.model.Tenant;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +68,7 @@ public class TenantManager {
    * @param tenant the tenant
    * @return the list
    */
-  public List<EventType> eventType(Tenant tenant) {
+  public List<Event> eventType(Tenant tenant) {
     return List.of();
   }
 }
