@@ -1,6 +1,6 @@
 package com.codeheadsystems.rules.dao;
 
-import com.codeheadsystems.rules.model.Rule;
+import com.codeheadsystems.rules.model.RuleIdentifier;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import java.util.List;
 import javax.inject.Inject;
@@ -20,7 +20,7 @@ public class DynamoDbRulesDao implements RulesDao {
   }
 
   @Override
-  public List<Rule> rulesFor(final RuleSetIdentifier ruleSetIdentifier) {
+  public List<RuleIdentifier> rulesFor(final RuleSetIdentifier ruleSetIdentifier) {
     return List.of();
   }
 }

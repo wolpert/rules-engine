@@ -4,6 +4,7 @@ import com.codeheadsystems.rules.model.Facts;
 import com.codeheadsystems.rules.model.ImmutableRuleSession;
 import com.codeheadsystems.rules.model.ImmutableRuleSet;
 import com.codeheadsystems.rules.model.Rule;
+import com.codeheadsystems.rules.model.RuleIdentifier;
 import com.codeheadsystems.rules.model.RuleSession;
 import com.codeheadsystems.rules.model.RuleSet;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
@@ -98,7 +99,7 @@ public class RuleSetManager {
   // TODO: This isn't actually correct, though it will be unique per tenant. Needs validation.
   private RuleSet internalRuleExecutionContainer(final RuleSetIdentifier request) {
     LOGGER.info("Creating KieContainer for tenant: {}", request);
-    final List<Rule> rules = ruleManager.rulesFor(request);
+    final List<RuleIdentifier> rules = ruleManager.rulesFor(request);
     final KieServices kieServices = KieServices.Factory.get();
     final ReleaseId releaseId = rulesFor(kieServices, request, rules);
     final KieContainer kieContainer = containerize(kieServices, releaseId);
@@ -118,17 +119,17 @@ public class RuleSetManager {
    */
   public ReleaseId rulesFor(final KieServices kieServices,
                             final RuleSetIdentifier request,
-                            final List<Rule> rules) {
+                            final List<RuleIdentifier> rules) {
     LOGGER.info("Creating KieContainer for request: {}", request);
     final KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
     final ArrayList<InputStream> inputStreams = new ArrayList<>();
 
-    rules.forEach(rule -> {
-      String path = ruleManager.pathFor(rule);
-      Optional<InputStream> optionalInputStream = ruleManager.inputStream(rule);
+    rules.forEach(identifier -> {
+      String path = ruleManager.pathFor(identifier);
+      Optional<InputStream> optionalInputStream = ruleManager.inputStream(identifier);
       optionalInputStream.ifPresent(inputStream -> {
         kieFileSystem.write(ResourceFactory.newInputStreamResource(inputStream).setSourcePath(path));
-        LOGGER.info("Added rule to KieFileSystem: rule:{} [{}]", rule.id(), path);
+        LOGGER.info("Added rule to KieFileSystem: rule:{} [{}]", identifier, path);
         inputStreams.add(inputStream);
       });
     });

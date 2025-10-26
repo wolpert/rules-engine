@@ -7,7 +7,7 @@ import com.codeheadsystems.rules.accessor.FileAccessor;
 import com.codeheadsystems.rules.converter.FactsConverter;
 import com.codeheadsystems.rules.dao.RulesDao;
 import com.codeheadsystems.rules.model.Facts;
-import com.codeheadsystems.rules.model.ImmutableRule;
+import com.codeheadsystems.rules.model.ImmutableRuleIdentifier;
 import com.codeheadsystems.rules.model.RuleExecutionResult;
 import com.codeheadsystems.rules.model.Tenant;
 import com.codeheadsystems.rules.model.Version;
@@ -56,11 +56,10 @@ class RuleExecutionManagerTest {
       }
     };
 
-    RulesDao rulesDao = ruleSetIdentifier -> List.of(ImmutableRule.builder()
+    RulesDao rulesDao = ruleSetIdentifier -> List.of(ImmutableRuleIdentifier.builder()
         .tenant(TENANT)
         .id("id")
         .version(Version.of("1.0"))
-        .name("name")
         .build());
 
     configuration = new RulesEngineConfiguration();

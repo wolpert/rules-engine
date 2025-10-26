@@ -3,6 +3,7 @@ package com.codeheadsystems.rules.manager;
 import com.codeheadsystems.rules.accessor.FileAccessor;
 import com.codeheadsystems.rules.dao.RulesDao;
 import com.codeheadsystems.rules.model.Rule;
+import com.codeheadsystems.rules.model.RuleIdentifier;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import java.io.InputStream;
 import java.util.List;
@@ -49,7 +50,17 @@ public class RuleManager {
    * @return the optional
    */
   public Optional<InputStream> inputStream(final Rule rule) {
-    final String path = pathFor(rule);
+    return inputStream(rule.identifier());
+  }
+
+  /**
+   * Input stream optional.
+   *
+   * @param identifier the rule
+   * @return the optional
+   */
+  public Optional<InputStream> inputStream(final RuleIdentifier identifier) {
+    final String path = pathFor(identifier);
     return fileAccessor.getFile(path);
   }
 
@@ -60,7 +71,12 @@ public class RuleManager {
    * @return the string
    */
   public String pathFor(final Rule rule) {
-    return String.format(RULE_PATH, rule.tenant().value(), rule.id(), rule.version().value());
+    final RuleIdentifier identifier = rule.identifier();
+    return pathFor(identifier);
+  }
+
+  public String pathFor(final RuleIdentifier identifier) {
+    return String.format(RULE_PATH, identifier.tenant().value(), identifier.id(), identifier.version().value());
   }
 
   /**
@@ -82,7 +98,7 @@ public class RuleManager {
    * @param ruleSetIdentifier the rule set identifier
    * @return the list
    */
-  public List<Rule> rulesFor(final RuleSetIdentifier ruleSetIdentifier) {
+  public List<RuleIdentifier> rulesFor(final RuleSetIdentifier ruleSetIdentifier) {
     return rulesDao.rulesFor(ruleSetIdentifier);
   }
 

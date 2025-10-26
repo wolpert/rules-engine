@@ -1,6 +1,7 @@
 package com.codeheadsystems.rules.dao;
 
 import com.codeheadsystems.rules.model.Rule;
+import com.codeheadsystems.rules.model.RuleIdentifier;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import java.util.List;
 
@@ -15,6 +16,6 @@ public interface RulesDao {
    * @param ruleSetIdentifier the rule set identifier
    * @return the list
    */
-  List<Rule> rulesFor(final RuleSetIdentifier ruleSetIdentifier);
+  List<RuleIdentifier> rulesFor(final RuleSetIdentifier ruleSetIdentifier);
 
 }

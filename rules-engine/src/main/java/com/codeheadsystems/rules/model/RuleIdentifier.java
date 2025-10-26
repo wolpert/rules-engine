@@ -13,29 +13,33 @@ import org.immutables.value.Value;
  * by definition. Rules can have their own metrics, run in shadow mode, etc. The are applied to a rule-set.
  */
 @Value.Immutable
-@JsonSerialize(as = ImmutableRule.class)
-@JsonDeserialize(builder = ImmutableRule.Builder.class)
+@JsonSerialize(as = ImmutableRuleIdentifier.class)
+@JsonDeserialize(builder = ImmutableRuleIdentifier.Builder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public interface Rule {
-
-  @JsonProperty("identifier")
-  RuleIdentifier identifier();
+public interface RuleIdentifier {
 
   /**
-   * Name string.
+   * Tenant tenant.
+   *
+   * @return the tenant
+   */
+  @JsonProperty("tenant")
+  Tenant tenant();
+
+  /**
+   * Id string.
    *
    * @return the string
    */
-  @JsonProperty("name")
-  @Value.Auxiliary
-  String name();
+  @JsonProperty("id")
+  String id();
 
   /**
-   * Description optional.
+   * Version version.
    *
-   * @return the optional
+   * @return the version
    */
-  @JsonProperty("description")
-  @Value.Auxiliary
-  Optional<String> description();
+  @JsonProperty("version")
+  Version version();
+
 }
