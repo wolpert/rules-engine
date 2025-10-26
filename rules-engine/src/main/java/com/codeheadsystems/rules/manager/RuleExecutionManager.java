@@ -51,15 +51,14 @@ public class RuleExecutionManager {
   /**
    * Execute rules rule execution result.
    *
-   * @param tenant the tenant
+   * @param request the request
    * @param facts  the facts
    * @return the rule execution result
    */
-  public RuleExecutionResult executeRules(final Tenant tenant, final Facts facts) {
-    final RuleSetIdentifier request = ruleSetIdentifierManager.forTenant(tenant);
+  public RuleExecutionResult executeRules(final RuleSetIdentifier request, final Facts facts) {
     final RuleSet ruleSet = ruleSetManager.ruleExecutionContainer(request);
-    final StatelessKieSession session = statelessKieSessionManager.getKieSession(tenant, ruleSet.kieContainer());
-    final List<Command<?>> commands = getCommands(tenant, facts);
+    final StatelessKieSession session = statelessKieSessionManager.getKieSession(request, ruleSet.kieContainer());
+    final List<Command<?>> commands = getCommands(request, facts);
     commands.forEach(c -> LOGGER.debug("Command: {}", c));
     ExecutionResults results = session.execute(kieServices.getCommands().newBatchExecution(commands));
 
@@ -72,10 +71,10 @@ public class RuleExecutionManager {
     }
   }
 
-  private List<Command<?>> getCommands(final Tenant tenant, final Facts facts) {
+  private List<Command<?>> getCommands(final RuleSetIdentifier request, final Facts facts) {
     ImmutableList.Builder<Command<?>> builder = ImmutableList.builder();
     builder.add(kieServices.getCommands().newSetGlobal(RESULT, new RuleExecutionResult(), true));
-    builder.add(kieServices.getCommands().newInsert(tenant));
+    builder.add(kieServices.getCommands().newInsert(request.tenant()));
     facts.jsonObjects().forEach(jo -> builder.add(kieServices.getCommands().newInsert(jo)));
     builder.add(kieServices.getCommands().newSetGlobal(EVENT_ID, facts.eventId(), true));
     builder.add(kieServices.getCommands().newFireAllRules());

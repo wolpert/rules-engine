@@ -1,6 +1,6 @@
 package com.codeheadsystems.rules.manager;
 
-import com.codeheadsystems.rules.model.Tenant;
+import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.kie.api.runtime.KieContainer;
@@ -22,11 +22,11 @@ public class StatelessKieSessionManager {
   /**
    * Gets kie session.
    *
-   * @param tenant       the tenant
+   * @param request      the request
    * @param kieContainer the kie container
    * @return the kie session
    */
-  public StatelessKieSession getKieSession(Tenant tenant, KieContainer kieContainer) {
+  public StatelessKieSession getKieSession(RuleSetIdentifier request, KieContainer kieContainer) {
     StatelessKieSession session = kieContainer.newStatelessKieSession();
     // TODO: Add in metrics holders here.
     return session;

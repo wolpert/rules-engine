@@ -10,24 +10,25 @@ import jakarta.ws.rs.core.MediaType;
 /**
  * The interface Event.
  */
-@Path("/v1/event/tenant/{tenant}/eventType/{eventType}")
-public interface Event {
+@Path("/v1/event/tenant/{tenant}/event/{event}/version/{version}")
+public interface EventProcessor {
 
   /**
-   * Read execution result.
-   *
-   * @param tenant        the tenant
-   * @param eventType     the event type
-   * @param eventId       the event id
-   * @param jsonEventData the json event data
-   * @return the execution result
+   * Executes the rule engine for the given event.
+   * @param tenant
+   * @param event
+   * @param version
+   * @param eventId
+   * @param jsonEventData
+   * @return
    */
   @PUT
   @Path("/{eventId}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   ExecutionResult execute(@PathParam("tenant") final String tenant,
-                          @PathParam("eventType") final String eventType,
+                          @PathParam("event") final String event,
+                          @PathParam("version") final String version,
                           @PathParam("eventId") final String eventId,
                           final String jsonEventData);
 
