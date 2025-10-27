@@ -62,13 +62,4 @@ public class TenantManager {
     return tenantDao.getTenant(tenantName).isPresent();
   }
 
-  /**
-   * Event type list.
-   *
-   * @param tenant the tenant
-   * @return the list
-   */
-  public List<Event> eventType(Tenant tenant) {
-    return List.of();
-  }
 }

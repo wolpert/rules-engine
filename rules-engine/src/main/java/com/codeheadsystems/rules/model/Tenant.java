@@ -16,16 +16,6 @@ import org.immutables.value.Value;
 public interface Tenant {
 
   /**
-   * Used for rules bound by the installation.
-   */
-  Tenant SYSTEM = Tenant.of("_SYSTEM");
-
-  /**
-   * Used for rules global to all installations.
-   */
-  Tenant GLOBAL = Tenant.of("_GLOBAL");
-
-  /**
    * Of tenant.
    *
    * @param value the value

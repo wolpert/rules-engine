@@ -15,12 +15,13 @@ public interface EventProcessor {
 
   /**
    * Executes the rule engine for the given event.
-   * @param tenant
-   * @param event
-   * @param version
-   * @param eventId
-   * @param jsonEventData
-   * @return
+   *
+   * @param tenant        the tenant
+   * @param event         the event
+   * @param version       the version
+   * @param eventId       the event id
+   * @param jsonEventData the json event data
+   * @return the execution result
    */
   @PUT
   @Path("/{eventId}")

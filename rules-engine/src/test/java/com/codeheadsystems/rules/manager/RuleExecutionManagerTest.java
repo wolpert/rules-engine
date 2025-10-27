@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.codeheadsystems.rules.RulesEngineConfiguration;
 import com.codeheadsystems.rules.accessor.FileAccessor;
 import com.codeheadsystems.rules.converter.FactsConverter;
-import com.codeheadsystems.rules.dao.RulesDao;
 import com.codeheadsystems.rules.model.Event;
 import com.codeheadsystems.rules.model.ExecutionEnvironment;
 import com.codeheadsystems.rules.model.Facts;
@@ -69,16 +68,10 @@ class RuleExecutionManagerTest {
       }
     };
 
-    RulesDao rulesDao = ruleSetIdentifier -> List.of(ImmutableRuleIdentifier.builder()
-        .tenant(TENANT)
-        .id("id")
-        .version(Version.of("1.0"))
-        .build());
-
     configuration = new RulesEngineConfiguration();
     TestComponent component = DaggerRuleExecutionManagerTest_TestComponent.builder()
         .dropWizardModule(new DropWizardModule(environment, configuration))
-        .testModule(new TestModule(fileAccessor, rulesDao))
+        .testModule(new TestModule(fileAccessor))
         .build();
     ruleExecutionManager = component.ruleExecutionManager();
     factsConverter = component.factsConverter();

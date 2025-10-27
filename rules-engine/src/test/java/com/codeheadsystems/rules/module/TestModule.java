@@ -1,7 +1,6 @@
 package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.accessor.FileAccessor;
-import com.codeheadsystems.rules.dao.RulesDao;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -10,11 +9,9 @@ import javax.inject.Singleton;
 public class TestModule {
 
   private final FileAccessor fileAccessor;
-  private final RulesDao rulesDao;
 
-  public TestModule(final FileAccessor fileAccessor, final RulesDao rulesDao) {
+  public TestModule(final FileAccessor fileAccessor) {
     this.fileAccessor = fileAccessor;
-    this.rulesDao = rulesDao;
   }
 
   @Provides
@@ -22,12 +19,5 @@ public class TestModule {
   public FileAccessor fileAccessor() {
     return fileAccessor;
   }
-
-  @Provides
-  @Singleton
-  public RulesDao rulesDao() {
-    return rulesDao;
-  }
-
 
 }

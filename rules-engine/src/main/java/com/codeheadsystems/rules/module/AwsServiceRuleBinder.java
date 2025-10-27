@@ -2,8 +2,6 @@ package com.codeheadsystems.rules.module;
 
 import com.codeheadsystems.rules.accessor.FileAccessor;
 import com.codeheadsystems.rules.accessor.S3FileAccessor;
-import com.codeheadsystems.rules.dao.DynamoDbRulesDao;
-import com.codeheadsystems.rules.dao.RulesDao;
 import dagger.Binds;
 import dagger.Module;
 
@@ -21,14 +19,5 @@ public interface AwsServiceRuleBinder {
    */
   @Binds
   FileAccessor fileAccessor(S3FileAccessor s3FileAccessor);
-
-  /**
-   * Rules dao rules dao.
-   *
-   * @param dynamoDbRulesDao the dynamo db rules dao
-   * @return the rules dao
-   */
-  @Binds
-  RulesDao rulesDao(DynamoDbRulesDao dynamoDbRulesDao);
 
 }

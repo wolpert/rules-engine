@@ -3,11 +3,29 @@ package com.codeheadsystems.rules.dao;
 import java.util.Map;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
+/**
+ * The enum Column names.
+ */
 public enum ColumnNames {
+  /**
+   * Tenant column names.
+   */
   TENANT("tenant"),
+  /**
+   * Event column names.
+   */
   EVENT("event"),
+  /**
+   * Rule version column names.
+   */
   RULE_VERSION("rule_version"),
+  /**
+   * Event version column names.
+   */
   EVENT_VERSION("event_version"),
+  /**
+   * Rule id column names.
+   */
   RULE_ID("rule_id"),
   ;
 
@@ -17,6 +35,11 @@ public enum ColumnNames {
     this.column = column;
   }
 
+  /**
+   * Column string.
+   *
+   * @return the string
+   */
   public String column() {
     return column;
   }

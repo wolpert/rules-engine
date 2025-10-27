@@ -22,6 +22,9 @@ import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.ReturnConsumedCapacity;
 import software.amazon.awssdk.services.dynamodb.model.WriteRequest;
 
+/**
+ * The type Rule converter.
+ */
 @Singleton
 public class RuleConverter {
 
@@ -29,6 +32,9 @@ public class RuleConverter {
    * The constant ROW_IDENTIFIER.
    */
   public static final String RULESET_RULE_IDENTIFIER = "RULESET_RULE#";
+  /**
+   * The constant RULE_IDENTIFIER.
+   */
   public static final String RULE_IDENTIFIER = "RULE#";
   /**
    * The constant TYPE.
@@ -41,6 +47,11 @@ public class RuleConverter {
 
   private final TableConfiguration tableConfiguration;
 
+  /**
+   * Instantiates a new Rule converter.
+   *
+   * @param tableConfiguration the table configuration
+   */
   @Inject
   public RuleConverter(final TableConfiguration tableConfiguration) {
     this.tableConfiguration = tableConfiguration;
@@ -77,6 +88,13 @@ public class RuleConverter {
         .build();
   }
 
+  /**
+   * Put item request from put item request.
+   *
+   * @param ruleSetIdentifier the rule set identifier
+   * @param ruleIdentifier    the rule identifier
+   * @return the put item request
+   */
   public PutItemRequest putItemRequestFrom(RuleSetIdentifier ruleSetIdentifier, RuleIdentifier ruleIdentifier) {
     Map<String, AttributeValue> item = toRow(ruleSetIdentifier, ruleIdentifier);
     return PutItemRequest.builder()
@@ -86,6 +104,12 @@ public class RuleConverter {
         .build();
   }
 
+  /**
+   * Batch write item request from batch write item request.
+   *
+   * @param rules the rules
+   * @return the batch write item request
+   */
   public BatchWriteItemRequest batchWriteItemRequestFrom(Map<RuleSetIdentifier, RuleIdentifier> rules) {
     var requestBuilder = BatchWriteItemRequest.builder()
         .returnConsumedCapacity(ReturnConsumedCapacity.TOTAL);
@@ -116,6 +140,12 @@ public class RuleConverter {
     );
   }
 
+  /**
+   * To rule identifier optional.
+   *
+   * @param attributes the attributes
+   * @return the optional
+   */
   public Optional<RuleIdentifier> toRuleIdentifier(Map<String, AttributeValue> attributes) {
     if (!attributes.isEmpty()) {
       return Optional.of(

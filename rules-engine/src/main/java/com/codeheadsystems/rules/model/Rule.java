@@ -18,6 +18,11 @@ import org.immutables.value.Value;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public interface Rule {
 
+  /**
+   * Identifier rule identifier.
+   *
+   * @return the rule identifier
+   */
   @JsonProperty("identifier")
   RuleIdentifier identifier();
 
