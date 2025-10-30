@@ -1,0 +1,31 @@
+@startuml
+
+class RuleFiles {}
+class File {
+    {field} s3Bucket
+    {field} path
+}
+class VelocityFiles {}
+class RuleSet {}
+class RuleSetIdentifier {}
+class EventIdentifier {}
+class Event {
+  {field} timestamp
+  {field} shadow
+}
+class Facts {}
+class ExecutionResults {}
+
+
+File <|-up- RuleFiles
+File <|-up- VelocityFiles
+
+RuleSet *-left-> RuleSetIdentifier : has
+RuleSet o--> "*" RuleFiles : contains
+RuleSet o--> "*" VelocityFiles : contains
+EventIdentifier --> "1" RuleSet
+EventIdentifier "1" -right- "*" Event
+Event *--> "1" Facts : contains
+Event --> "1" ExecutionResults : produces
+
+@enduml
