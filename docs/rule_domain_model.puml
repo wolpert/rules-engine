@@ -7,33 +7,32 @@ class File {
     {field} path
 }
 class VelocityFiles {}
-class RuleSet {}
-class RuleSetIdentifier {}
-class RuleIdentifier {}
-class EventIdentifier {}
+class RuleSet {
+    {field} RuleSetIdentifier
+}
 class Event {
+  {field} EventIdentifier
   {field} timestamp
   {field} shadow
 }
 class Facts {}
 class ExecutionResults {}
-class Rule {}
+class Rule {
+    {field} RuleIdentifier
+}
 class Velocity{
     {field} identifierPath
     {field} aggregationPath
     {field} window
 }
 
-EventIdentifier "1" -- "1" Event
 Event *--> "1" Facts : contains
-EventIdentifier -right->  ExecutionResults
+Event -right->  ExecutionResults
 
-ExecutionResults -right-> "1" RuleSetIdentifier
-RuleSetIdentifier "1" -- "1" RuleSet
+ExecutionResults -right-> "1" RuleSet
 
 RuleSet o--> "*" Rule : contains
 RuleSet o--> "*" Velocity : contains
-Rule o-- RuleIdentifier : has
 Rule o--> "*" RuleFile : contains
 Velocity o--> "*" VelocityFiles : contains
 File <|-- VelocityFiles

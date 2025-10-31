@@ -24,6 +24,15 @@ The audit datastore contains the execution results for later retrieval, and prov
 data needed for velocity calculations.  All details of an execution is stored as
 immutable files within S3.
 
+# Internal Domain Model
+
+![](https://www.plantuml.com/plantuml/png/RP91QyCm38Nl-XMcnq8EkuunUbW7Emn61xkBM4i4ZbrYPTte-j_dEh5ntFLGo7kVfAT4EoyuoZGO064nf0vJ-7jo0x9LhqvJC5g3taVZcODvlYpA_0Gg_CwVJ4PVr16bX-H_a74joy-Lyx4iDtedMLSczKMJ5GxQcDlilyX6Eh5HASZ24Hx82mx7GlCzQdU2d1fRATBilwcTX9qza9-CL3d_2LdChHTTmvp1DvH-PM7NZTJXTUoDTs8xnuLvyMtJFAhDtMO9VgzQPmNP-iLlHkvw2SpDAW2rak3OCBroWFH5N1ordProKWtaZMie4_bSIY9N9QewaGADfG-_JRD62ZqD080TMNqzuJy0)
+
+Note that the java objects may not contain instances of the associations, rather the 
+managers will be able to access them. Example, events have an event identifier, as
+do execution results. Event identifiers do not hold references to Events or 
+ExecutionResults themselves.
+
 # Sequence of events
 
 # Execution path
