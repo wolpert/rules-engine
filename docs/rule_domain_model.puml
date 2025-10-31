@@ -1,6 +1,6 @@
 @startuml
 
-class RuleFiles {}
+class RuleFile {}
 class File {
     {field} s3Bucket
     {field} path
@@ -15,14 +15,15 @@ class Event {
 }
 class Facts {}
 class ExecutionResults {}
+class Rule {}
 
-
-File <|-up- RuleFiles
 File <|-up- VelocityFiles
+File <|-up- RuleFile
 
-RuleSet *-left-> RuleSetIdentifier : has
-RuleSet o--> "*" RuleFiles : contains
+RuleSet o-left- RuleSetIdentifier : has
+RuleSet o--> "*" RuleFile : contains
 RuleSet o--> "*" VelocityFiles : contains
+Rule --right> RuleFile : contains
 EventIdentifier --> "1" RuleSet
 EventIdentifier "1" -right- "*" Event
 Event *--> "1" Facts : contains
