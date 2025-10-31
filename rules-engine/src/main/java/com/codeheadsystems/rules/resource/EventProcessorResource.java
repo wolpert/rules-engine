@@ -8,6 +8,7 @@ import com.codeheadsystems.rules.manager.RuleExecutionManager;
 import com.codeheadsystems.rules.model.Event;
 import com.codeheadsystems.rules.model.Facts;
 import com.codeheadsystems.rules.model.ImmutableRuleSetIdentifier;
+import com.codeheadsystems.rules.model.JsonObject;
 import com.codeheadsystems.rules.model.RuleExecutionResult;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import com.codeheadsystems.rules.model.Tenant;
@@ -57,7 +58,7 @@ public class EventProcessorResource implements EventProcessor, JerseyResource {
         .eventVersion(version)
         .build();
     // TODO: validate the eventId hasn't already been processed.
-    final Facts facts = factsConverter.convert(eventId, jsonEventData);
+    final Facts<JsonObject> facts = factsConverter.convert(eventId, jsonEventData);
     final RuleExecutionResult ruleExecutionResult = ruleExecutionManager.executeRules(ruleSetIdentifier, facts);
     return executionResultConverter.convert(ruleExecutionResult);
   }

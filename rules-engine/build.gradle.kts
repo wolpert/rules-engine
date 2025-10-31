@@ -11,6 +11,7 @@ plugins {
 dependencies {
     implementation(project(":rules-engine-api"))
     implementation(project(":server-base"))
+    implementation(project(":model"))
     implementation(libs.dropwizard.core)
     implementation(libs.commons.codec)
     testImplementation(libs.dropwizard.testing)

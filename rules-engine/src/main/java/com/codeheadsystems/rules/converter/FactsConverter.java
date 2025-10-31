@@ -37,9 +37,9 @@ public class FactsConverter {
    * @param payload the payload
    * @return the facts
    */
-  public Facts convert(final String eventId, final String payload) {
+  public Facts<JsonObject> convert(final String eventId, final String payload) {
     final JsonObject jsonObject = jsonObjectFactory.jsonObject(payload);
-    return ImmutableFacts.builder()
+    return ImmutableFacts.<JsonObject>builder()
         .eventId(eventId)
         .addJsonObjects(jsonObject)
         .build();

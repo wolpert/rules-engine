@@ -1,13 +1,15 @@
 @startuml
 
+title Rule Domain Model
+
 class RuleFile {}
 class File {
-    {field} s3Bucket
     {field} path
 }
 class VelocityFiles {}
 class RuleSet {}
 class RuleSetIdentifier {}
+class RuleIdentifier {}
 class EventIdentifier {}
 class Event {
   {field} timestamp
@@ -16,17 +18,26 @@ class Event {
 class Facts {}
 class ExecutionResults {}
 class Rule {}
+class Velocity{
+    {field} identifierPath
+    {field} aggregationPath
+    {field} window
+}
 
-File <|-up- VelocityFiles
-File <|-up- RuleFile
-
-RuleSet o-left- RuleSetIdentifier : has
-RuleSet o--> "*" RuleFile : contains
-RuleSet o--> "*" VelocityFiles : contains
-Rule --right> RuleFile : contains
-EventIdentifier --> "1" RuleSet
-EventIdentifier "1" -right- "*" Event
+EventIdentifier "1" -- "1" Event
 Event *--> "1" Facts : contains
-Event --> "1" ExecutionResults : produces
+EventIdentifier -right->  ExecutionResults
+
+ExecutionResults -right-> "1" RuleSetIdentifier
+RuleSetIdentifier "1" -- "1" RuleSet
+
+RuleSet o--> "*" Rule : contains
+RuleSet o--> "*" Velocity : contains
+Rule o-- RuleIdentifier : has
+Rule o--> "*" RuleFile : contains
+Velocity o--> "*" VelocityFiles : contains
+File <|-- VelocityFiles
+File <|-- RuleFile
+
 
 @enduml

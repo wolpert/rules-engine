@@ -10,8 +10,17 @@ import java.util.Optional;
  */
 public interface FileAccessor {
 
+  /**
+   * The constant RULE_SET_PATH.
+   */
   String RULE_SET_PATH = "%s/events/%s/ruleset/%s/";
 
+  /**
+   * Path for string.
+   *
+   * @param identifier the identifier
+   * @return the string
+   */
   default String pathFor(final RuleSetIdentifier identifier) {
     return String.format(RULE_SET_PATH, identifier.tenant().value(), identifier.event().value(), identifier.eventVersion().value());
   }

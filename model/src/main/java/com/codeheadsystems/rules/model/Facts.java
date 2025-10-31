@@ -5,9 +5,11 @@ import org.immutables.value.Value;
 
 /**
  * The interface Facts.
+ *
+ * @param <T> the type parameter
  */
 @Value.Immutable
-public interface Facts {
+public interface Facts <T> {
 
   /**
    * Event id string.
@@ -21,6 +23,6 @@ public interface Facts {
    *
    * @return the set
    */
-  Set<JsonObject> jsonObjects();
+  Set<T> jsonObjects();
 
 }

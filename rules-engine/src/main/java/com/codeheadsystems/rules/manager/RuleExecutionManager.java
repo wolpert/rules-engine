@@ -1,6 +1,8 @@
 package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.model.Facts;
+import com.codeheadsystems.rules.model.JsonObject;
+import com.codeheadsystems.rules.model.RuleExecutionContainer;
 import com.codeheadsystems.rules.model.RuleExecutionResult;
 import com.codeheadsystems.rules.model.RuleSet;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
@@ -50,9 +52,9 @@ public class RuleExecutionManager {
    * @param facts   the facts
    * @return the rule execution result
    */
-  public RuleExecutionResult executeRules(final RuleSetIdentifier request, final Facts facts) {
-    final RuleSet ruleSet = ruleSetManager.ruleExecutionContainer(request);
-    final StatelessKieSession session = statelessKieSessionManager.getKieSession(request, ruleSet.kieContainer());
+  public RuleExecutionResult executeRules(final RuleSetIdentifier request, final Facts<JsonObject> facts) {
+    final RuleExecutionContainer container = ruleSetManager.ruleExecutionContainer(request);
+    final StatelessKieSession session = statelessKieSessionManager.getKieSession(request, container.kieContainer());
     final List<Command<?>> commands = getCommands(request, facts);
     commands.forEach(c -> LOGGER.debug("Command: {}", c));
     ExecutionResults results = session.execute(kieServices.getCommands().newBatchExecution(commands));
@@ -66,7 +68,7 @@ public class RuleExecutionManager {
     }
   }
 
-  private List<Command<?>> getCommands(final RuleSetIdentifier request, final Facts facts) {
+  private List<Command<?>> getCommands(final RuleSetIdentifier request, final Facts<JsonObject> facts) {
     ImmutableList.Builder<Command<?>> builder = ImmutableList.builder();
     builder.add(kieServices.getCommands().newSetGlobal(RESULT, new RuleExecutionResult(), true));
     builder.add(kieServices.getCommands().newInsert(request.tenant()));
