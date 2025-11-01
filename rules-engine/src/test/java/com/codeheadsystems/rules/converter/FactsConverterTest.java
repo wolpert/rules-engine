@@ -21,6 +21,7 @@ class FactsConverterTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   void convert_shouldReturnFactsWithCorrectEventIdAndJsonObject() {
     String eventId = "event-123";
     String payload = "{\"key\":\"value\"}";

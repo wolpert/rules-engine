@@ -24,6 +24,12 @@ import javax.inject.Singleton;
 public class RuleEngineServerModule {
 
   /**
+   * Instantiates a new Rule engine server module.
+   */
+  public RuleEngineServerModule() {
+  }
+
+  /**
    * Clock clock.
    *
    * @return the clock

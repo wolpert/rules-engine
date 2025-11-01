@@ -16,12 +16,22 @@ import org.immutables.value.Value;
 public interface RuleSetIdentifier {
 
   /**
-   * Execution environment execution environment.
+   * Of rule set identifier.
    *
-   * @return the execution environment
+   * @param tenant    the tenant
+   * @param eventType the event
+   * @param version   the version
+   * @return the rule set identifier
    */
-  @JsonProperty("executionEnvironment")
-  ExecutionEnvironment executionEnvironment();
+  static RuleSetIdentifier of(final Tenant tenant,
+                              final EventType eventType,
+                              final Version version) {
+    return ImmutableRuleSetIdentifier.builder()
+        .tenant(tenant)
+        .eventType(eventType)
+        .version(version)
+        .build();
+  }
 
   /**
    * Tenant tenant.
@@ -36,15 +46,15 @@ public interface RuleSetIdentifier {
    *
    * @return the optional
    */
-  @JsonProperty("event")
-  Event event();
+  @JsonProperty("eventType")
+  EventType eventType();
 
   /**
-   * Event version optional.
+   * Version version.
    *
-   * @return the optional
+   * @return the version
    */
-  @JsonProperty("eventVersion")
-  Version eventVersion();
+  @JsonProperty("version")
+  Version version();
 
 }

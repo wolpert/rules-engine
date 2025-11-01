@@ -55,6 +55,12 @@ public interface RequestDecomposition {
     private static final String UNKNOWN = "unknown";
 
     /**
+     * Instantiates a new Factory.
+     */
+    public Factory() {
+    }
+
+    /**
      * Generate request decomposition.
      *
      * @param requestContext the request context

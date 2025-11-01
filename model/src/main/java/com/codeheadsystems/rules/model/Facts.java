@@ -9,7 +9,7 @@ import org.immutables.value.Value;
  * @param <T> the type parameter
  */
 @Value.Immutable
-public interface Facts <T> {
+public interface Facts<T> {
 
   /**
    * Event id string.

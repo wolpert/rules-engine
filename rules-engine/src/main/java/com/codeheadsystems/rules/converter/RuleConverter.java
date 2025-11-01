@@ -61,8 +61,8 @@ public class RuleConverter {
     return String.format("%s%s:%s:%s",
         RULESET_RULE_IDENTIFIER,
         ruleSetIdentifier.tenant().value(),
-        ruleSetIdentifier.event().value(),
-        ruleSetIdentifier.eventVersion().value());
+        ruleSetIdentifier.eventType().value(),
+        ruleSetIdentifier.version().value());
   }
 
   private static WriteRequest toPutRequest(Map<String, AttributeValue> item) {
@@ -135,8 +135,8 @@ public class RuleConverter {
         ColumnNames.TENANT.column(), fromS(ruleSetIdentifier.tenant().value()),
         ColumnNames.RULE_ID.column(), fromS(ruleIdentifier.id()),
         ColumnNames.RULE_VERSION.column(), fromS(ruleIdentifier.version().value()),
-        ColumnNames.EVENT_VERSION.column(), fromS(ruleSetIdentifier.eventVersion().value()),
-        ColumnNames.EVENT.column(), fromS(ruleSetIdentifier.event().value())
+        ColumnNames.EVENT_VERSION.column(), fromS(ruleSetIdentifier.version().value()),
+        ColumnNames.EVENT.column(), fromS(ruleSetIdentifier.eventType().value())
     );
   }
 

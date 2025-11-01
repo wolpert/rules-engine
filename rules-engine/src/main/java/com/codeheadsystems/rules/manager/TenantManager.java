@@ -1,9 +1,7 @@
 package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.dao.TenantDao;
-import com.codeheadsystems.rules.model.Event;
 import com.codeheadsystems.rules.model.Tenant;
-import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Singleton;

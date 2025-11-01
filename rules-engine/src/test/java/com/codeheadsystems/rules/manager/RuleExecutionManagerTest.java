@@ -5,11 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.codeheadsystems.rules.RulesEngineConfiguration;
 import com.codeheadsystems.rules.accessor.FileAccessor;
 import com.codeheadsystems.rules.converter.FactsConverter;
-import com.codeheadsystems.rules.model.Event;
-import com.codeheadsystems.rules.model.ExecutionEnvironment;
+import com.codeheadsystems.rules.model.EventType;
 import com.codeheadsystems.rules.model.Facts;
-import com.codeheadsystems.rules.model.ImmutableRuleIdentifier;
 import com.codeheadsystems.rules.model.ImmutableRuleSetIdentifier;
+import com.codeheadsystems.rules.model.JsonObject;
 import com.codeheadsystems.rules.model.RuleExecutionResult;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import com.codeheadsystems.rules.model.Tenant;
@@ -35,14 +34,13 @@ class RuleExecutionManagerTest {
 
   private static final Tenant TENANT = Tenant.of("tenant");
   private static final String EVENT_ID = "11-eventId";
-  private static final Event EVENT = Event.of(EVENT_ID);
+  private static final String EVENT_NAME = "event-name";
+  private static final EventType EVENT_TYPE = EventType.of(EVENT_NAME);
   private static final Version VERSION = Version.of("version");
-  private static final ExecutionEnvironment ENVIRONMENT = ExecutionEnvironment.of("unit-test");
   private static final RuleSetIdentifier RULE_SET_IDENTIFIER = ImmutableRuleSetIdentifier.builder()
       .tenant(TENANT)
-      .event(EVENT)
-      .eventVersion(VERSION)
-      .executionEnvironment(ENVIRONMENT)
+      .eventType(EVENT_TYPE)
+      .version(VERSION)
       .build();
   private static final String PAYLOAD = "{\"color\":\"blue\"}";
 
@@ -79,8 +77,8 @@ class RuleExecutionManagerTest {
 
   @Test
   void testRuleExecutionManager() {
-    Facts facts = factsConverter.convert(EVENT_ID, PAYLOAD);
-    RuleExecutionResult result = ruleExecutionManager.executeRules(RULE_SET_IDENTIFIER, facts);
+    Facts<JsonObject> facts = factsConverter.convert(EVENT_ID, PAYLOAD);
+    RuleExecutionResult result = ruleExecutionManager.execute(RULE_SET_IDENTIFIER, facts);
     assertThat(result)
         .isNotNull()
         .hasEntrySatisfying("we found", v -> assertThat(v).isEqualTo("blue"));

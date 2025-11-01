@@ -22,7 +22,7 @@ public interface FileAccessor {
    * @return the string
    */
   default String pathFor(final RuleSetIdentifier identifier) {
-    return String.format(RULE_SET_PATH, identifier.tenant().value(), identifier.event().value(), identifier.eventVersion().value());
+    return String.format(RULE_SET_PATH, identifier.tenant().value(), identifier.eventType().value(), identifier.version().value());
   }
 
   /**

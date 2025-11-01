@@ -94,7 +94,7 @@ public class RuleSetManager {
     final KieServices kieServices = KieServices.Factory.get();
     final ReleaseId releaseId = rulesFor(kieServices, request);
     final KieContainer kieContainer = containerize(kieServices, releaseId);
-    final RuleSet ruleSet =  ImmutableRuleSet.builder()
+    final RuleSet ruleSet = ImmutableRuleSet.builder()
         .ruleSetIdentifier(request)
         .build();
     return ImmutableRuleExecutionContainer.builder()

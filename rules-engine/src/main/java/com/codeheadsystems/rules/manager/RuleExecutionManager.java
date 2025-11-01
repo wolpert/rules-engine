@@ -1,10 +1,10 @@
 package com.codeheadsystems.rules.manager;
 
+import com.codeheadsystems.rules.model.ExecutionRequest;
 import com.codeheadsystems.rules.model.Facts;
 import com.codeheadsystems.rules.model.JsonObject;
 import com.codeheadsystems.rules.model.RuleExecutionContainer;
 import com.codeheadsystems.rules.model.RuleExecutionResult;
-import com.codeheadsystems.rules.model.RuleSet;
 import com.codeheadsystems.rules.model.RuleSetIdentifier;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
@@ -46,16 +46,26 @@ public class RuleExecutionManager {
   }
 
   /**
-   * Execute rules rule execution result.
+   * Execute rule execution result.
    *
-   * @param request the request
-   * @param facts   the facts
+   * @param executionRequest the execution request
    * @return the rule execution result
    */
-  public RuleExecutionResult executeRules(final RuleSetIdentifier request, final Facts<JsonObject> facts) {
-    final RuleExecutionContainer container = ruleSetManager.ruleExecutionContainer(request);
-    final StatelessKieSession session = statelessKieSessionManager.getKieSession(request, container.kieContainer());
-    final List<Command<?>> commands = getCommands(request, facts);
+  public RuleExecutionResult execute(ExecutionRequest<JsonObject> executionRequest) {
+    return execute(executionRequest.ruleSetIdentifier(), executionRequest.facts());
+  }
+
+  /**
+   * Execute rules rule execution result.
+   *
+   * @param ruleSetIdentifier the request
+   * @param facts             the facts
+   * @return the rule execution result
+   */
+  protected RuleExecutionResult execute(final RuleSetIdentifier ruleSetIdentifier, final Facts<JsonObject> facts) {
+    final RuleExecutionContainer container = ruleSetManager.ruleExecutionContainer(ruleSetIdentifier);
+    final StatelessKieSession session = statelessKieSessionManager.getKieSession(ruleSetIdentifier, container.kieContainer());
+    final List<Command<?>> commands = getCommands(ruleSetIdentifier, facts);
     commands.forEach(c -> LOGGER.debug("Command: {}", c));
     ExecutionResults results = session.execute(kieServices.getCommands().newBatchExecution(commands));
 

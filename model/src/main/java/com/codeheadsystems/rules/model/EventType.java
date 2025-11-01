@@ -10,15 +10,10 @@ import org.immutables.value.Value;
  * The interface Event type.
  */
 @Value.Immutable
-@JsonSerialize(as = ImmutableEvent.class)
-@JsonDeserialize(builder = ImmutableEvent.Builder.class)
+@JsonSerialize(as = ImmutableEventType.class)
+@JsonDeserialize(builder = ImmutableEventType.Builder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public interface Event {
-
-  /**
-   * The constant DEFAULT.
-   */
-  Event DEFAULT = Event.of("DEFAULT");
+public interface EventType {
 
   /**
    * Of event type.
@@ -26,8 +21,8 @@ public interface Event {
    * @param eventType the event type
    * @return the event type
    */
-  static Event of(String eventType) {
-    return ImmutableEvent.builder().value(eventType).build();
+  static EventType of(String eventType) {
+    return ImmutableEventType.builder().value(eventType).build();
   }
 
   /**
