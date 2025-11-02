@@ -118,6 +118,10 @@ public class RuleSetManager {
     final String ruleSetPath = fileAccessor.pathFor(identifier);
     final List<String> rulePaths = fileAccessor.listFiles(ruleSetPath);
 
+    if (rulePaths.isEmpty()) {
+      throw new IllegalArgumentException("No rules found for request: " + identifier);
+    }
+
     rulePaths.forEach(path -> {
       Optional<InputStream> optionalInputStream = fileAccessor.getFile(path);
       optionalInputStream.ifPresent(inputStream -> {
