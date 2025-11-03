@@ -40,6 +40,11 @@ public class JsonObject {
     });
   }
 
+  public boolean exists(String path) {
+    final JsonNode node = cache.get(path);
+    return !node.isMissingNode();
+  }
+
   /**
    * As string string.
    *

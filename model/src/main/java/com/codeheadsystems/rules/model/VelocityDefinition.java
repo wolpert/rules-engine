@@ -13,10 +13,10 @@ import org.immutables.value.Value;
  * by definition. Rules can have their own metrics, run in shadow mode, etc. The are applied to a rule-set.
  */
 @Value.Immutable
-@JsonSerialize(as = ImmutableVelocity.class)
-@JsonDeserialize(builder = ImmutableVelocity.Builder.class)
+@JsonSerialize(as = ImmutableVelocityDefinition.class)
+@JsonDeserialize(builder = ImmutableVelocityDefinition.Builder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public interface Velocity {
+public interface VelocityDefinition {
 
   /**
    * Identifier rule identifier.
@@ -24,7 +24,7 @@ public interface Velocity {
    * @return the rule identifier
    */
   @JsonProperty("identifier")
-  RuleIdentifier identifier();
+  VelocityIdentifier identifier();
 
   /**
    * Name string.
@@ -54,6 +54,15 @@ public interface Velocity {
   Window window();
 
   /**
+   * The name to give the velocity identifier. (Like credit card number)
+   *
+   * @return the string
+   */
+  @JsonProperty("varName")
+  @Value.Auxiliary
+  String varName();
+
+  /**
    * Path to the unique identifier in the JSON you want to count within the window.
    *
    * @return the string
@@ -71,4 +80,17 @@ public interface Velocity {
   @JsonProperty("valPath")
   @Value.Auxiliary
   Optional<String> valPath();
+
+  /**
+   * Type of aggregation. Note you cannot change this when you create a velocity as
+   * it's not backwards compatible.
+   *
+   * @return the type
+   */
+  @JsonProperty("type")
+  @Value.Auxiliary
+  default VelocityValueType type() {
+    return VelocityValueType.INTEGER;
+  }
+
 }
