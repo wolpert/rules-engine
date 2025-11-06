@@ -34,6 +34,12 @@ public interface Velocity<T extends Number> {
         .build();
   }
 
+  /**
+   * Add velocity.
+   *
+   * @param additionalValue the additional value
+   * @return the velocity
+   */
   @SuppressWarnings("unchecked")
   default Velocity<T> add(final T additionalValue) {
     if (additionalValue instanceof BigInteger bigInteger) {
@@ -45,6 +51,12 @@ public interface Velocity<T extends Number> {
     }
   }
 
+  /**
+   * Add velocity.
+   *
+   * @param other the other
+   * @return the velocity
+   */
   default Velocity<T> add(final Velocity<T> other) {
     return add(other.value());
   }

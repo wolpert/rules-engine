@@ -9,6 +9,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class VelocityValueTest {
+  // Add these two test methods to `rules-engine/src/test/java/com/codeheadsystems/rules/model/VelocityValueTest.java`
+  @Test
+  void bigInteger_stringConstructorCreatesValue() {
+    var v = new VelocityValue.VelocityValueBigInteger("12345678901234567890");
+    assertThat(v).isInstanceOf(VelocityValue.VelocityValueBigInteger.class);
+    assertThat(v.value()).isEqualByComparingTo(new BigInteger("12345678901234567890"));
+  }
+
+  @Test
+  void bigDecimal_stringConstructorCreatesValue() {
+    var v = new VelocityValue.VelocityValueBigDecimal("1.200");
+    assertThat(v).isInstanceOf(VelocityValue.VelocityValueBigDecimal.class);
+    assertThat(v.value()).isEqualByComparingTo(new BigDecimal("1.200"));
+  }
 
   @Test
   void bigInteger_additionAndImmutability() {

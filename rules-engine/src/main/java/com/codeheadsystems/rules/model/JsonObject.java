@@ -40,6 +40,12 @@ public class JsonObject {
     });
   }
 
+  /**
+   * Exists boolean.
+   *
+   * @param path the path
+   * @return the boolean
+   */
   public boolean exists(String path) {
     final JsonNode node = cache.get(path);
     return !node.isMissingNode();

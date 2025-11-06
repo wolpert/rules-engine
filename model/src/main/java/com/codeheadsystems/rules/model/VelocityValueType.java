@@ -3,9 +3,19 @@ package com.codeheadsystems.rules.model;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * The enum Velocity value type.
+ */
 public enum VelocityValueType {
 
-  INTEGER(BigInteger.class), FLOAT(BigDecimal.class);
+  /**
+   * Integer velocity value type.
+   */
+  INTEGER(BigInteger.class),
+  /**
+   * Float velocity value type.
+   */
+  FLOAT(BigDecimal.class);
 
   private final Class<? extends Number> clazz;
 
@@ -13,6 +23,12 @@ public enum VelocityValueType {
     clazz = numberClass;
   }
 
+  /**
+   * Number class class.
+   *
+   * @param <T> the type parameter
+   * @return the class
+   */
   @SuppressWarnings("unchecked")
   public <T extends Number> Class<T> numberClass() {
     return (Class<T>) clazz;
