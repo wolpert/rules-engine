@@ -10,8 +10,13 @@ import java.util.Optional;
 /**
  * The type Velocity processor empty integer.
  */
-public class VelocityProcessorEmptyInteger extends VelocityProcessorBase<BigInteger> implements VelocityProcessor<BigInteger> {
+public class VelocityProcessorEmptyInteger extends VelocityProcessor<BigInteger> {
 
+  /**
+   * Instantiates a new Velocity processor empty integer.
+   *
+   * @param definition the definition
+   */
   public VelocityProcessorEmptyInteger(VelocityDefinition definition) {
     super(definition);
   }

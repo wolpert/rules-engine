@@ -10,8 +10,13 @@ import java.util.Optional;
 /**
  * The type Velocity processor integer.
  */
-public class VelocityProcessorInteger extends VelocityProcessorBase<BigInteger> implements VelocityProcessor<BigInteger> {
+public class VelocityProcessorInteger extends VelocityProcessor<BigInteger> {
 
+  /**
+   * Instantiates a new Velocity processor integer.
+   *
+   * @param definition the definition
+   */
   public VelocityProcessorInteger(VelocityDefinition definition) {
     super(definition);
   }

@@ -1,6 +1,7 @@
 package com.codeheadsystems.rules.processor;
 
 import com.codeheadsystems.rules.model.JsonObject;
+import com.codeheadsystems.rules.model.VelocityDefinition;
 import com.codeheadsystems.rules.model.VelocityValue;
 import com.codeheadsystems.rules.model.VelocityVariableName;
 import java.util.Optional;
@@ -10,8 +11,26 @@ import java.util.Optional;
  *
  * @param <T> the type parameter
  */
-public interface VelocityProcessor<T extends Number> {
+public abstract class VelocityProcessor<T extends Number> {
 
+  /**
+   * The Val path.
+   */
+  protected final String valPath;
+  /**
+   * The Var name path.
+   */
+  protected final String varNamePath;
+
+  /**
+   * Instantiates a new Velocity processor.
+   *
+   * @param velocityDefinition the velocity definition
+   */
+  public VelocityProcessor(VelocityDefinition velocityDefinition) {
+    this.valPath = velocityDefinition.valPath().orElse(null);
+    this.varNamePath = velocityDefinition.varPath();
+  }
 
   /**
    * Value from optional.
@@ -19,8 +38,20 @@ public interface VelocityProcessor<T extends Number> {
    * @param json the json
    * @return the optional
    */
-  Optional<VelocityValue<T>> valueFrom(JsonObject json);
+  public abstract Optional<VelocityValue<T>> valueFrom(JsonObject json);
 
-  Optional<VelocityVariableName> variableNameFrom(JsonObject json);
+  /**
+   * Variable name from optional.
+   *
+   * @param json the json
+   * @return the optional
+   */
+  public Optional<VelocityVariableName> variableNameFrom(final JsonObject json) {
+    if (json.exists(varNamePath)) {
+      return Optional.of(VelocityVariableName.of(json.asString(varNamePath)));
+    } else {
+      return Optional.empty();
+    }
+  }
 
 }

@@ -10,8 +10,13 @@ import java.util.Optional;
 /**
  * The type Velocity processor empty decimal.
  */
-public class VelocityProcessorEmptyDecimal extends VelocityProcessorBase<BigDecimal> implements VelocityProcessor<BigDecimal> {
+public class VelocityProcessorEmptyDecimal extends VelocityProcessor<BigDecimal> {
 
+  /**
+   * Instantiates a new Velocity processor empty decimal.
+   *
+   * @param velocityDefinition the velocity definition
+   */
   public VelocityProcessorEmptyDecimal(VelocityDefinition velocityDefinition) {
     super(velocityDefinition);
   }

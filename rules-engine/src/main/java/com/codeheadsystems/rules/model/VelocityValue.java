@@ -44,6 +44,11 @@ public interface VelocityValue<E extends Number> {
      */
     public static final VelocityValue<BigInteger> ONE = new VelocityValueBigInteger(BigInteger.ONE);
 
+    /**
+     * Instantiates a new Velocity value big integer.
+     *
+     * @param value the value
+     */
     public VelocityValueBigInteger {
       Objects.requireNonNull(value, "value");
     }
@@ -89,6 +94,11 @@ public interface VelocityValue<E extends Number> {
      */
     public static final VelocityValue<BigDecimal> ONE = new VelocityValueBigDecimal(BigDecimal.ONE);
 
+    /**
+     * Instantiates a new Velocity value big decimal.
+     *
+     * @param value the value
+     */
     public VelocityValueBigDecimal {
       Objects.requireNonNull(value, "value");
     }
