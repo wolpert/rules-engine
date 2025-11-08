@@ -33,6 +33,17 @@ managers will be able to access them. Example, events have an event identifier, 
 do execution results. Event identifiers do not hold references to Events or 
 ExecutionResults themselves.
 
+## Velocity Model
+![](https://www.plantuml.com/plantuml/png/ZLD1J_904BtFhvZRzwdPU6yCWG0n98962Lwuh7I0IRQpf9rA2F6_InTjMTs3foRllPdfUw_jLsfBhGi7oke85-JyYlM0Kv-J0rWvMrKTUWH4WvoJAA-Pogob9YqM9E-sPFlcQ6OBwaIB2nGGRz0MlXRzVzL91W61Z-Xqj1-F7HjF9PZeP8eVqPg5bRtytPm4KozQicm2i6V9_Jx3r_3y3c0MomBsP7Nx0tDdx77Nl8Hroxipk-m5NW-xA41Nq_m4DKP8wk8t4snCPlFn_VWP44VZuMGwU6Zq_t3eYvslpcvlSUL5BKj1ej0sV6rCAlFi8fU4kAiW--eK4akCISIUtXRLbaMVKsCaqPxVIuMwfIRHca9kUBhgSaY8ZIbvizLU8huiZ0BqIVBcl_W4)
+
+A velocity has a definition which includes the window of the velocity, where to find the
+variable name and what the path to the value should be, if any. It will also link back to
+the tenant. This is uniquely identifier with the Velocity Identifier. With that, a 
+velocity instance can be created for a given event, with will identify the name to be
+used for the velocity (like card number) and the value of the velocity. That can be
+aggregated with other velocities within the same window. It supports integers and decimals
+using the Java math library.
+
 # Sequence of events
 
 # Execution path

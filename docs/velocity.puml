@@ -1,0 +1,43 @@
+@startuml
+title Velocity Model
+
+class Velocity {
+  - identifier: VelocityIdentifier
+  - variableName: VelocityVariableName
+  + amount(): VelocityAmount
+}
+
+class VelocityIdentifier {
+}
+
+class VelocityAmount {
+}
+
+class VelocityVariableName {
+}
+
+class VelocityDefinition {
+  - identifier: VelocityIdentifier
+  - name: String
+  - window: Window
+  - varName: String
+  - varPath: String
+  - valPath: Optional\<String\>
+  - type: VelocityValueType
+}
+
+enum VelocityValueType {
+  INTEGER
+  DECIMAL
+}
+
+' Composition / containment
+Velocity *-- VelocityIdentifier : identifier
+Velocity *-- VelocityAmount : amount
+VelocityIdentifier -- VelocityDefinition
+Velocity *-- VelocityVariableName : variableName
+
+' VelocityDefinition owns the value type field
+VelocityDefinition --right> VelocityValueType : type
+
+@enduml
