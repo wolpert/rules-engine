@@ -25,7 +25,7 @@ public class VelocityProcessorDecimal implements VelocityProcessor<BigDecimal> {
   @Override
   public Optional<VelocityValue<BigDecimal>> valueFrom(final JsonObject json) {
     if (json.exists(path)) { // get the value.\
-      return Optional.of(new VelocityValue.VelocityValueBigDecimal(path));
+      return Optional.of(new VelocityValue.VelocityValueBigDecimal(json.asBigDecimal(path)));
     } else {
       return Optional.empty();
     }

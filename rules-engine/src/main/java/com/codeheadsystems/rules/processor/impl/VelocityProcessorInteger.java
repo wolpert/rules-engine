@@ -25,7 +25,7 @@ public class VelocityProcessorInteger implements VelocityProcessor<BigInteger> {
   @Override
   public Optional<VelocityValue<BigInteger>> valueFrom(final JsonObject json) {
     if (json.exists(path)) { // get the value.\
-      return Optional.of(new VelocityValue.VelocityValueBigInteger(path));
+      return Optional.of(new VelocityValue.VelocityValueBigInteger(json.asBigInteger(path)));
     } else {
       return Optional.empty();
     }

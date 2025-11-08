@@ -119,10 +119,19 @@ public class JsonObject {
    */
   public BigDecimal asBigDecimal(String path) {
     final JsonNode node = cache.get(path);
-    if (node.isMissingNode() || !node.isNumber()) {
+    if (node.isMissingNode()) {
+      return null;
+    } else if (node.isNumber()) {
+      return node.decimalValue();
+    } else if (node.isTextual()) {
+      try {
+        return new BigDecimal(node.asText());
+      } catch (NumberFormatException nfe) {
+        return null;
+      }
+    } else {
       return null;
     }
-    return node.decimalValue();
   }
 
   /**
@@ -133,10 +142,19 @@ public class JsonObject {
    */
   public BigInteger asBigInteger(String path) {
     final JsonNode node = cache.get(path);
-    if (node.isMissingNode() || !node.isNumber()) {
+    if (node.isMissingNode()) {
+      return null;
+    } else if (node.isNumber()) {
+      return node.bigIntegerValue();
+    } else if (node.isTextual()) {
+      try {
+        return new BigInteger(node.asText());
+      } catch (NumberFormatException nfe) {
+        return null;
+      }
+    } else {
       return null;
     }
-    return node.bigIntegerValue();
   }
 
   /**

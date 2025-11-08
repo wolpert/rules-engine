@@ -2,12 +2,7 @@ package com.codeheadsystems.rules.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.codeheadsystems.rules.factory.JsonObjectFactory;
-import com.codeheadsystems.rules.factory.ObjectMapperFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import org.apache.commons.io.IOUtils;
+import com.codeheadsystems.rules.test.FixtureHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +11,8 @@ class JsonObjectTest {
   private JsonObject jsonObject;
 
   @BeforeEach
-  void setUp() throws IOException {
-    final String json = IOUtils.toString(ClassLoader.getSystemResourceAsStream("fixture/jsonobject.json"), StandardCharsets.UTF_8);
-    final ObjectMapper mapper = new ObjectMapperFactory().objectMapper();
-    jsonObject = new JsonObjectFactory(mapper).jsonObject(json);
+  void setUp() {
+    jsonObject = FixtureHelper.jsonObject("fixture/jsonobject.json");
   }
 
   @Test
@@ -42,7 +35,7 @@ class JsonObjectTest {
   }
 
   @Test
-  void testArray(){
+  void testArray() {
     assertThat(jsonObject.asArray("/level1/array")[0].asString("/itemKey")).isEqualTo("itemValue1");
     assertThat(jsonObject.asString("/level1/array/1/itemKey")).isEqualTo("itemValue2");
   }
