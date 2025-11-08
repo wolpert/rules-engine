@@ -15,7 +15,7 @@ public enum VelocityValueType {
   /**
    * Float velocity value type.
    */
-  FLOAT(BigDecimal.class);
+  DECIMAL(BigDecimal.class);
 
   private final Class<? extends Number> clazz;
 

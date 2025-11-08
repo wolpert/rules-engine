@@ -2,6 +2,7 @@ package com.codeheadsystems.rules.model;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * The interface Velocity value.
@@ -25,6 +26,11 @@ public interface VelocityValue<E extends Number> {
    */
   E value();
 
+  /**
+   * Value class class.
+   *
+   * @return the class
+   */
   Class<E> valueClass();
 
   /**
@@ -33,12 +39,17 @@ public interface VelocityValue<E extends Number> {
   record VelocityValueBigInteger(BigInteger value) implements VelocityValue<BigInteger> {
 
     /**
+     * The constant ONE.
+     */
+    public static final VelocityValue<BigInteger> ONE = new VelocityValueBigInteger(BigInteger.ONE);
+
+    /**
      * Instantiates a new Velocity value big integer.
      *
      * @param value the value
      */
     public VelocityValueBigInteger(String value) {
-      this(new BigInteger(value));
+      this(new BigInteger(Objects.requireNonNull(value)));
     }
 
     @Override
@@ -63,12 +74,17 @@ public interface VelocityValue<E extends Number> {
   record VelocityValueBigDecimal(BigDecimal value) implements VelocityValue<BigDecimal> {
 
     /**
+     * The constant ONE.
+     */
+    public static final VelocityValue<BigDecimal> ONE = new VelocityValueBigDecimal(BigDecimal.ONE);
+
+    /**
      * Instantiates a new Velocity value big decimal.
      *
      * @param value the value
      */
     public VelocityValueBigDecimal(String value) {
-      this(new BigDecimal(value));
+      this(new BigDecimal(Objects.requireNonNull(value)));
     }
 
     @Override
