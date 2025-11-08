@@ -9,7 +9,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class VelocityValueTest {
-  // Add these two test methods to `rules-engine/src/test/java/com/codeheadsystems/rules/model/VelocityValueTest.java`
+
+
+  @Test
+  void bigInteger_constructorNullBigIntegerThrows() {
+    assertThatThrownBy(() -> new VelocityValue.VelocityValueBigInteger((BigInteger) null))
+        .isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void bigInteger_stringConstructorNullThrows() {
+    assertThatThrownBy(() -> new VelocityValue.VelocityValueBigInteger((String) null))
+        .isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void bigDecimal_constructorNullBigDecimalThrows() {
+    assertThatThrownBy(() -> new VelocityValue.VelocityValueBigDecimal((BigDecimal) null))
+        .isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void bigDecimal_stringConstructorNullThrows() {
+    assertThatThrownBy(() -> new VelocityValue.VelocityValueBigDecimal((String) null))
+        .isInstanceOf(NullPointerException.class);
+  }
+
   @Test
   void bigInteger_stringConstructorCreatesValue() {
     var v = new VelocityValue.VelocityValueBigInteger("12345678901234567890");
@@ -53,13 +78,6 @@ class VelocityValueTest {
   }
 
   @Test
-  void add_nullThrowsNullPointerException() {
-    var a = new VelocityValue.VelocityValueBigInteger(BigInteger.ONE);
-    assertThatThrownBy(() -> a.add(null))
-        .isInstanceOf(NullPointerException.class);
-  }
-
-  @Test
   void bigDecimal_zeroAndNegative() {
     var zero = new VelocityValue.VelocityValueBigDecimal(BigDecimal.ZERO);
     var neg = new VelocityValue.VelocityValueBigDecimal(new BigDecimal("-5.5"));
@@ -69,5 +87,41 @@ class VelocityValueTest {
 
     var res2 = neg.add(zero);
     assertThat(res2.value()).isEqualByComparingTo(new BigDecimal("-5.5"));
+  }
+
+  @Test
+  void bigInteger_addNullVelocityValueReturnsSameInstance() {
+    var a = new VelocityValue.VelocityValueBigInteger(new BigInteger("42"));
+    var result = a.add((VelocityValue<BigInteger>) null);
+
+    assertThat(result).isSameAs(a);
+    assertThat(a.value()).isEqualByComparingTo(new BigInteger("42"));
+  }
+
+  @Test
+  void bigInteger_addNullBigIntegerReturnsSameInstance() {
+    var a = new VelocityValue.VelocityValueBigInteger(new BigInteger("42"));
+    var result = a.add((BigInteger) null);
+
+    assertThat(result).isSameAs(a);
+    assertThat(a.value()).isEqualByComparingTo(new BigInteger("42"));
+  }
+
+  @Test
+  void bigDecimal_addNullVelocityValueReturnsSameInstance() {
+    var a = new VelocityValue.VelocityValueBigDecimal(new BigDecimal("3.14"));
+    var result = a.add((VelocityValue<BigDecimal>) null);
+
+    assertThat(result).isSameAs(a);
+    assertThat(a.value()).isEqualByComparingTo(new BigDecimal("3.14"));
+  }
+
+  @Test
+  void bigDecimal_addNullBigDecimalReturnsSameInstance() {
+    var a = new VelocityValue.VelocityValueBigDecimal(new BigDecimal("3.14"));
+    var result = a.add((BigDecimal) null);
+
+    assertThat(result).isSameAs(a);
+    assertThat(a.value()).isEqualByComparingTo(new BigDecimal("3.14"));
   }
 }

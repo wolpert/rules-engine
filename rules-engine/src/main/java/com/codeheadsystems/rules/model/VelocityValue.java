@@ -20,6 +20,14 @@ public interface VelocityValue<E extends Number> {
   VelocityValue<E> add(VelocityValue<E> other);
 
   /**
+   * Add velocity value.
+   *
+   * @param otherValue the other value
+   * @return the velocity value
+   */
+  VelocityValue<E> add(E otherValue);
+
+  /**
    * Value e.
    *
    * @return the e
@@ -43,6 +51,10 @@ public interface VelocityValue<E extends Number> {
      */
     public static final VelocityValue<BigInteger> ONE = new VelocityValueBigInteger(BigInteger.ONE);
 
+    public VelocityValueBigInteger {
+      Objects.requireNonNull(value, "value");
+    }
+
     /**
      * Instantiates a new Velocity value big integer.
      *
@@ -54,7 +66,18 @@ public interface VelocityValue<E extends Number> {
 
     @Override
     public VelocityValue<BigInteger> add(VelocityValue<BigInteger> other) {
-      return new VelocityValueBigInteger(this.value.add(other.value()));
+      if (other == null) {
+        return this;
+      }
+      return add(other.value());
+    }
+
+    @Override
+    public VelocityValue<BigInteger> add(final BigInteger otherValue) {
+      if (otherValue == null) {
+        return this;
+      }
+      return new VelocityValueBigInteger(this.value.add(otherValue));
     }
 
     @Override
@@ -78,6 +101,10 @@ public interface VelocityValue<E extends Number> {
      */
     public static final VelocityValue<BigDecimal> ONE = new VelocityValueBigDecimal(BigDecimal.ONE);
 
+    public VelocityValueBigDecimal {
+      Objects.requireNonNull(value, "value");
+    }
+
     /**
      * Instantiates a new Velocity value big decimal.
      *
@@ -89,7 +116,18 @@ public interface VelocityValue<E extends Number> {
 
     @Override
     public VelocityValue<BigDecimal> add(VelocityValue<BigDecimal> other) {
-      return new VelocityValueBigDecimal(this.value.add(other.value()));
+      if (other == null) {
+        return this;
+      }
+      return add(other.value());
+    }
+
+    @Override
+    public VelocityValue<BigDecimal> add(final BigDecimal otherValue) {
+      if (otherValue == null) {
+        return this;
+      }
+      return new VelocityValueBigDecimal(this.value.add(otherValue));
     }
 
     @Override
