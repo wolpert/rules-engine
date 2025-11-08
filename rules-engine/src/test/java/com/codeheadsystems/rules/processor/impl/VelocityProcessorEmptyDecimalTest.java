@@ -1,5 +1,6 @@
 package com.codeheadsystems.rules.processor.impl;
 
+import static com.codeheadsystems.rules.processor.impl.VelocityProcessorTestHelper.createVelocityDefinition;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ class VelocityProcessorEmptyDecimalTest {
   @Test
   void testValueFrom() {
     // Given
-    final VelocityProcessorEmptyDecimal processor = new VelocityProcessorEmptyDecimal();
+    final VelocityProcessorEmptyDecimal processor = new VelocityProcessorEmptyDecimal(createVelocityDefinition(null, null));
 
     // When
     final var result = processor.valueFrom(null);

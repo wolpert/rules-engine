@@ -1,6 +1,7 @@
 package com.codeheadsystems.rules.processor.impl;
 
 import com.codeheadsystems.rules.model.JsonObject;
+import com.codeheadsystems.rules.model.VelocityDefinition;
 import com.codeheadsystems.rules.model.VelocityValue;
 import com.codeheadsystems.rules.processor.VelocityProcessor;
 import java.math.BigInteger;
@@ -9,7 +10,11 @@ import java.util.Optional;
 /**
  * The type Velocity processor empty integer.
  */
-public class VelocityProcessorEmptyInteger implements VelocityProcessor<BigInteger> {
+public class VelocityProcessorEmptyInteger extends VelocityProcessorBase<BigInteger> implements VelocityProcessor<BigInteger> {
+
+  public VelocityProcessorEmptyInteger(VelocityDefinition definition) {
+    super(definition);
+  }
 
   @Override
   public Optional<VelocityValue<BigInteger>> valueFrom(final JsonObject json) {

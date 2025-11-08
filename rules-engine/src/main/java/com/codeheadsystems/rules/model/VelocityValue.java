@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.util.Objects;
 
 /**
- * The interface Velocity value.
+ * The interface Velocity value, which are immutable.
  *
  * @param <E> the type parameter
  */
@@ -33,13 +33,6 @@ public interface VelocityValue<E extends Number> {
    * @return the e
    */
   E value();
-
-  /**
-   * Value class class.
-   *
-   * @return the class
-   */
-  Class<E> valueClass();
 
   /**
    * The type Velocity value big integer.
@@ -78,11 +71,6 @@ public interface VelocityValue<E extends Number> {
         return this;
       }
       return new VelocityValueBigInteger(this.value.add(otherValue));
-    }
-
-    @Override
-    public Class<BigInteger> valueClass() {
-      return BigInteger.class;
     }
 
     @Override
@@ -128,11 +116,6 @@ public interface VelocityValue<E extends Number> {
         return this;
       }
       return new VelocityValueBigDecimal(this.value.add(otherValue));
-    }
-
-    @Override
-    public Class<BigDecimal> valueClass() {
-      return BigDecimal.class;
     }
 
     @Override

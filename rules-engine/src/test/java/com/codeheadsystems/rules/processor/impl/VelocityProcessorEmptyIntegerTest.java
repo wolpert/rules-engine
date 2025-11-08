@@ -1,5 +1,6 @@
 package com.codeheadsystems.rules.processor.impl;
 
+import static com.codeheadsystems.rules.processor.impl.VelocityProcessorTestHelper.createVelocityDefinition;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigInteger;
@@ -11,7 +12,7 @@ class VelocityProcessorEmptyIntegerTest {
   @Test
   void testValueFrom() {
     // Given
-    final VelocityProcessorEmptyInteger processor = new VelocityProcessorEmptyInteger();
+    final VelocityProcessorEmptyInteger processor = new VelocityProcessorEmptyInteger(createVelocityDefinition(null, null));
 
     // When
     final var result = processor.valueFrom(null);

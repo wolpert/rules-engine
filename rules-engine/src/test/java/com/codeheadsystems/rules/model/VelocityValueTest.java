@@ -10,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class VelocityValueTest {
 
-
   @Test
   void bigInteger_constructorNullBigIntegerThrows() {
     assertThatThrownBy(() -> new VelocityValue.VelocityValueBigInteger((BigInteger) null))

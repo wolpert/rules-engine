@@ -31,14 +31,13 @@ public class VelocityProcessorFactory {
   public VelocityProcessor<?> create(VelocityDefinition velocityDefinition) {
     if (velocityDefinition.valPath().isEmpty()) {
       return switch (velocityDefinition.type()) {
-        case INTEGER -> new VelocityProcessorEmptyInteger();
-        case DECIMAL -> new VelocityProcessorEmptyDecimal();
+        case INTEGER -> new VelocityProcessorEmptyInteger(velocityDefinition);
+        case DECIMAL -> new VelocityProcessorEmptyDecimal(velocityDefinition);
       };
     }
-    String path = velocityDefinition.valPath().get();
     return switch (velocityDefinition.type()) {
-      case INTEGER -> new VelocityProcessorInteger(path);
-      case DECIMAL -> new VelocityProcessorDecimal(path);
+      case INTEGER -> new VelocityProcessorInteger(velocityDefinition);
+      case DECIMAL -> new VelocityProcessorDecimal(velocityDefinition);
     };
   }
 
