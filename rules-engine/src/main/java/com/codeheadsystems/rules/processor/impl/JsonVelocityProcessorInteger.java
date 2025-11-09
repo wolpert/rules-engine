@@ -3,21 +3,21 @@ package com.codeheadsystems.rules.processor.impl;
 import com.codeheadsystems.rules.model.JsonObject;
 import com.codeheadsystems.rules.model.VelocityDefinition;
 import com.codeheadsystems.rules.model.VelocityValue;
-import com.codeheadsystems.rules.processor.VelocityProcessor;
+import com.codeheadsystems.rules.processor.JsonVelocityProcessor;
 import java.math.BigInteger;
 import java.util.Optional;
 
 /**
  * The type Velocity processor integer.
  */
-public class VelocityProcessorInteger extends VelocityProcessor<BigInteger> {
+public class JsonVelocityProcessorInteger extends JsonVelocityProcessor<BigInteger> {
 
   /**
    * Instantiates a new Velocity processor integer.
    *
    * @param definition the definition
    */
-  public VelocityProcessorInteger(VelocityDefinition definition) {
+  public JsonVelocityProcessorInteger(VelocityDefinition definition) {
     super(definition);
   }
 

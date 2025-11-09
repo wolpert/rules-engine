@@ -24,9 +24,24 @@ The audit datastore contains the execution results for later retrieval, and prov
 data needed for velocity calculations.  All details of an execution is stored as
 immutable files within S3.
 
+## Sequence Diagram
+
+Included below is the general overview of the sequence of events for a rule execution.
+Essentially we process the velocity update first, then execute the rules against the
+event and velocity, then update the results in the ddb. As a consequence, the velocity
+is always updated, even if the rule execution fails or the response is denied. We can
+split this step to update the datastore only on success if needed, but at the cost of
+latency. We can always remove values from the velocity datastore if needed. This split
+out can be a future enhancement or a configuration option..
+
+![Sequence Diagram](https://www.plantuml.com/plantuml/png/bPDFYziy4CRl_XHYJpOafzny2Bll9Y_aK0eRkdjeIr6aYLSWZu8qThFVlcCv4afh2ZtaJ_GyyynFuybZ8Ebfw6qb5Jal7fwj0QG78ODGrOKreyn58ec7prwzGo0lsHTrTw-_31R4_Wfg8EFm6twIA3kOhHxwU_ChMASCVOWzTWOXcaPO22nq3zN9NSNJs_7Uj_j0sJkn-o-wzEbUFMx4aOaP9SfXKm5gmK5LfTPRrmg8o53324ZDD0SpIWA-NkNMMoPlXJkHD7RYEGBTZAtm_3i0vOfuItwjjs7J2kkadYf2NLYZ6YELv6dMj_Cc2f4cEJMKiH5bX5PqWE3vCCrlXbcbCcurtfICDSrrXBaShkJvF5Nlu6pGJ8yhasIhabODjcobipkiHEmRtH4xTVtwlIGV8OFBhlFGbN6ff2b4_VetUkM1Jmx8dpqWFQ7-Sj5yKXEWH3fenaBYwkbRZXUj6A9jXjMdLfmagVStRxXqbfZ10mqUVo3ypFt8Imndv_iN28EbEbrt2NZXsXxoSisBSF-iLWifJQem3iNSDPJxLNc8kN6xTjuv6vuTaZG8lbmcDfNygNCvapF7XcmjEHVgTMmr0pKYs_zF6JoKWZo1bpiyZsJU_U4ouUydffqa-JlTwe-aPk4_nczf8_ubYJ6JE-R4VRWCT23ewomr1Jk3y_rK-MJyxOBb3LrLFGBgeRU_0000)
+
+There are many examples of how to update data in dynamodb that includes incrementing values and
+getting the responses back. Here is one post on it: https://aws.amazon.com/blogs/database/implement-auto-increment-with-amazon-dynamodb/
+
 # Internal Domain Model
 
-![](https://www.plantuml.com/plantuml/png/RP91QyCm38Nl-XMcnq8EkuunUbW7Emn61xkBM4i4ZbrYPTte-j_dEh5ntFLGo7kVfAT4EoyuoZGO064nf0vJ-7jo0x9LhqvJC5g3taVZcODvlYpA_0Gg_CwVJ4PVr16bX-H_a74joy-Lyx4iDtedMLSczKMJ5GxQcDlilyX6Eh5HASZ24Hx82mx7GlCzQdU2d1fRATBilwcTX9qza9-CL3d_2LdChHTTmvp1DvH-PM7NZTJXTUoDTs8xnuLvyMtJFAhDtMO9VgzQPmNP-iLlHkvw2SpDAW2rak3OCBroWFH5N1ordProKWtaZMie4_bSIY9N9QewaGADfG-_JRD62ZqD080TMNqzuJy0)
+![Domain Model](https://www.plantuml.com/plantuml/png/RP91QyCm38Nl-XMcnq8EkuunUbW7Emn61xkBM4i4ZbrYPTte-j_dEh5ntFLGo7kVfAT4EoyuoZGO064nf0vJ-7jo0x9LhqvJC5g3taVZcODvlYpA_0Gg_CwVJ4PVr16bX-H_a74joy-Lyx4iDtedMLSczKMJ5GxQcDlilyX6Eh5HASZ24Hx82mx7GlCzQdU2d1fRATBilwcTX9qza9-CL3d_2LdChHTTmvp1DvH-PM7NZTJXTUoDTs8xnuLvyMtJFAhDtMO9VgzQPmNP-iLlHkvw2SpDAW2rak3OCBroWFH5N1ordProKWtaZMie4_bSIY9N9QewaGADfG-_JRD62ZqD080TMNqzuJy0)
 
 Note that the java objects may not contain instances of the associations, rather the 
 managers will be able to access them. Example, events have an event identifier, as
@@ -34,7 +49,7 @@ do execution results. Event identifiers do not hold references to Events or
 ExecutionResults themselves.
 
 ## Velocity Model
-![](https://www.plantuml.com/plantuml/png/ZLD1J_904BtFhvZRzwdPU6yCWG0n98962Lwuh7I0IRQpf9rA2F6_InTjMTs3foRllPdfUw_jLsfBhGi7oke85-JyYlM0Kv-J0rWvMrKTUWH4WvoJAA-Pogob9YqM9E-sPFlcQ6OBwaIB2nGGRz0MlXRzVzL91W61Z-Xqj1-F7HjF9PZeP8eVqPg5bRtytPm4KozQicm2i6V9_Jx3r_3y3c0MomBsP7Nx0tDdx77Nl8Hroxipk-m5NW-xA41Nq_m4DKP8wk8t4snCPlFn_VWP44VZuMGwU6Zq_t3eYvslpcvlSUL5BKj1ej0sV6rCAlFi8fU4kAiW--eK4akCISIUtXRLbaMVKsCaqPxVIuMwfIRHca9kUBhgSaY8ZIbvizLU8huiZ0BqIVBcl_W4)
+![Velocity Model](https://www.plantuml.com/plantuml/png/ZLD1J_904BtFhvZRzwdPU6yCWG0n98962Lwuh7I0IRQpf9rA2F6_InTjMTs3foRllPdfUw_jLsfBhGi7oke85-JyYlM0Kv-J0rWvMrKTUWH4WvoJAA-Pogob9YqM9E-sPFlcQ6OBwaIB2nGGRz0MlXRzVzL91W61Z-Xqj1-F7HjF9PZeP8eVqPg5bRtytPm4KozQicm2i6V9_Jx3r_3y3c0MomBsP7Nx0tDdx77Nl8Hroxipk-m5NW-xA41Nq_m4DKP8wk8t4snCPlFn_VWP44VZuMGwU6Zq_t3eYvslpcvlSUL5BKj1ej0sV6rCAlFi8fU4kAiW--eK4akCISIUtXRLbaMVKsCaqPxVIuMwfIRHca9kUBhgSaY8ZIbvizLU8huiZ0BqIVBcl_W4)
 
 A velocity has a definition which includes the window of the velocity, where to find the
 variable name and what the path to the value should be, if any. It will also link back to

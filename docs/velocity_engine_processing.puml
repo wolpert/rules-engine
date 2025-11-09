@@ -1,0 +1,56 @@
+@startuml
+actor "Client" as c
+participant "Orchestrator" as o
+participant "Rule Execution\nManager" as rem
+participant "Velocity Engine" as ve
+participant "Rule Engine" as re
+box AWS
+participant "Dynamo DB" as db
+participant "S3 Storage" as s3
+end box
+
+c->o: execute(event)
+activate o
+
+o->rem: obtailRuleSet(event): ruleset
+activate rem
+rem->s3: loadRules(): ruleset
+rem->rem: cache(ruleset)
+rem-->o: ruleset
+deactivate rem
+
+o->ve: generateVelocity(event, ruleset): velocity
+activate ve
+ve->ve: extractVelocityDefinition(ruleset)
+ve->ve: calculateVelocity(definitions, event)
+ve-->o: velocity[]
+deactivate ve
+
+o->ve: aggregateVelocity(velocity): aggregatedVelocity
+activate ve
+ve->ve: createIncrementAndUpdate(tenantId, entityId, velocity) : update
+ve-->db: batchWrite(update): return_new
+ve->ve: transformResult()
+ve-->o: aggregatedVelocity
+deactivate ve
+
+o->re: executeRules(event, ruleset, aggregatedVelocity): execution Results
+activate re
+re->re: loadDroolsContainer(ruleset)
+re->re: transform(event, velocity) : facts
+re->re: executeRules
+re->re: transform(droolsResult) : executeFacts
+re-->o: executionResults
+deactivate re
+
+o->>rem: uploadEventData(event, velocity, executionResults)
+activate rem
+rem->rem: createEventData(event, velocity, executionResults): eventData
+rem->db: putItem(eventData)
+deactivate
+
+o-->c: execution results
+
+deactivate o
+
+@enduml

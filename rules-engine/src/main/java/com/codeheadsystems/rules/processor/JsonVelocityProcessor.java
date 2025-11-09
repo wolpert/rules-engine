@@ -11,7 +11,7 @@ import java.util.Optional;
  *
  * @param <T> the type parameter
  */
-public abstract class VelocityProcessor<T extends Number> {
+public abstract class JsonVelocityProcessor<T extends Number> {
 
   /**
    * The Val path.
@@ -27,7 +27,7 @@ public abstract class VelocityProcessor<T extends Number> {
    *
    * @param velocityDefinition the velocity definition
    */
-  public VelocityProcessor(VelocityDefinition velocityDefinition) {
+  public JsonVelocityProcessor(VelocityDefinition velocityDefinition) {
     this.valPath = velocityDefinition.valPath().orElse(null);
     this.varNamePath = velocityDefinition.varPath();
   }

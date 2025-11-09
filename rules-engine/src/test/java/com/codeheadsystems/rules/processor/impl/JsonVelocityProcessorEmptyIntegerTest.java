@@ -6,13 +6,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigInteger;
 import org.junit.jupiter.api.Test;
 
-class VelocityProcessorEmptyIntegerTest {
+class JsonVelocityProcessorEmptyIntegerTest {
 
 
   @Test
   void testValueFrom() {
     // Given
-    final VelocityProcessorEmptyInteger processor = new VelocityProcessorEmptyInteger(createVelocityDefinition(null, null));
+    final JsonVelocityProcessorEmptyInteger processor = new JsonVelocityProcessorEmptyInteger(createVelocityDefinition(null, null));
 
     // When
     final var result = processor.valueFrom(null);

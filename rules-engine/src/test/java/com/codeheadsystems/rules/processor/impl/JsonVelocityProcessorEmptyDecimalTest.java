@@ -6,12 +6,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
-class VelocityProcessorEmptyDecimalTest {
+class JsonVelocityProcessorEmptyDecimalTest {
 
   @Test
   void testValueFrom() {
     // Given
-    final VelocityProcessorEmptyDecimal processor = new VelocityProcessorEmptyDecimal(createVelocityDefinition(null, null));
+    final JsonVelocityProcessorEmptyDecimal processor = new JsonVelocityProcessorEmptyDecimal(createVelocityDefinition(null, null));
 
     // When
     final var result = processor.valueFrom(null);

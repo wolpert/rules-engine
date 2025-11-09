@@ -1,11 +1,11 @@
 package com.codeheadsystems.rules.factory;
 
 import com.codeheadsystems.rules.model.VelocityDefinition;
-import com.codeheadsystems.rules.processor.VelocityProcessor;
-import com.codeheadsystems.rules.processor.impl.VelocityProcessorDecimal;
-import com.codeheadsystems.rules.processor.impl.VelocityProcessorEmptyDecimal;
-import com.codeheadsystems.rules.processor.impl.VelocityProcessorEmptyInteger;
-import com.codeheadsystems.rules.processor.impl.VelocityProcessorInteger;
+import com.codeheadsystems.rules.processor.JsonVelocityProcessor;
+import com.codeheadsystems.rules.processor.impl.JsonVelocityProcessorDecimal;
+import com.codeheadsystems.rules.processor.impl.JsonVelocityProcessorEmptyDecimal;
+import com.codeheadsystems.rules.processor.impl.JsonVelocityProcessorEmptyInteger;
+import com.codeheadsystems.rules.processor.impl.JsonVelocityProcessorInteger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -28,16 +28,16 @@ public class VelocityProcessorFactory {
    * @param velocityDefinition the velocity definition
    * @return the velocity processor
    */
-  public VelocityProcessor<?> create(VelocityDefinition velocityDefinition) {
+  public JsonVelocityProcessor<?> create(VelocityDefinition velocityDefinition) {
     if (velocityDefinition.valPath().isEmpty()) {
       return switch (velocityDefinition.type()) {
-        case INTEGER -> new VelocityProcessorEmptyInteger(velocityDefinition);
-        case DECIMAL -> new VelocityProcessorEmptyDecimal(velocityDefinition);
+        case INTEGER -> new JsonVelocityProcessorEmptyInteger(velocityDefinition);
+        case DECIMAL -> new JsonVelocityProcessorEmptyDecimal(velocityDefinition);
       };
     }
     return switch (velocityDefinition.type()) {
-      case INTEGER -> new VelocityProcessorInteger(velocityDefinition);
-      case DECIMAL -> new VelocityProcessorDecimal(velocityDefinition);
+      case INTEGER -> new JsonVelocityProcessorInteger(velocityDefinition);
+      case DECIMAL -> new JsonVelocityProcessorDecimal(velocityDefinition);
     };
   }
 

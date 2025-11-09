@@ -6,13 +6,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.codeheadsystems.rules.model.JsonObject;
 import com.codeheadsystems.rules.model.VelocityValue;
 import com.codeheadsystems.rules.model.VelocityVariableName;
-import com.codeheadsystems.rules.processor.VelocityProcessor;
+import com.codeheadsystems.rules.processor.JsonVelocityProcessor;
 import com.codeheadsystems.rules.test.FixtureHelper;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class VelocityProcessorDecimalTest {
+class JsonVelocityProcessorDecimalTest {
 
   private static final String BIG_DECIMAL_STRING = "12345.678901234567890123456789";
   private static final BigDecimal BIG_DECIMAL = new BigDecimal(BIG_DECIMAL_STRING);
@@ -28,26 +28,26 @@ class VelocityProcessorDecimalTest {
 
   @Test
   void empty() {
-    VelocityProcessor<BigDecimal> processor = new VelocityProcessorDecimal(createVelocityDefinition("/velocity/no_path/a_value", null));
+    JsonVelocityProcessor<BigDecimal> processor = new JsonVelocityProcessorDecimal(createVelocityDefinition("/velocity/no_path/a_value", null));
     assertThat(processor.valueFrom(jsonObject)).isEmpty();
   }
 
   @Test
   void emptyWithVarName() {
-    VelocityProcessor<BigDecimal> processor = new VelocityProcessorDecimal(createVelocityDefinition("/velocity/no_path/a_value", "/velocity/i_am_a_identifier"));
+    JsonVelocityProcessor<BigDecimal> processor = new JsonVelocityProcessorDecimal(createVelocityDefinition("/velocity/no_path/a_value", "/velocity/i_am_a_identifier"));
     assertThat(processor.variableNameFrom(jsonObject)).isPresent().hasValue(VARIABLE_NAME);
   }
 
   @Test
   void emptyWithNoVarName() {
-    VelocityProcessor<BigDecimal> processor = new VelocityProcessorDecimal(createVelocityDefinition("/velocity/no_path/a_value", "/velocity/no_exist"));
+    JsonVelocityProcessor<BigDecimal> processor = new JsonVelocityProcessorDecimal(createVelocityDefinition("/velocity/no_path/a_value", "/velocity/no_exist"));
     assertThat(processor.variableNameFrom(jsonObject)).isEmpty();
   }
 
 
   @Test
   void valueFrom() {
-    VelocityProcessor<BigDecimal> processor = new VelocityProcessorDecimal(createVelocityDefinition("/velocity/dec_path/a_value", null));
+    JsonVelocityProcessor<BigDecimal> processor = new JsonVelocityProcessorDecimal(createVelocityDefinition("/velocity/dec_path/a_value", null));
     VelocityValue<BigDecimal> value = processor.valueFrom(jsonObject).get();
     System.out.println("" + value.value());
     assertThat(processor.valueFrom(jsonObject))
@@ -59,7 +59,7 @@ class VelocityProcessorDecimalTest {
 
   @Test
   void valueFromString() {
-    VelocityProcessor<BigDecimal> processor = new VelocityProcessorDecimal(createVelocityDefinition("/velocity/dec_path/a_str_value", null));
+    JsonVelocityProcessor<BigDecimal> processor = new JsonVelocityProcessorDecimal(createVelocityDefinition("/velocity/dec_path/a_str_value", null));
     VelocityValue<BigDecimal> value = processor.valueFrom(jsonObject).get();
     System.out.println("" + value.value());
     assertThat(processor.valueFrom(jsonObject))

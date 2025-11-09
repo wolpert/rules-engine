@@ -2,11 +2,11 @@ package com.codeheadsystems.rules.factory;
 
 import com.codeheadsystems.rules.model.VelocityDefinition;
 import com.codeheadsystems.rules.model.VelocityValueType;
-import com.codeheadsystems.rules.processor.VelocityProcessor;
-import com.codeheadsystems.rules.processor.impl.VelocityProcessorDecimal;
-import com.codeheadsystems.rules.processor.impl.VelocityProcessorEmptyDecimal;
-import com.codeheadsystems.rules.processor.impl.VelocityProcessorEmptyInteger;
-import com.codeheadsystems.rules.processor.impl.VelocityProcessorInteger;
+import com.codeheadsystems.rules.processor.JsonVelocityProcessor;
+import com.codeheadsystems.rules.processor.impl.JsonVelocityProcessorDecimal;
+import com.codeheadsystems.rules.processor.impl.JsonVelocityProcessorEmptyDecimal;
+import com.codeheadsystems.rules.processor.impl.JsonVelocityProcessorEmptyInteger;
+import com.codeheadsystems.rules.processor.impl.JsonVelocityProcessorInteger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class VelocityProcessorFactoryTest {
+class JsonVelocityProcessorFactoryTest {
 
   private VelocityProcessorFactory factory;
 
@@ -34,10 +34,10 @@ class VelocityProcessorFactoryTest {
     VelocityDefinition definition = createVelocityDefinition(VelocityValueType.INTEGER, Optional.empty());
 
     // When
-    VelocityProcessor<?> processor = factory.create(definition);
+    JsonVelocityProcessor<?> processor = factory.create(definition);
 
     // Then
-    assertThat(processor).isInstanceOf(VelocityProcessorEmptyInteger.class);
+    assertThat(processor).isInstanceOf(JsonVelocityProcessorEmptyInteger.class);
   }
 
   @Test
@@ -46,10 +46,10 @@ class VelocityProcessorFactoryTest {
     VelocityDefinition definition = createVelocityDefinition(VelocityValueType.DECIMAL, Optional.empty());
 
     // When
-    VelocityProcessor<?> processor = factory.create(definition);
+    JsonVelocityProcessor<?> processor = factory.create(definition);
 
     // Then
-    assertThat(processor).isInstanceOf(VelocityProcessorEmptyDecimal.class);
+    assertThat(processor).isInstanceOf(JsonVelocityProcessorEmptyDecimal.class);
   }
 
   @Test
@@ -58,10 +58,10 @@ class VelocityProcessorFactoryTest {
     VelocityDefinition definition = createVelocityDefinition(VelocityValueType.INTEGER, Optional.of("/amount"));
 
     // When
-    VelocityProcessor<?> processor = factory.create(definition);
+    JsonVelocityProcessor<?> processor = factory.create(definition);
 
     // Then
-    assertThat(processor).isInstanceOf(VelocityProcessorInteger.class);
+    assertThat(processor).isInstanceOf(JsonVelocityProcessorInteger.class);
   }
 
   @Test
@@ -70,10 +70,10 @@ class VelocityProcessorFactoryTest {
     VelocityDefinition definition = createVelocityDefinition(VelocityValueType.DECIMAL, Optional.of("/amount"));
 
     // When
-    VelocityProcessor<?> processor = factory.create(definition);
+    JsonVelocityProcessor<?> processor = factory.create(definition);
 
     // Then
-    assertThat(processor).isInstanceOf(VelocityProcessorDecimal.class);
+    assertThat(processor).isInstanceOf(JsonVelocityProcessorDecimal.class);
   }
 
   private VelocityDefinition createVelocityDefinition(VelocityValueType type, Optional<String> valPath) {
