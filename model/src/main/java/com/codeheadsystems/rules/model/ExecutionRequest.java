@@ -1,6 +1,7 @@
 package com.codeheadsystems.rules.model;
 
 import java.time.Instant;
+import java.util.UUID;
 import org.immutables.value.Value;
 
 /**
@@ -10,6 +11,13 @@ import org.immutables.value.Value;
  */
 @Value.Immutable
 public interface ExecutionRequest<T> {
+
+  /**
+   * Execution request id uuid.
+   *
+   * @return the uuid
+   */
+  UUID executionRequestId();
 
   /**
    * Rule set identifier rule set identifier.

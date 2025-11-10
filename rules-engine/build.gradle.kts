@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.dropwizard.core)
     implementation(libs.commons.codec)
     testImplementation(libs.dropwizard.testing)
+    implementation(libs.uuidv7)
 
     implementation(libs.bundles.logging)
     implementation(libs.bundles.caffine)

@@ -22,6 +22,7 @@ mokito = '5.20.0'
 slf4j = '2.0.17'
 rs-api = "4.0.0"
 testcontainers = '1.21.3'
+uuidv7 = "1.0.1"
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
@@ -67,6 +68,7 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
 testcontainers-localstack = { module = "org.testcontainers:localstack", version.ref = "testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+uuidv7 = { module = "io.github.robsonkades:uuidv7", version.ref = "uuidv7" }
 
 [bundles]
 caffine = ["caffine", "caffine-jcache"]

@@ -2,6 +2,7 @@ package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.converter.FactsConverter;
 import com.codeheadsystems.rules.model.*;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +31,7 @@ class ExecutionRequestManagerTest {
   @BeforeEach
   void setUp() {
     executionEnvironment = ImmutableExecutionEnvironment.builder().value("test").build();
-    executionRequestManager = new ExecutionRequestManager(factsConverter, executionEnvironment, clock);
+    executionRequestManager = new ExecutionRequestManager(factsConverter, executionEnvironment, new UuidManager(), clock);
   }
 
   @Test

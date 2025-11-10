@@ -23,6 +23,7 @@ public class ExecutionRequestManager {
 
   private final FactsConverter factsConverter;
   private final ExecutionEnvironment executionEnvironment;
+  private final UuidManager uuidManager;
   private final Clock clock;
 
   /**
@@ -33,9 +34,10 @@ public class ExecutionRequestManager {
    * @param clock                the clock
    */
   @Inject
-  public ExecutionRequestManager(final FactsConverter factsConverter, final ExecutionEnvironment executionEnvironment, final Clock clock) {
+  public ExecutionRequestManager(final FactsConverter factsConverter, final ExecutionEnvironment executionEnvironment, final UuidManager uuidManager, final Clock clock) {
     this.factsConverter = factsConverter;
     this.executionEnvironment = executionEnvironment;
+    this.uuidManager = uuidManager;
     this.clock = clock;
   }
 
@@ -57,6 +59,7 @@ public class ExecutionRequestManager {
     final RuleSetIdentifier ruleSetIdentifier = RuleSetIdentifier.of(tenant, eventType, version);
     final Facts<JsonObject> facts = factsConverter.convert(eventId.value(), jsonEventData);
     return ImmutableExecutionRequest.<JsonObject>builder()
+        .executionRequestId(uuidManager.generate())
         .executionEnvironment(executionEnvironment)
         .facts(facts)
         .eventIdentifier(eventId)
