@@ -2,7 +2,6 @@ package com.codeheadsystems.rules.manager;
 
 import com.codeheadsystems.rules.converter.FactsConverter;
 import com.codeheadsystems.rules.model.*;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +24,9 @@ class ExecutionRequestManagerTest {
 
   @Mock
   private Clock clock;
+  
+  @Mock
+  private Facts<JsonObject> facts;
 
   private ExecutionEnvironment executionEnvironment;
 
@@ -44,10 +46,7 @@ class ExecutionRequestManagerTest {
     String jsonEventData = "{\"key\":\"value\"}";
     Instant fixedInstant = Instant.parse("2023-01-01T00:00:00Z");
 
-    @SuppressWarnings("unchecked")
-    Facts<JsonObject> mockFacts = mock(Facts.class);
-
-    when(factsConverter.convert(eventId.value(), jsonEventData)).thenReturn(mockFacts);
+    when(factsConverter.convert(eventId.value(), jsonEventData)).thenReturn(facts);
     when(clock.instant()).thenReturn(fixedInstant);
 
     // When
@@ -56,7 +55,7 @@ class ExecutionRequestManagerTest {
     // Then
     assertThat(result).isNotNull();
     assertThat(result.executionEnvironment()).isEqualTo(executionEnvironment);
-    assertThat(result.facts()).isEqualTo(mockFacts);
+    assertThat(result.facts()).isEqualTo(facts);
     assertThat(result.eventIdentifier()).isEqualTo(eventId);
     assertThat(result.requestTimestamp()).isEqualTo(fixedInstant);
 
@@ -77,10 +76,7 @@ class ExecutionRequestManagerTest {
     String jsonEventData = "{\"test\":\"data\"}";
     Instant fixedInstant = Instant.now();
 
-    @SuppressWarnings("unchecked")
-    Facts<JsonObject> mockFacts = mock(Facts.class);
-
-    when(factsConverter.convert(anyString(), anyString())).thenReturn(mockFacts);
+    when(factsConverter.convert(anyString(), anyString())).thenReturn(facts);
     when(clock.instant()).thenReturn(fixedInstant);
 
     // When
@@ -100,10 +96,7 @@ class ExecutionRequestManagerTest {
     String jsonEventData = "{}";
     Instant expectedTime = Instant.parse("2023-06-15T10:30:00Z");
 
-    @SuppressWarnings("unchecked")
-    Facts<JsonObject> mockFacts = mock(Facts.class);
-
-    when(factsConverter.convert(anyString(), anyString())).thenReturn(mockFacts);
+    when(factsConverter.convert(anyString(), anyString())).thenReturn(facts);
     when(clock.instant()).thenReturn(expectedTime);
 
     // When
