@@ -3,14 +3,14 @@
 
 [versions]
 assertj = "3.27.7"
-awsSDK = "2.42.41"
+awsSDK = "2.43.0"
 caffine = "3.2.3"
 codehead-test = "3.1.0"
 codehead-metrics = "3.1.0"
-commons-codec = "1.21.0"
+commons-codec = "1.22.0"
 commons-io = "2.22.0"
 dagger = "2.59.2"
-drools = "10.1.0"
+drools = "10.2.0"
 dropwizard = "5.0.1"
 immutables = '2.12.1'
 jackson = '2.21.2'
