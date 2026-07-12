@@ -3,20 +3,20 @@
 
 [versions]
 assertj = "3.27.7"
-awsSDK = "2.46.21"
+awsSDK = "2.47.5"
 caffine = "3.2.4"
 codehead-test = "3.1.1"
 codehead-metrics = "3.1.1"
 commons-codec = "1.22.0"
 commons-io = "2.22.0"
-dagger = "2.60"
+dagger = "2.60.1"
 drools = "10.2.0"
 dropwizard = "5.0.2"
 immutables = '2.12.2'
-jackson = '2.22.0'
+jackson = '2.22.1'
 jackson-annotation = '2.22'
-junit-jupiter = "6.1.1"
-logback = "1.5.37"
+junit-jupiter = "6.1.2"
+logback = "1.5.38"
 micrometer = '1.17.0'
 mokito = '5.23.0'
 slf4j = '2.0.18'
