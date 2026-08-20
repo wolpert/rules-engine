@@ -1,3 +1,5 @@
+# NOTE: Archived and re-writing under github.com/codeheadsystems
+
 # Rules Engine
 
 Started project from the basic server template.
